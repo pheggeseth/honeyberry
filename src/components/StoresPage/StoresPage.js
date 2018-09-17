@@ -9,7 +9,8 @@ import Store from './Store/Store';
 
 const mapStateToProps = state => ({
   user: state.user,
-  stores: state.stores
+  stores: state.stores.userStores,
+  currentStore: state.stores.currentStore,
 });
 
 class StoresPage extends Component {
@@ -18,24 +19,24 @@ class StoresPage extends Component {
     this.props.dispatch({type: STORE_ACTIONS.FETCH_USER_STORES});
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
     }
   }
 
   render() {
+    const {user, stores} = this.props;
     let content = null;
 
-    if (this.props.user.userName) {
+    if (user.userName) {
       content = (
         <div>
           <p>
             Stores Page
           </p>
-          {/* {JSON.stringify(this.props.stores)} */}
-          {this.props.stores.map(store => (
-            <Store key={store.id} storeObj={store} />
+          {stores.map(store => (
+            <Store key={store.id} storeObj={store} history={this.props.history}/>
           ))}
         </div>
       );

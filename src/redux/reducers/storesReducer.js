@@ -1,7 +1,7 @@
-// import { combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 import { STORE_ACTIONS } from '../actions/storeActions';
 
-const stores = (state = [], action) => {
+const userStores = (state = [], action) => {
   switch (action.type) {
     case STORE_ACTIONS.SET_USER_STORES:
       return action.payload;
@@ -10,4 +10,16 @@ const stores = (state = [], action) => {
   }
 };
 
-export default stores;
+const currentStore = (state = {}, action) => {
+  switch(action.type) {
+    case STORE_ACTIONS.SET_CURRENT_STORE:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  userStores,
+  currentStore
+});
