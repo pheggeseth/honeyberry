@@ -7,6 +7,7 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   if (req.isAuthenticated()) {
+    console.log('/api/store GET hit');
     const queryText = `SELECT "id", "name" FROM "store" WHERE "person_id" = $1;`;
     pool.query(queryText, [req.user.id])
     .then(response => res.send(response.rows))
@@ -24,7 +25,7 @@ router.get('/', (req, res) => {
  */
 router.post('/', (req, res) => {
   if (req.isAuthenticated()) {
-    console.log('user', req.user);
+    console.log('/api/store POST hit:', req.body);
     const newStore = req.body;
     const queryText = `INSERT INTO "store" ("name", "person_id") VALUES ($1, $2);`;
     pool.query(queryText, [newStore.name, req.user.id])
