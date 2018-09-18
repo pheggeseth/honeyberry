@@ -5,6 +5,7 @@ import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
 import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
+import { CATEGORY_ACTIONS } from '../../redux/actions/categoryActions';
 
 import CurrentItems from './CurrentItems/CurrentItems';
 import CompletedItems from './CompletedItems/CompletedItems';
@@ -13,6 +14,7 @@ import EssentialItems from './EssentialItems/EssentialItems';
 const mapStateToProps = state => ({
   user: state.user,
   items: state.items,
+  categories: state.categories,
   currentStore: state.currentStore.store,
   list: state.currentStore.list,
   essentials: state.currentStore.essentials,
@@ -25,6 +27,12 @@ class ListPage extends Component {
     if (this.props.items.length === 0) {
       this.props.dispatch({
         type: ITEM_ACTIONS.FETCH_ALL_ITEMS
+      });
+    }
+
+    if (this.props.categories.length === 0) {
+      this.props.dispatch({
+        type: CATEGORY_ACTIONS.FETCH_ALL_CATEGORIES
       });
     }
 

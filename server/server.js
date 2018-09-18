@@ -23,11 +23,13 @@ app.use(passport.session());
 const userRouter = require('./routes/user.router');
 const storeRouter = require('./routes/store.router');
 const itemRouter = require('./routes/item.router');
+const categoryRouter = require('./routes/category.router');
 
 /* Routes */
 app.use('/api/user', userRouter);
 app.use('/api/store', storeRouter);
 app.use('/api/item', itemRouter);
+app.use('/api/category', categoryRouter);
 
 // Serve static files
 app.use(express.static('build'));
