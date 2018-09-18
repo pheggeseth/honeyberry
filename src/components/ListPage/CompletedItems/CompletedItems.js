@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CURRENT_LIST_ACTIONS } from '../../../redux/actions/currentListActions';
+import ItemTile from '../../ItemTile/ItemTile';
 
 class CompletedItems extends Component {
   uncompleteItem = item => () => {
@@ -29,7 +30,8 @@ class CompletedItems extends Component {
         completed items <button onClick={this.clearCompleted}>Clear</button>
         <ul>
           {items.map(item => (
-            <li key={item.id} onClick={this.uncompleteItem(item)}>{item.name}</li>
+            // <li key={item.id} onClick={this.uncompleteItem(item)}>{item.name}</li>
+            <ItemTile key={item.id} item={item} onClick={this.uncompleteItem(item)} />
           ))}
         </ul>
       </div>

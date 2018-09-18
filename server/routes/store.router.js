@@ -47,7 +47,7 @@ router.get('/:id/items', (req, res) => {
 router.put('/item', (req, res) => {
   if (req.isAuthenticated) {
     const item = req.body;
-    console.log('item', item);
+    // console.log('item', item);
     const queryText = 
     `UPDATE "store_item" SET 
     "index" = $1,

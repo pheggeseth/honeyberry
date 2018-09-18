@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CURRENT_LIST_ACTIONS } from '../../../redux/actions/currentListActions';
+import ItemTile from '../../ItemTile/ItemTile';
+
 
 class CurrentItems extends Component {
   completeItem = item => () => {
@@ -19,7 +21,8 @@ class CurrentItems extends Component {
         current items
         <ul>
           {items.map(item => (
-            <li key={item.id} onClick={this.completeItem(item)}>{item.name}</li>
+            // <li key={item.id} onClick={this.completeItem(item)}>{item.name}</li>
+            <ItemTile key={item.id} item={item} onClick={this.completeItem(item)} />
           ))}
         </ul>
       </div>
