@@ -26,16 +26,13 @@ router.get('/:id/items', (req, res) => {
     console.log(`/api/store/${storeId}/items GET hit`);
     
     const queryText = `SELECT 
-      "store_item"."id", 
-      "index", 
-      "quantity", 
-      "completed", 
+      *,
       "item"."name", 
       "item"."default_unit", 
       "item"."image_path" 
     FROM "store_item" 
     JOIN "item" ON "item_id" = "item"."id" 
-    WHERE "store_id" = $1;`;
+    WHERE "store_id" = $1 ORDER BY "index" ASC;`;
 
     pool.query(queryText, [storeId])
     .then(response => res.send(response.rows))
@@ -45,7 +42,33 @@ router.get('/:id/items', (req, res) => {
   } else {
     res.sendStatus(401);
   }
-  
+});
+
+router.put('/item', (req, res) => {
+  if (req.isAuthenticated) {
+    const item = req.body;
+    console.log('item', item);
+    const queryText = 
+    `UPDATE "store_item" SET 
+    "index" = $1,
+    "store_id" = $2,
+    "quantity" = $3, 
+    "completed" = $4 WHERE "id" = $5;`;
+
+    pool.query(queryText, [
+      item.index,
+      item.store_id,
+      item.quantity, 
+      item.completed, 
+      item.id
+    ]).then(response => res.sendStatus(200))
+    .catch(error => {
+      console.log(`/api/store/item PUT error:`, error);
+      res.sendStatus(500);
+    });
+  } else {
+    res.sendStatus(401);
+  }
 });
 
 /**
