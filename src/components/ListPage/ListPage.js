@@ -10,6 +10,7 @@ import { CATEGORY_ACTIONS } from '../../redux/actions/categoryActions';
 import CurrentItems from './CurrentItems/CurrentItems';
 import CompletedItems from './CompletedItems/CompletedItems';
 import EssentialItems from './EssentialItems/EssentialItems';
+import ItemsAll from '../ItemsAll/ItemsAll';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -63,6 +64,7 @@ class ListPage extends Component {
           <CurrentItems items={list.filter(item => !item.completed)} />
           <CompletedItems items={list.filter(item => item.completed)} />
           <EssentialItems items={this.props.essentials} />
+          <ItemsAll />
         </div>
       );
     }
