@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { CURRENT_LIST_ACTIONS } from '../../../redux/actions/currentListActions';
+import { CURRENT_STORE_ACTIONS } from '../../../redux/actions/currentStoreActions';
+
 import ItemTile from '../../ItemTile/ItemTile';
 
 
@@ -8,7 +9,7 @@ class CurrentItems extends Component {
   completeItem = item => () => {
     console.log('complete item:', item);
     const action = {
-      type: CURRENT_LIST_ACTIONS.UPDATE_ITEM,
+      type: CURRENT_STORE_ACTIONS.UPDATE_ITEM,
       payload: {...item, completed: true}
     };
     this.props.dispatch(action);
@@ -18,7 +19,7 @@ class CurrentItems extends Component {
     const {items} = this.props;
     return(
       <div>
-        current items
+        <strong>current items</strong>
         <ul>
           {items.map(item => (
             // <li key={item.id} onClick={this.completeItem(item)}>{item.name}</li>

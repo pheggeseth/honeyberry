@@ -9,8 +9,8 @@ import Store from './Store/Store';
 
 const mapStateToProps = state => ({
   user: state.user,
-  stores: state.stores.userStores,
-  currentStore: state.stores.currentStore,
+  stores: state.userStores,
+  currentStore: state.currentStore.store,
 });
 
 class StoresPage extends Component {

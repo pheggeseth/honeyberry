@@ -10,16 +10,4 @@ const userStores = (state = [], action) => {
   }
 };
 
-const currentStore = (state = {}, action) => {
-  switch(action.type) {
-    case STORE_ACTIONS.SET_CURRENT_STORE:
-      return action.payload;
-    default:
-      return state;
-  }
-};
-
-export default combineReducers({
-  userStores,
-  currentStore
-});
+export default userStores;

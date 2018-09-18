@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
 import user from './userReducer';
 import login from './loginReducer';
-import stores from './storesReducer';
-import currentList from './currentListReducer';
+import userStores from './userStoresReducer';
+import currentStore from './currentStoreReducer';
 
 const store = combineReducers({
   user,
   login,
-  stores,
-  currentList,
+  userStores,
+  currentStore,
 });
 
 export default store;
