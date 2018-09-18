@@ -72,8 +72,6 @@ class ListPage extends Component {
     return (
       <div>
         <Nav />
-        {JSON.stringify(this.props.categories)}
-        {JSON.stringify(this.props.items)}
         { content }
       </div>
     );
