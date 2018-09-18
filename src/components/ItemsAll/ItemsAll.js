@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
 
+import CategoryLabel from '../CategoryLabel/CategoryLabel';
 import ItemTile from '../ItemTile/ItemTile';
 
 const mapStateToProps = state => ({
   categories: state.categories,
   items: state.items,
   currentStore: state.currentStore.store,
+  list: state.currentStore.list,
 });
 
 class ItemsAll extends Component {
@@ -49,17 +51,20 @@ class ItemsAll extends Component {
       <div>
         {this.state.categories.map((category, index) => (
           <div key={category.id}>
-            <div onClick={this.toggleCategoryVisibility(index)}>{category.name}</div>
+            <CategoryLabel name={category.name} onClick={this.toggleCategoryVisibility(index)}/>
             {category.visible 
             ? <ul>
                 {this.props.items.filter(item => item.category === category.name)
                 .map(item => (
-                  <ItemTile key={item.id} item={item} onClick={this.addItemToCurrentItems(item)}/>
+                  <ItemTile key={item.id} 
+                    item={item} 
+                    onClick={this.addItemToCurrentItems(item)}
+                    added={this.props.list.some(i => i.item_id === item.id && !i.completed)}
+                  />
                 ))}
               </ul> 
             : null
             }
-            
           </div>
         ))}
       </div>

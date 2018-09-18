@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+// import { combineReducers } from 'redux';
 import { STORE_ACTIONS } from '../actions/storeActions';
 
 const userStores = (state = [], action) => {

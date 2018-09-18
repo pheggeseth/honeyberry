@@ -28,6 +28,7 @@ router.get('/:storeId/items', (req, res) => {
     const queryText = `SELECT 
       "store_item"."id",
       "store_item"."store_id",
+      "store_item"."item_id",
       "store_item"."completed",
       "item"."name", 
       "item"."default_unit", 

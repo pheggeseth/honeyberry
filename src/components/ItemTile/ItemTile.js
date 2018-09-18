@@ -5,7 +5,13 @@ import styled from 'styled-components';
 const Container = styled.li`
   height: 100px;
   width: 100px;
-  background-color: white;
+  background-color: ${props => {
+    if (props.added) {
+      return 'lightgreen';
+    } else {
+      return 'white';
+    }
+  }};
   border: 1px solid black;
   box-sizing: border-box;
   display: flex;
@@ -21,8 +27,9 @@ const Container = styled.li`
 class ItemTile extends Component {
   handleClick = () => this.props.onClick();
   render() {
+    console.log(this.props.added);
     return (
-      <Container onClick={this.handleClick}>
+      <Container added={this.props.added} onClick={this.handleClick}>
         {this.props.item.name}
       </Container>
     );
