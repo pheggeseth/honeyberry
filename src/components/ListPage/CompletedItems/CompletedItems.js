@@ -27,7 +27,7 @@ class CompletedItems extends Component {
     const {items} = this.props;
     return(
       <div>
-        completed items <button onClick={this.clearCompleted}>Clear</button>
+        <strong>completed items</strong> <button onClick={this.clearCompleted}>Clear</button>
         <ul>
           {items.map(item => (
             // <li key={item.id} onClick={this.uncompleteItem(item)}>{item.name}</li>

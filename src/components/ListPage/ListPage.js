@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
+import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
 
 import CurrentItems from './CurrentItems/CurrentItems';
 import CompletedItems from './CompletedItems/CompletedItems';
@@ -11,6 +12,7 @@ import EssentialItems from './EssentialItems/EssentialItems';
 
 const mapStateToProps = state => ({
   user: state.user,
+  items: state.items,
   currentStore: state.currentStore.store,
   list: state.currentStore.list,
   essentials: state.currentStore.essentials,
@@ -19,6 +21,13 @@ const mapStateToProps = state => ({
 class ListPage extends Component {
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
+
+    if (this.props.items.length === 0) {
+      this.props.dispatch({
+        type: ITEM_ACTIONS.FETCH_ALL_ITEMS
+      });
+    }
+
     if (this.props.currentStore.id) {
       this.props.dispatch({
         type: CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS,
@@ -53,6 +62,8 @@ class ListPage extends Component {
     return (
       <div>
         <Nav />
+        {JSON.stringify(this.props.categories)}
+        {JSON.stringify(this.props.items)}
         { content }
       </div>
     );

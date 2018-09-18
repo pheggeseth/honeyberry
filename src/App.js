@@ -5,6 +5,8 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 
 import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
@@ -16,38 +18,42 @@ import StoresPage from './components/StoresPage/StoresPage';
 
 import './styles/main.css';
 
-const App = () => (
-  <div>
-    <Header title="Project Base" />
-    <Router>
-      <Switch>
-        <Redirect exact from="/" to="/home" />
-        <Route
-          path="/home"
-          component={LoginPage}
-        />
-        <Route
-          path="/register"
-          component={RegisterPage}
-        />
-        <Route
-          path="/user"
-          component={UserPage}
-        />
-        <Route
-          path="/list"
-          component={ListPage}
-        />
-        <Route
-          path="/stores"
-          component={StoresPage}
-        />
-        {/* OTHERWISE (no path!) */}
-        <Route render={() => <h1>404</h1>} />
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Header title="Project Base" />
+        <Router>
+          <Switch>
+            <Redirect exact from="/" to="/home" />
+            <Route
+              path="/home"
+              component={LoginPage}
+            />
+            <Route
+              path="/register"
+              component={RegisterPage}
+            />
+            <Route
+              path="/user"
+              component={UserPage}
+            />
+            <Route
+              path="/list"
+              component={ListPage}
+            />
+            <Route
+              path="/stores"
+              component={StoresPage}
+            />
+            {/* OTHERWISE (no path!) */}
+            <Route render={() => <h1>404</h1>} />
 
-      </Switch>
-    </Router>
-  </div>
-);
+          </Switch>
+        </Router>
+      </div>
+    );
+  }
+}
 
-export default App;
+export default connect()(App);
