@@ -18,10 +18,12 @@ const mapStateToProps = state => ({
 class ListPage extends Component {
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
-    this.props.dispatch({
-      type: CURRENT_LIST_ACTIONS.FETCH_LIST_ITEMS,
-      payload: this.props.currentStore.id
-    });
+    if (this.props.currentStore.id) {
+      this.props.dispatch({
+        type: CURRENT_LIST_ACTIONS.FETCH_LIST_ITEMS,
+        payload: this.props.currentStore.id
+      });
+    }
   }
 
   componentDidUpdate() {
