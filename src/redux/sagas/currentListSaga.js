@@ -29,9 +29,23 @@ function* updateCurrentListItem(action) {
   }
 }
 
+function* clearCompletedItems(action) {
+  try {
+    const storeId = action.payload;
+    yield call(axios.delete, `/api/store/${storeId}/items/completed`);
+    yield put({
+      type: CURRENT_LIST_ACTIONS.FETCH_LIST_ITEMS,
+      payload: storeId
+    });
+  } catch(error) {
+    console.log('clearCompletedItems saga error:', error);
+  }
+}
+
 function* currentListSaga() {
   yield takeEvery(CURRENT_LIST_ACTIONS.FETCH_LIST_ITEMS, fetchItemsInCurrentStore);
   yield takeEvery(CURRENT_LIST_ACTIONS.UPDATE_ITEM, updateCurrentListItem);
+  yield takeEvery(CURRENT_LIST_ACTIONS.CLEAR_COMPLETED, clearCompletedItems);
 }
 
 export default currentListSaga;

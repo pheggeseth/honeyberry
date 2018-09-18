@@ -107,4 +107,18 @@ router.delete('/', (req, res) => {
   }
 });
 
+router.delete('/:id/items/completed', (req, res) => {
+  if (req.isAuthenticated()) {
+    const storeId = req.params.id;
+    const queryText = `DELETE FROM "store_item" WHERE "store_id" = $1 AND "completed" = true;`;
+    pool.query(queryText, [storeId])
+    .then(() => res.sendStatus(200))
+    .catch(error => {
+      console.log(`/api/store/${storeId}/items/completed DELETE error:`, error);
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 module.exports = router;

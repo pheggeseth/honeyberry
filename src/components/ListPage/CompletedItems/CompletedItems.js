@@ -12,11 +12,21 @@ class CompletedItems extends Component {
     this.props.dispatch(action);
   };
 
+  clearCompleted = () => {
+    const confirmed = window.confirm('Are you sure?');
+    if (confirmed) {
+      this.props.dispatch({
+        type: CURRENT_LIST_ACTIONS.CLEAR_COMPLETED,
+        payload: this.props.items[0].store_id
+      });
+    }
+  };
+
   render() {
     const {items} = this.props;
     return(
       <div>
-        completed items
+        completed items <button onClick={this.clearCompleted}>Clear</button>
         <ul>
           {items.map(item => (
             <li key={item.id} onClick={this.uncompleteItem(item)}>{item.name}</li>
