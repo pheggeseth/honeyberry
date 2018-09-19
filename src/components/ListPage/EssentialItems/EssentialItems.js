@@ -26,13 +26,6 @@ class EssentialItems extends Component {
         item: newItem,
       };
     }
-    // const action = {
-    //   type: CURRENT_STORE_ACTIONS.ADD_ITEM,
-    //   payload: {
-    //     storeId: this.props.currentStore.id,
-    //     item: item,
-    //   }
-    // };
     this.props.dispatch(action);
   };
 

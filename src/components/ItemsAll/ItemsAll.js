@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
   categories: state.categories,
   items: state.items,
   currentStore: state.currentStore.store,
-  list: state.currentStore.list,
+  currentList: state.currentStore.list,
 });
 
 class ItemsAll extends Component {
@@ -23,14 +23,23 @@ class ItemsAll extends Component {
     }
   }
 
-  addItemToCurrentItems = item => () => {
-    const action = {
-      type: CURRENT_STORE_ACTIONS.ADD_ITEM,
-      payload: {
+  addItemToCurrentItems = newItem => () => {
+    const action = {};
+    const existingListItem = this.props.currentList.find(currentItem => currentItem.item_id === newItem.id);
+    console.log(existingListItem);
+    if (existingListItem) {
+      action.type = CURRENT_STORE_ACTIONS.UPDATE_ITEM_QUANTITY;
+      action.payload = {
+        ...existingListItem,
+        quantity: existingListItem.quantity + 1
+      };
+    } else {
+      action.type = CURRENT_STORE_ACTIONS.ADD_ITEM;
+      action.payload = {
         storeId: this.props.currentStore.id,
-        item: item,
-      }
-    };
+        item: newItem,
+      };
+    }
     this.props.dispatch(action);
   };
 
@@ -59,7 +68,7 @@ class ItemsAll extends Component {
                   <ItemTile key={item.id} 
                     item={item} 
                     onClick={this.addItemToCurrentItems(item)}
-                    added={this.props.list.some(i => i.item_id === item.id && !i.completed)}
+                    added={this.props.currentList.some(i => i.item_id === item.id && !i.completed)}
                   />
                 ))}
               </ul> 

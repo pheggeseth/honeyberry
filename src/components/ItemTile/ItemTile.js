@@ -27,7 +27,6 @@ const Container = styled.li`
 class ItemTile extends Component {
   handleClick = () => this.props.onClick();
   render() {
-    console.log(this.props.added);
     return (
       <Container added={this.props.added} onClick={this.handleClick}>
         {this.props.item.name + (this.props.item.quantity > 1 ? ' '+this.props.item.quantity : '')}
