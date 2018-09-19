@@ -9,7 +9,7 @@ class CurrentItems extends Component {
   completeItem = item => () => {
     console.log('complete item:', item);
     const action = {
-      type: CURRENT_STORE_ACTIONS.UPDATE_ITEM,
+      type: CURRENT_STORE_ACTIONS.UPDATE_ITEM_COMPLETED,
       payload: {...item, completed: true}
     };
     this.props.dispatch(action);

@@ -107,17 +107,15 @@ router.post('/:storeId/item', (req, res) => {
   }
 });
 
-router.put('/item', (req, res) => {
+router.put('/item/update_completed', (req, res) => {
   if (req.isAuthenticated()) {
     const item = req.body;
     // console.log('item', item);
     const queryText = 
     `UPDATE "store_item" SET 
-    "store_id" = $1,
-    "completed" = $2 WHERE "id" = $3;`;
+    "completed" = $1 WHERE "id" = $2;`;
 
     pool.query(queryText, [
-      item.store_id,
       item.completed, 
       item.id
     ]).then(response => res.sendStatus(200))
