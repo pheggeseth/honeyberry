@@ -30,7 +30,7 @@ class ItemTile extends Component {
     console.log(this.props.added);
     return (
       <Container added={this.props.added} onClick={this.handleClick}>
-        {this.props.item.name}
+        {this.props.item.name + (this.props.item.quantity > 1 ? ' '+this.props.item.quantity : '')}
       </Container>
     );
   }
