@@ -10,6 +10,8 @@ const mapStateToProps = state => ({
   items: state.items,
   currentStore: state.currentStore.store,
   currentList: state.currentStore.list,
+  currentStoreEssentialItems: state.currentStore.essentials,
+  editingEssentials: state.currentStore.editingEssentials,
 });
 
 class ItemsAll extends Component {
@@ -23,7 +25,7 @@ class ItemsAll extends Component {
     }
   }
 
-  addItemToCurrentItems = newItem => () => {
+  addItemToCurrentItems = newItem => {
     const action = {};
     const existingListItem = this.props.currentList.find(currentItem => currentItem.item_id === newItem.id);
     console.log(existingListItem);
@@ -41,6 +43,26 @@ class ItemsAll extends Component {
       };
     }
     this.props.dispatch(action);
+  };
+
+  addItemToEssentialItemsList = newItem => {
+    console.log('add to essentials:', newItem);
+  };
+
+  removeItemFromEssentialItemsList = itemToRemove => {
+    console.log('remove from essentials:', itemToRemove);
+  };
+
+  handleItemClick = clickedItem => () => {
+    if (this.props.editingEssentials) {
+      if (this.props.currentStoreEssentialItems.find(item => item.id === clickedItem.id)) {
+        this.removeItemFromEssentialItemsList(clickedItem);
+      } else {
+        this.addItemToEssentialItemsList(clickedItem);
+      }
+    } else {
+      this.addItemToCurrentItems(clickedItem);
+    }
   };
 
   toggleCategoryVisibility = index => () => {
@@ -67,7 +89,7 @@ class ItemsAll extends Component {
                 .map(item => (
                   <ItemTile key={item.id} 
                     item={item} 
-                    onClick={this.addItemToCurrentItems(item)}
+                    onClick={this.handleItemClick(item)}
                     added={this.props.currentList.some(i => i.item_id === item.id && !i.completed)}
                   />
                 ))}

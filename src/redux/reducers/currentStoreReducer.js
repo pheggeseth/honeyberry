@@ -30,7 +30,7 @@ const essentials = (state = [], action) => {
 };
 
 const editingEssentials = (state = false, action) => {
-  if (action.type === CURRENT_STORE_ACTIONS.TOGGLE_ESSENTIAL_EDITING_MODE) {
+  if (action.type === CURRENT_STORE_ACTIONS.TOGGLE_ESSENTIALS_EDITING_MODE) {
     return !state;
   } else {
     return state;

@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 });
 
 class EssentialItems extends Component {
-  addItemToCurrentItems = newItem => () => {
+  addItemToCurrentItems = newItem => {
     const action = {};
     const existingListItem = this.props.currentList.find(currentItem => currentItem.item_id === newItem.id);
     console.log(existingListItem);
@@ -32,9 +32,25 @@ class EssentialItems extends Component {
 
   editEssentialsList = () => {
     const action = {
-      type: CURRENT_STORE_ACTIONS.TOGGLE_ESSENTIAL_EDITING_MODE
+      type: CURRENT_STORE_ACTIONS.TOGGLE_ESSENTIALS_EDITING_MODE
     };
     this.props.dispatch(action);
+  };
+
+  handleClick = clickedItem => () => {
+    if (this.props.editing) {
+      // remove item from essentials list
+      this.removeEssentialItem(clickedItem);
+    } else {
+      this.addItemToCurrentItems(clickedItem);
+    }
+  };
+
+  removeEssentialItem = item => {
+    this.props.dispatch({
+      type: CURRENT_STORE_ACTIONS.REMOVE_ESSENTIAL_ITEM,
+      payload: item.id
+    });
   };
 
   render() {
@@ -50,7 +66,7 @@ class EssentialItems extends Component {
         </button>
         <ul>
           {items.map(item => (
-            <ItemTile key={item.id} item={item} onClick={this.addItemToCurrentItems(item)} />
+            <ItemTile key={item.id} item={item} onClick={this.handleClick(item)} />
           ))}
         </ul>
         
