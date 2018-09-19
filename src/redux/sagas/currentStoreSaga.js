@@ -44,32 +44,35 @@ function* addListItem(action) {
   }
 }
 
-// function* updateCurrentListItem(action) {
-//   try {
-//     const itemToUpdate = action.payload;
-//     yield call(axios.put, `/api/store/item`, itemToUpdate);
-//     yield put({
-//       type: CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS, 
-//       payload: itemToUpdate.store_id
-//     });
-//   } catch(error) {
-//     console.log('toggleItemCompleted saga error:', error);
-//   }
-// }
-
 function* updateItemCompletedStatus(action) {
   try {
     const data = {
       id: action.payload.id,
       completed: action.payload.completed
     };
-    yield call(axios.put, '/api/store/item/update_completed', data);
+    yield call(axios.put, '/api/store/item/completed', data);
     yield put({
       type: CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS,
       payload: action.payload.store_id
     });
   } catch(error) {
     console.log('updateItemCompletedStatus saga error:', error);
+  }
+}
+
+function* updateItemQuantity(action) {
+  try {
+    const data = {
+      id: action.payload.id,
+      quantity: action.payload.quantity
+    };
+    yield call(axios.put, '/api/store/item/quantity', data);
+    yield put({
+      type: CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS,
+      payload: action.payload.store_id
+    });
+  } catch(error) {
+    console.log('updateItemQuantity saga error:', error);
   }
 }
 
@@ -89,8 +92,8 @@ function* clearCompletedItems(action) {
 function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS, fetchItemsInCurrentStore);
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_STORE_ESSENTIALS, fetchCurrentStoreEssentialItems);
-  // yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_ITEM, updateCurrentListItem);
   yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_ITEM_COMPLETED, updateItemCompletedStatus);
+  yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_ITEM_QUANTITY, updateItemQuantity);
   yield takeEvery(CURRENT_STORE_ACTIONS.CLEAR_COMPLETED, clearCompletedItems);
   yield takeEvery(CURRENT_STORE_ACTIONS.ADD_ITEM, addListItem);
 }

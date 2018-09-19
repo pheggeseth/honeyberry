@@ -98,6 +98,7 @@ class ListPage extends Component {
     return (
       <div>
         <Nav />
+        {JSON.stringify(list)}
         { content }
       </div>
     );

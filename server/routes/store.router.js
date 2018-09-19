@@ -29,6 +29,7 @@ router.get('/:storeId/items', (req, res) => {
       "store_item"."id",
       "store_item"."store_id",
       "store_item"."item_id",
+      "store_item"."quantity",
       "store_item"."completed",
       "item"."name", 
       "item"."default_unit", 
@@ -107,20 +108,31 @@ router.post('/:storeId/item', (req, res) => {
   }
 });
 
-router.put('/item/update_completed', (req, res) => {
+router.put('/item/completed', (req, res) => {
   if (req.isAuthenticated()) {
     const item = req.body;
     // console.log('item', item);
-    const queryText = 
-    `UPDATE "store_item" SET 
-    "completed" = $1 WHERE "id" = $2;`;
+    const queryText = `UPDATE "store_item" SET "completed" = $1 WHERE "id" = $2;`;
 
-    pool.query(queryText, [
-      item.completed, 
-      item.id
-    ]).then(response => res.sendStatus(200))
+    pool.query(queryText, [item.completed, item.id])
+    .then(response => res.sendStatus(200))
     .catch(error => {
       console.log(`/api/store/item PUT error:`, error);
+      res.sendStatus(500);
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+router.put('/item/quantity', (req, res) => {
+  if (req.isAuthenticated()) {
+    const item = req.body;
+    const queryText = `UPDATE "store_item" SET "quantity" = $1 WHERE "id" = $2;`;
+    pool.query(queryText, [item.quantity, item.id])
+    .then(() => res.sendStatus(200))
+    .catch(error => {
+      console.log('/api/store/item/quantity PUT error:', error);
       res.sendStatus(500);
     });
   } else {

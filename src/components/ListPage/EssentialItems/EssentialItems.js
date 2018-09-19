@@ -5,17 +5,34 @@ import ItemTile from '../../ItemTile/ItemTile';
 
 const mapStateToProps = state => ({
   currentStore: state.currentStore.store,
+  currentList: state.currentStore.list,
 });
 
 class EssentialItems extends Component {
-  addItemToCurrentItems = item => () => {
-    const action = {
-      type: CURRENT_STORE_ACTIONS.ADD_ITEM,
-      payload: {
+  addItemToCurrentItems = newItem => () => {
+    const action = {};
+    const existingListItem = this.props.currentList.find(currentItem => currentItem.item_id === newItem.id);
+    console.log(existingListItem);
+    if (existingListItem) {
+      action.type = CURRENT_STORE_ACTIONS.UPDATE_ITEM_QUANTITY;
+      action.payload = {
+        ...existingListItem,
+        quantity: existingListItem.quantity + 1
+      };
+    } else {
+      action.type = CURRENT_STORE_ACTIONS.ADD_ITEM;
+      action.payload = {
         storeId: this.props.currentStore.id,
-        item: item,
-      }
-    };
+        item: newItem,
+      };
+    }
+    // const action = {
+    //   type: CURRENT_STORE_ACTIONS.ADD_ITEM,
+    //   payload: {
+    //     storeId: this.props.currentStore.id,
+    //     item: item,
+    //   }
+    // };
     this.props.dispatch(action);
   };
 
