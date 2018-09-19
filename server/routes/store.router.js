@@ -108,6 +108,21 @@ router.post('/:storeId/item', (req, res) => {
   }
 });
 
+router.post('/:storeId/essential', (req, res) => {
+  if (req.isAuthenticated()) {
+    const storeId = req.params.storeId;
+    const itemToAdd = req.body;
+    const queryText = `INSERT INTO "store_essential" ("store_id", "item_id") VALUES ($1, $2);`;
+    pool.query(queryText, [storeId, itemToAdd.id])
+    .then(() => res.sendStatus(200))
+    .catch(error => {
+      console.log(`/api/store/${storeId}/essential POST error:`, error);
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 router.put('/item/completed', (req, res) => {
   if (req.isAuthenticated()) {
     const item = req.body;
@@ -163,6 +178,20 @@ router.delete('/:storeId/items/completed', (req, res) => {
     .then(() => res.sendStatus(200))
     .catch(error => {
       console.log(`/api/store/${storeId}/items/completed DELETE error:`, error);
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+router.delete('/essential/:id', (req, res) => {
+  if (req.isAuthenticated()) {
+    const essentialId = req.params.id;
+    const queryText = `DELETE FROM "store_essential" WHERE "id" = $1;`;
+    pool.query(queryText, [essentialId])
+    .then(() => res.sendStatus(200))
+    .catch(error => {
+      console.log(`/api/store/essential/${essentialId} DELETE error:`, error);
     });
   } else {
     res.sendStatus(401);

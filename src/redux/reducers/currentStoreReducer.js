@@ -29,9 +29,18 @@ const essentials = (state = [], action) => {
   }
 };
 
+const editingEssentials = (state = false, action) => {
+  if (action.type === CURRENT_STORE_ACTIONS.TOGGLE_ESSENTIAL_EDITING_MODE) {
+    return !state;
+  } else {
+    return state;
+  }
+};
+
 // IMPORTED TO MAIN REDUX STORE AS "currentStore"
 export default combineReducers({
   store,
   list,
   essentials,
+  editingEssentials,
 });

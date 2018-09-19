@@ -6,6 +6,7 @@ import ItemTile from '../../ItemTile/ItemTile';
 const mapStateToProps = state => ({
   currentStore: state.currentStore.store,
   currentList: state.currentStore.list,
+  editing: state.currentStore.editingEssentials,
 });
 
 class EssentialItems extends Component {
@@ -29,11 +30,24 @@ class EssentialItems extends Component {
     this.props.dispatch(action);
   };
 
+  editEssentialsList = () => {
+    const action = {
+      type: CURRENT_STORE_ACTIONS.TOGGLE_ESSENTIAL_EDITING_MODE
+    };
+    this.props.dispatch(action);
+  };
+
   render() {
     const {items} = this.props;
     return(
       <div>
         <strong>essential items</strong>
+        <button onClick={this.editEssentialsList}>
+          {!this.props.editing
+            ? 'Edit'
+            : 'Done'
+          }
+        </button>
         <ul>
           {items.map(item => (
             <ItemTile key={item.id} item={item} onClick={this.addItemToCurrentItems(item)} />

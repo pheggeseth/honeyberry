@@ -58,32 +58,7 @@ class ListPage extends Component {
   render() {
     let content = null;
     const list = this.props.list;
-    // const listUniqueItemsWithQuantities = originalList.reduce(
-    //   (list, originalItem) => {
-    //     const indexWhereDuplicateFound = list.findIndex(item => item.item_id === originalItem.item_id);
-    //     if (indexWhereDuplicateFound !== -1) {
-    //       list[indexWhereDuplicateFound].quantity += 1;
-    //       return list;
-    //     } else {
-    //       list.push({
-    //         ...originalItem,
-    //         quantity: 1
-    //       });
-    //       return list;
-    //     }
-    //   }, []
-    // );
-    // const uniqueList = this.props.list.reduce((list, item) => {
-    //   if (list.findIndex(i => i.item_id === item.item_id)) {
-    //     return list;
-    //   } else {
-    //     list.push(item)
-    //   }
-    // }, []);
-    // const listItemQuantities = list.reduce((counts, item) => {
-    //   counts[item.item_id] = (counts[item.item_id] || 0) + 1;
-    //   return counts;
-    // }, {});
+    
     if (this.props.user.userName) {
       content = (
         <div>
