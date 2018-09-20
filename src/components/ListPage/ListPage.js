@@ -7,6 +7,7 @@ import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
 import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
 import { CATEGORY_ACTIONS } from '../../redux/actions/categoryActions';
 
+import ItemSearch from '../ItemSearch/ItemSearch';
 import CurrentItems from './CurrentItems/CurrentItems';
 import CompletedItems from './CompletedItems/CompletedItems';
 import EssentialItems from './EssentialItems/EssentialItems';
@@ -22,6 +23,13 @@ const mapStateToProps = state => ({
 });
 
 class ListPage extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     searchingForItems: false
+  //   };
+  // }
+
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
 
@@ -55,13 +63,17 @@ class ListPage extends Component {
     }
   }
 
+  // startItemSearchMode = () => this.setState({searchingForItems: true});
+  // stopItemSearchMode = () => this.setState({searchingForItems: false});
+
   render() {
     let content = null;
     const list = this.props.list;
-    
+
     if (this.props.user.userName) {
       content = (
         <div>
+          <ItemSearch onFocus={this.startItemSearchMode} />
           <CurrentItems items={list.filter(item => !item.completed)} />
           <CompletedItems items={list.filter(item => item.completed)} />
           <EssentialItems items={this.props.essentials} />
