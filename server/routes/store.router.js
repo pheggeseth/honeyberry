@@ -201,4 +201,19 @@ router.delete('/essential/:id', (req, res) => {
   }
 });
 
+router.delete('/item/:id', (req, res) => {
+  if (req.isAuthenticated()) {
+    const itemId = req.params.id;
+    const queryText = `DELETE FROM "store_item" WHERE "id" = $1;`;
+    pool.query(queryText, [itemId])
+    .then(() => res.sendStatus(200))
+    .catch(error => {
+      console.log(`/api/store/item/${itemId} DELETE error:`, error);
+      res.sendStatus(500);
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 module.exports = router;

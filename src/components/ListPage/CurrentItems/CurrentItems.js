@@ -4,13 +4,17 @@ import { CURRENT_STORE_ACTIONS } from '../../../redux/actions/currentStoreAction
 
 import ItemTile from '../../ItemTile/ItemTile';
 
+const mapStateToProps = state => ({
+  currentList: state.currentStore.list,
+});
 
 class CurrentItems extends Component {
   completeItem = item => () => {
     console.log('complete item:', item);
     const action = {
-      type: CURRENT_STORE_ACTIONS.UPDATE_ITEM_COMPLETED,
-      payload: {...item, completed: true}
+      type: CURRENT_STORE_ACTIONS.COMPLETE_ITEM,
+      payload: {...item, completed: true},
+      list: this.props.currentList
     };
     this.props.dispatch(action);
   };
@@ -22,7 +26,6 @@ class CurrentItems extends Component {
         <strong>current items</strong>
         <ul>
           {items.map(item => (
-            // <li key={item.id} onClick={this.completeItem(item)}>{item.name}</li>
             <ItemTile key={item.id} item={item} onClick={this.completeItem(item)} />
           ))}
         </ul>
@@ -31,4 +34,4 @@ class CurrentItems extends Component {
   }
 }
 
-export default connect()(CurrentItems);
+export default connect(mapStateToProps)(CurrentItems);

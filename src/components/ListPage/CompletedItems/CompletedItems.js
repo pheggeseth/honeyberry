@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 import { CURRENT_STORE_ACTIONS } from '../../../redux/actions/currentStoreActions';
 import ItemTile from '../../ItemTile/ItemTile';
 
+const mapStateToProps = state => ({
+  currentList: state.currentStore.list
+});
+
 class CompletedItems extends Component {
   uncompleteItem = item => () => {
     console.log('uncomplete item:', item);
     const action = {
-      type: CURRENT_STORE_ACTIONS.UPDATE_ITEM_COMPLETED,
-      payload: {...item, completed: false}
+      type: CURRENT_STORE_ACTIONS.UNCOMPLETE_ITEM,
+      payload: {...item, completed: false},
     };
     this.props.dispatch(action);
   };
@@ -41,4 +45,4 @@ class CompletedItems extends Component {
   }
 }
 
-export default connect()(CompletedItems);
+export default connect(mapStateToProps)(CompletedItems);

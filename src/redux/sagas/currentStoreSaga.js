@@ -44,19 +44,50 @@ function* addListItem(action) {
   }
 }
 
-function* updateItemCompletedStatus(action) {
+function* completeItem(action) {
   try {
+    const completedItem = action.payload;
+    const existingCompletedItem = action.list.find(item => item.completed && item.item_id === completedItem.item_id);
+    if (existingCompletedItem) {
+      existingCompletedItem.quantity += 1;
+      yield put({
+        type: CURRENT_STORE_ACTIONS.UPDATE_ITEM_QUANTITY,
+        payload: existingCompletedItem
+      });
+      yield put({
+        type: CURRENT_STORE_ACTIONS.REMOVE_ITEM,
+        payload: completedItem,
+      })
+    } else {
+      const data = {
+        id: completedItem.id,
+        completed: completedItem.completed
+      };
+      yield call(axios.put, '/api/store/item/completed', data);
+      yield put({
+        type: CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS,
+        payload: completedItem.store_id
+      });
+    }
+  } catch(error) {
+    console.log('completeItem saga error:', error);
+  }
+}
+
+function* uncompleteItem(action) {
+  try {
+    const uncompletedItem = action.payload;
     const data = {
-      id: action.payload.id,
-      completed: action.payload.completed
+      id: uncompletedItem.id,
+      completed: uncompletedItem.completed
     };
     yield call(axios.put, '/api/store/item/completed', data);
     yield put({
       type: CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS,
-      payload: action.payload.store_id
+      payload: uncompletedItem.store_id
     });
   } catch(error) {
-    console.log('updateItemCompletedStatus saga error:', error);
+    console.log('uncompleteItem saga error:', error);
   }
 }
 
@@ -118,15 +149,32 @@ function* removeEssentialItem(action) {
   }
 }
 
+function* removeItem(action) {
+  try {
+    const itemId = action.payload.id;
+    const storeId = action.payload.store_id;
+    yield call(axios.delete, '/api/store/item/'+itemId);
+    yield put({
+      type: CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS,
+      payload: storeId,
+    });
+  } catch(error) {
+    console.log('removeItem saga error:', error);
+  }
+}
+
 function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS, fetchItemsInCurrentStore);
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_STORE_ESSENTIALS, fetchCurrentStoreEssentialItems);
-  yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_ITEM_COMPLETED, updateItemCompletedStatus);
+  // yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_ITEM_COMPLETED, updateItemCompletedStatus);
+  yield takeEvery(CURRENT_STORE_ACTIONS.COMPLETE_ITEM, completeItem);
+  yield takeEvery(CURRENT_STORE_ACTIONS.UNCOMPLETE_ITEM, uncompleteItem);
   yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_ITEM_QUANTITY, updateItemQuantity);
   yield takeEvery(CURRENT_STORE_ACTIONS.CLEAR_COMPLETED, clearCompletedItems);
   yield takeEvery(CURRENT_STORE_ACTIONS.ADD_ITEM, addListItem);
   yield takeEvery(CURRENT_STORE_ACTIONS.ADD_ESSENTIAL_ITEM, addEssentialItem);
   yield takeEvery(CURRENT_STORE_ACTIONS.REMOVE_ESSENTIAL_ITEM, removeEssentialItem);
+  yield takeEvery(CURRENT_STORE_ACTIONS.REMOVE_ITEM, removeItem);
 }
 
 export default currentStoreSaga;
