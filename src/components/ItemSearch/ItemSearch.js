@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
 import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
 
 import ItemSearchBar from './ItemSearchBar/ItemSearchBar';
 import ItemSearchResults from './ItemSearchResults/ItemSearchResults';
 
 const mapStateToProps = state => ({
-  // items: state.items,
   searching: state.itemSearch.searching,
+  searchTerm: state.itemSearch.searchTerm,
 });
 
 class ItemSearch extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchTerm: ''
-    };
-  }
-
   startItemSearchMode = () => {
     this.props.dispatch({
       type: ITEM_ACTIONS.START_ITEM_SEARCH_MODE
@@ -32,14 +24,18 @@ class ItemSearch extends Component {
   };
 
   updateSearchTerm = newValue => {
-    if (!this.state.searchTerm && newValue) {
+    if (!this.props.searchTerm && newValue) {
       this.startItemSearchMode();
-    } else if (this.state.searchTerm && !newValue) {
+    } else if (this.props.searchTerm && !newValue) {
       this.stopItemSearchMode();
     }
 
-    this.setState({
-      searchTerm: newValue
+    // this.setState({
+    //   searchTerm: newValue
+    // });
+    this.props.dispatch({
+      type: ITEM_ACTIONS.SET_ITEM_SEARCH_TERM,
+      payload: newValue,
     });
   };
 
@@ -54,12 +50,12 @@ class ItemSearch extends Component {
     console.log(this.props);
     return (
       <div>
-        <ItemSearchBar value={this.state.searchTerm} 
+        <ItemSearchBar value={this.props.searchTerm} 
           onChange={this.updateSearchTerm}
         />
         {this.props.searching ? <button onClick={this.handleCancelClick}>Cancel</button> : null}
         {this.props.searching
-        ? <ItemSearchResults searchTerm={this.state.searchTerm} />
+        ? <ItemSearchResults />
         : null}
       </div>
     );

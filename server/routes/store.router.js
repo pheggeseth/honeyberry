@@ -97,9 +97,9 @@ router.post('/', (req, res) => {
 router.post('/:storeId/item', (req, res) => {
   if (req.isAuthenticated()) {
     const storeId = req.params.storeId;
-    const itemToAdd = req.body;
+    const item = req.body;
     const queryText = `INSERT INTO "store_item" ("store_id", "item_id") VALUES ($1, $2);`;
-    pool.query(queryText, [storeId, itemToAdd.id])
+    pool.query(queryText, [storeId, item.item_id || item.id])
     .then(() => res.sendStatus(201))
     .catch(error => {
       console.log(`/api/store/${storeId}/item POST error:`, error);

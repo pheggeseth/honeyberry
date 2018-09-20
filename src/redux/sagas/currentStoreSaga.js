@@ -33,8 +33,8 @@ function* fetchCurrentStoreEssentialItems(action) {
 function* addListItem(action) {
   try {
     const storeId = action.payload.storeId;
-    const itemToAdd = action.payload.item;
-    yield call(axios.post, `/api/store/${storeId}/item`, itemToAdd);
+    const item = action.payload.item;
+    yield call(axios.post, `/api/store/${storeId}/item`, item);
     yield put({
       type: CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS,
       payload: storeId

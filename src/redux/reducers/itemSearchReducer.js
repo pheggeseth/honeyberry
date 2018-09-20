@@ -12,16 +12,18 @@ const searching = (state = false, action) => {
   }
 };
 
-// const searchTerm = (state = '', action) => {
-//   switch(action.type) {
-//     case ITEM_ACTIONS.SET_ITEM_SEARCH_TERM:
-//       return action.payload;
-//     default:
-//       return state;
-//   }
-// };
+const searchTerm = (state = '', action) => {
+  switch(action.type) {
+    case ITEM_ACTIONS.SET_ITEM_SEARCH_TERM:
+      return action.payload;
+    case ITEM_ACTIONS.CLEAR_ITEM_SEARCH_TERM:
+      return '';
+    default:
+      return state;
+  }
+};
 
 export default combineReducers({
   searching,
-  // searchTerm,
+  searchTerm,
 });

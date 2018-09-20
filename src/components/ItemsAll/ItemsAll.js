@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
+import { CURRENT_STORE_ACTIONS, addItemOrUpdateQuantity } from '../../redux/actions/currentStoreActions';
 
 import CategoryLabel from '../CategoryLabel/CategoryLabel';
 import ItemTile from '../ItemTile/ItemTile';
@@ -25,25 +25,25 @@ class ItemsAll extends Component {
     }
   }
 
-  addItemToCurrentItems = newItem => {
-    const action = {};
-    const existingListItem = this.props.currentList.find(currentItem => currentItem.item_id === newItem.id);
-    console.log(existingListItem);
-    if (existingListItem) {
-      action.type = CURRENT_STORE_ACTIONS.UPDATE_ITEM_QUANTITY;
-      action.payload = {
-        ...existingListItem,
-        quantity: existingListItem.quantity + 1
-      };
-    } else {
-      action.type = CURRENT_STORE_ACTIONS.ADD_ITEM;
-      action.payload = {
-        storeId: this.props.currentStore.id,
-        item: newItem,
-      };
-    }
-    this.props.dispatch(action);
-  };
+  // addItemToCurrentItems = newItem => {
+  //   const action = {};
+  //   const existingListItem = this.props.currentList.find(currentItem => currentItem.item_id === newItem.id);
+  //   console.log(existingListItem);
+  //   if (existingListItem) {
+  //     action.type = CURRENT_STORE_ACTIONS.UPDATE_ITEM_QUANTITY;
+  //     action.payload = {
+  //       ...existingListItem,
+  //       quantity: existingListItem.quantity + 1
+  //     };
+  //   } else {
+  //     action.type = CURRENT_STORE_ACTIONS.ADD_ITEM;
+  //     action.payload = {
+  //       storeId: this.props.currentStore.id,
+  //       item: newItem,
+  //     };
+  //   }
+  //   this.props.dispatch(action);
+  // };
 
   addItemToEssentialItemsList = newItem => {
     console.log('add to essentials:', newItem);
@@ -74,7 +74,7 @@ class ItemsAll extends Component {
         this.addItemToEssentialItemsList(clickedItem);
       }
     } else {
-      this.addItemToCurrentItems(clickedItem);
+      this.props.dispatch(addItemOrUpdateQuantity(this.props.currentStore.id, this.props.currentList, clickedItem));
     }
   };
 

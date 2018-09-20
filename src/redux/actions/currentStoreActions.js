@@ -11,3 +11,22 @@ export const CURRENT_STORE_ACTIONS = {
   ADD_ESSENTIAL_ITEM: 'ADD_ESSENTIAL_ITEM',
   REMOVE_ESSENTIAL_ITEM: 'REMOVE_ESSENTIAL_ITEM',
 };
+
+export const addItemOrUpdateQuantity = (storeId, itemList, newItem) => {
+  const action = {};
+  const existingListItem = itemList.find(currentItem => currentItem.item_id === (newItem.item_id || newItem.id));
+  if (existingListItem) {
+    action.type = CURRENT_STORE_ACTIONS.UPDATE_ITEM_QUANTITY;
+    action.payload = {
+      ...existingListItem,
+      quantity: existingListItem.quantity + 1
+    };
+  } else {
+    action.type = CURRENT_STORE_ACTIONS.ADD_ITEM;
+    action.payload = {
+      storeId: storeId,
+      item: newItem,
+    };
+  }
+  return action;
+};

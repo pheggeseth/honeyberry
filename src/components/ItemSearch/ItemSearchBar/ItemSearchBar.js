@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { ITEM_ACTIONS } from '../../../redux/actions/itemActions';
 
 class ItemSearchBar extends Component {
   handleChange = event => {
@@ -19,4 +17,4 @@ class ItemSearchBar extends Component {
   }
 }
 
-export default connect()(ItemSearchBar);
+export default ItemSearchBar;
