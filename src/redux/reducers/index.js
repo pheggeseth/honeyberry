@@ -5,6 +5,7 @@ import items from './itemReducer';
 import categories from './categoryReducer';
 import userStores from './userStoresReducer';
 import currentStore from './currentStoreReducer';
+import itemSearch from './itemSearchReducer';
 
 const store = combineReducers({
   user,
@@ -13,6 +14,7 @@ const store = combineReducers({
   categories,
   userStores,
   currentStore,
+  itemSearch,
 });
 
 export default store;

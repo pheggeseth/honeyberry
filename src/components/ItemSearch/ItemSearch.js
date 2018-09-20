@@ -7,7 +7,8 @@ import ItemSearchBar from './ItemSearchBar/ItemSearchBar';
 import ItemSearchResults from './ItemSearchResults/ItemSearchResults';
 
 const mapStateToProps = state => ({
-  items: state.items
+  // items: state.items,
+  searching: state.itemSearch.searching,
 });
 
 class ItemSearch extends Component {
@@ -42,16 +43,27 @@ class ItemSearch extends Component {
     });
   };
 
+  handleCancelClick = () => {
+    this.stopItemSearchMode();
+    this.setState({
+      searchTerm: ''
+    });
+  }
+
   render() {
+    console.log(this.props);
     return (
       <div>
         <ItemSearchBar value={this.state.searchTerm} 
           onChange={this.updateSearchTerm}
         />
-        <ItemSearchResults searchTerm={this.state.searchTerm} />
+        {this.props.searching ? <button onClick={this.handleCancelClick}>Cancel</button> : null}
+        {this.props.searching
+        ? <ItemSearchResults searchTerm={this.state.searchTerm} />
+        : null}
       </div>
     );
   }
 }
 
-export default connect()(ItemSearch);
+export default connect(mapStateToProps)(ItemSearch);
