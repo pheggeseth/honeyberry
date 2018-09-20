@@ -25,10 +25,39 @@ const Container = styled.li`
 `;
 
 class ItemTile extends Component {
+  longPressed = false;
+
   handleClick = () => this.props.onClick();
+  
+  handleLongPress = () => {
+    this.longPressed = true;
+    console.log('long press');
+  }
+
+  handlePressStart = () => {
+    console.log('press start');
+    this.pressTimer = setTimeout(this.handleLongPress, 1000);
+  };
+
+  handlePressEnd = () => {
+    console.log('press end');
+    if (this.longPressed) {
+      this.longPressed = false;
+    } else {
+      this.handleClick();
+      clearTimeout(this.pressTimer);
+    }
+  };
+
   render() {
     return (
-      <Container added={this.props.added} onClick={this.handleClick}>
+      <Container 
+        added={this.props.added} 
+        onMouseDown={this.handlePressStart}
+        onMouseUp={this.handlePressEnd}
+        onTouchStart={this.handlePressStart}
+        onTouchEnd={this.handlePressEnd}
+      >
         {this.props.item.name + (this.props.item.quantity > 1 ? ' '+this.props.item.quantity : '')}
       </Container>
     );
