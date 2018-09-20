@@ -20,16 +20,10 @@ const mapStateToProps = state => ({
   currentStore: state.currentStore.store,
   list: state.currentStore.list,
   essentials: state.currentStore.essentials,
+  searching: state.itemSearch.searching,
 });
 
 class ListPage extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     searchingForItems: false
-  //   };
-  // }
-
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
 
@@ -63,9 +57,6 @@ class ListPage extends Component {
     }
   }
 
-  // startItemSearchMode = () => this.setState({searchingForItems: true});
-  // stopItemSearchMode = () => this.setState({searchingForItems: false});
-
   render() {
     let content = null;
     const list = this.props.list;
@@ -74,10 +65,14 @@ class ListPage extends Component {
       content = (
         <div>
           <ItemSearch onFocus={this.startItemSearchMode} />
-          <CurrentItems items={list.filter(item => !item.completed)} />
-          <CompletedItems items={list.filter(item => item.completed)} />
-          <EssentialItems items={this.props.essentials} />
-          <ItemsAll />
+          {this.props.searching
+          ? null
+          : <div>
+              <CurrentItems items={list.filter(item => !item.completed)} />
+              <CompletedItems items={list.filter(item => item.completed)} />
+              <EssentialItems items={this.props.essentials} />
+              <ItemsAll />
+            </div>}
         </div>
       );
     }
@@ -92,5 +87,4 @@ class ListPage extends Component {
   }
 }
 
-// this allows us to use <App /> in index.js
 export default connect(mapStateToProps)(ListPage);
