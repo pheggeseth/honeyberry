@@ -47,10 +47,23 @@ class ItemsAll extends Component {
 
   addItemToEssentialItemsList = newItem => {
     console.log('add to essentials:', newItem);
+    const action = {
+      type: CURRENT_STORE_ACTIONS.ADD_ESSENTIAL_ITEM,
+      payload: {
+        storeId: this.props.currentStore.id,
+        itemId: newItem.id
+      }
+    };
+    this.props.dispatch(action);
   };
 
-  removeItemFromEssentialItemsList = itemToRemove => {
-    console.log('remove from essentials:', itemToRemove);
+  removeItemFromEssentialItemsList = essentialItemToRemove => {
+    console.log('remove from essentials:', essentialItemToRemove);
+    const action = {
+      type: CURRENT_STORE_ACTIONS.REMOVE_ESSENTIAL_ITEM,
+      payload: essentialItemToRemove
+    };
+    this.props.dispatch(action);
   };
 
   handleItemClick = clickedItem => () => {

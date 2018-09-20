@@ -52,10 +52,12 @@ router.get('/:storeId/essentials', (req, res) => {
   if (req.isAuthenticated()) {
     const storeId = req.params.storeId;
     const queryText = `SELECT 
-      "item"."id", 
+      "store_essential"."id",
       "item"."name", 
       "item"."default_unit", 
-      "item"."image_path" 
+      "item"."image_path",
+      "store_essential"."store_id",
+      "store_essential"."item_id"
     FROM "store_essential" 
     JOIN "item" ON "item"."id" = "item_id" 
     WHERE "store_id" = $1;`;
@@ -108,12 +110,12 @@ router.post('/:storeId/item', (req, res) => {
   }
 });
 
-router.post('/:storeId/essential', (req, res) => {
+router.post('/essential', (req, res) => {
   if (req.isAuthenticated()) {
-    const storeId = req.params.storeId;
-    const itemToAdd = req.body;
+    const item = req.body;
+    console.log('item to add:', item);
     const queryText = `INSERT INTO "store_essential" ("store_id", "item_id") VALUES ($1, $2);`;
-    pool.query(queryText, [storeId, itemToAdd.id])
+    pool.query(queryText, [item.storeId, item.itemId])
     .then(() => res.sendStatus(200))
     .catch(error => {
       console.log(`/api/store/${storeId}/essential POST error:`, error);
@@ -187,6 +189,7 @@ router.delete('/:storeId/items/completed', (req, res) => {
 router.delete('/essential/:id', (req, res) => {
   if (req.isAuthenticated()) {
     const essentialId = req.params.id;
+    console.log(`api/store/essential/${essentialId} DELETE hit.`);
     const queryText = `DELETE FROM "store_essential" WHERE "id" = $1;`;
     pool.query(queryText, [essentialId])
     .then(() => res.sendStatus(200))

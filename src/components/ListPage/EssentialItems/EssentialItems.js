@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 });
 
 class EssentialItems extends Component {
-  addItemToCurrentItems = newItem => {
+  addEssentialItemToCurrentItems = newItem => {
     const action = {};
     const existingListItem = this.props.currentList.find(currentItem => currentItem.item_id === newItem.id);
     console.log(existingListItem);
@@ -42,14 +42,14 @@ class EssentialItems extends Component {
       // remove item from essentials list
       this.removeEssentialItem(clickedItem);
     } else {
-      this.addItemToCurrentItems(clickedItem);
+      this.addEssentialItemToCurrentItems(clickedItem);
     }
   };
 
   removeEssentialItem = item => {
     this.props.dispatch({
       type: CURRENT_STORE_ACTIONS.REMOVE_ESSENTIAL_ITEM,
-      payload: item.id
+      payload: item
     });
   };
 
