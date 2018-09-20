@@ -30,9 +30,6 @@ class ItemSearch extends Component {
       this.stopItemSearchMode();
     }
 
-    // this.setState({
-    //   searchTerm: newValue
-    // });
     this.props.dispatch({
       type: ITEM_ACTIONS.SET_ITEM_SEARCH_TERM,
       payload: newValue,
@@ -41,8 +38,11 @@ class ItemSearch extends Component {
 
   handleCancelClick = () => {
     this.stopItemSearchMode();
-    this.setState({
-      searchTerm: ''
+    this.props.dispatch({
+      type: ITEM_ACTIONS.CLEAR_ITEM_SEARCH_TERM
+    });
+    this.props.dispatch({
+      type: ITEM_ACTIONS.STOP_ITEM_SEARCH_MODE
     });
   }
 
