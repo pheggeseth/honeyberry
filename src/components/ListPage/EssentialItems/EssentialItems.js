@@ -22,7 +22,10 @@ class EssentialItems extends Component {
     if (editingEssentials) {
       dispatch({
         type: CURRENT_STORE_ACTIONS.UPDATE_ESSENTIALS_LIST,
-        payload: selectedItems,
+        payload: {
+          storeId: this.props.currentStore.id,
+          list: selectedItems,
+        }
       });
       dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS});
       dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_SELECTION_MODE});
