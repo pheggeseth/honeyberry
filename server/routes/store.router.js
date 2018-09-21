@@ -112,13 +112,14 @@ router.post('/:storeId/item', (req, res) => {
 
 router.post('/essential', (req, res) => {
   if (req.isAuthenticated()) {
-    const item = req.body;
+    const {storeId, item} = req.body;
     console.log('item to add:', item);
     const queryText = `INSERT INTO "store_essential" ("store_id", "item_id") VALUES ($1, $2);`;
-    pool.query(queryText, [item.storeId, item.itemId])
+    pool.query(queryText, [storeId, item.id])
     .then(() => res.sendStatus(200))
     .catch(error => {
       console.log(`/api/store/${storeId}/essential POST error:`, error);
+      res.sendStatus(500);
     });
   } else {
     res.sendStatus(401);

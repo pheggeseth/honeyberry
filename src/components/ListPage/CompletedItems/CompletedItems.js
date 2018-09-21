@@ -37,7 +37,11 @@ class CompletedItems extends Component {
         : null}
         <ul>
           {items.map(item => (
-            <ItemTile key={item.id} item={item} onClick={this.uncompleteItem(item)} />
+            <ItemTile key={item.id} 
+              completedListItem
+              item={item} 
+              onClick={this.uncompleteItem(item)} 
+            />
           ))}
         </ul>
       </div>

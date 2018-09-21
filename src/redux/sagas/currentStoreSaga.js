@@ -46,27 +46,31 @@ function* addListItem(action) {
 
 function* completeItem(action) {
   try {
-    const completedItem = action.payload;
-    const existingCompletedItem = action.list.find(item => item.completed && item.item_id === completedItem.item_id);
+    const itemToComplete = action.payload;
+    const existingCompletedItem = action.list.find(item => item.completed && item.item_id === itemToComplete.item_id);
+
+    // if there is already an existing copy of this item that has been completed,
+    // combine the two items together into one with a combined quantity, update to the server
     if (existingCompletedItem) {
-      existingCompletedItem.quantity += 1;
+      existingCompletedItem.quantity += itemToComplete.quantity;
       yield put({
         type: CURRENT_STORE_ACTIONS.UPDATE_ITEM_QUANTITY,
         payload: existingCompletedItem
       });
       yield put({
         type: CURRENT_STORE_ACTIONS.REMOVE_ITEM,
-        payload: completedItem,
+        payload: itemToComplete,
       })
+      // otherwise, complete the item as usual
     } else {
       const data = {
-        id: completedItem.id,
-        completed: completedItem.completed
+        id: itemToComplete.id,
+        completed: itemToComplete.completed
       };
       yield call(axios.put, '/api/store/item/completed', data);
       yield put({
         type: CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS,
-        payload: completedItem.store_id
+        payload: itemToComplete.store_id
       });
     }
   } catch(error) {
@@ -76,15 +80,15 @@ function* completeItem(action) {
 
 function* uncompleteItem(action) {
   try {
-    const uncompletedItem = action.payload;
+    const itemToUncomplete = action.payload;
     const data = {
-      id: uncompletedItem.id,
-      completed: uncompletedItem.completed
+      id: itemToUncomplete.id,
+      completed: false
     };
     yield call(axios.put, '/api/store/item/completed', data);
     yield put({
       type: CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS,
-      payload: uncompletedItem.store_id
+      payload: itemToUncomplete.store_id
     });
   } catch(error) {
     console.log('uncompleteItem saga error:', error);
@@ -122,13 +126,10 @@ function* clearCompletedItems(action) {
 
 function* addEssentialItem(action) {
   try {
-    const storeId = action.payload.storeId;
-    const item = action.payload;
-    console.log('itemId:', item);
-    yield call(axios.post, `/api/store/essential`, item);
+    yield call(axios.post, `/api/store/essential`, action.payload);
     yield put({
       type: CURRENT_STORE_ACTIONS.FETCH_STORE_ESSENTIALS,
-      payload: storeId
+      payload: action.payload.storeId,
     });
   } catch(error) {
     console.log('addEssentialItem saga error:', error);
@@ -149,6 +150,10 @@ function* removeEssentialItem(action) {
   }
 }
 
+function* updateEssentialsList(action) {
+  console.log('update essentials:', action.payload);
+}
+
 function* removeItem(action) {
   try {
     const itemId = action.payload.id;
@@ -166,7 +171,6 @@ function* removeItem(action) {
 function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS, fetchItemsInCurrentStore);
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_STORE_ESSENTIALS, fetchCurrentStoreEssentialItems);
-  // yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_ITEM_COMPLETED, updateItemCompletedStatus);
   yield takeEvery(CURRENT_STORE_ACTIONS.COMPLETE_ITEM, completeItem);
   yield takeEvery(CURRENT_STORE_ACTIONS.UNCOMPLETE_ITEM, uncompleteItem);
   yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_ITEM_QUANTITY, updateItemQuantity);
@@ -174,6 +178,7 @@ function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.ADD_ITEM, addListItem);
   yield takeEvery(CURRENT_STORE_ACTIONS.ADD_ESSENTIAL_ITEM, addEssentialItem);
   yield takeEvery(CURRENT_STORE_ACTIONS.REMOVE_ESSENTIAL_ITEM, removeEssentialItem);
+  yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_ESSENTIALS_LIST, updateEssentialsList);
   yield takeEvery(CURRENT_STORE_ACTIONS.REMOVE_ITEM, removeItem);
 }
 

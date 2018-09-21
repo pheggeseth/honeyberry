@@ -8,6 +8,7 @@ import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
 import { CATEGORY_ACTIONS } from '../../redux/actions/categoryActions';
 
 import ItemSearch from '../ItemSearch/ItemSearch';
+import ItemEdit from '../ItemEdit/ItemEdit';
 import CurrentItems from './CurrentItems/CurrentItems';
 import CompletedItems from './CompletedItems/CompletedItems';
 import EssentialItems from './EssentialItems/EssentialItems';
@@ -21,6 +22,7 @@ const mapStateToProps = state => ({
   list: state.currentStore.list,
   essentials: state.currentStore.essentials,
   searching: state.itemSearch.searching,
+  editingItem: state.currentStore.editingItem,
 });
 
 class ListPage extends Component {
@@ -61,7 +63,13 @@ class ListPage extends Component {
     let content = null;
     const list = this.props.list;
 
-    if (this.props.user.userName) {
+    if (this.props.editingItem) {
+      content = (
+        <div>
+          <ItemEdit />
+        </div>
+      );
+    } else {
       content = (
         <div>
           <ItemSearch onFocus={this.startItemSearchMode} />
@@ -76,12 +84,12 @@ class ListPage extends Component {
         </div>
       );
     }
-
+    
     return (
       <div>
         <Nav />
-        {JSON.stringify(list)}
-        { content }
+        {/* {JSON.stringify(list)} */}
+        { this.props.user.userName ? content : null }
       </div>
     );
   }

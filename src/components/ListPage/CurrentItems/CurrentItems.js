@@ -19,6 +19,17 @@ class CurrentItems extends Component {
     this.props.dispatch(action);
   };
 
+  editItem = item => () => {
+    console.log('edit item:', item);
+    this.props.dispatch({
+      type: CURRENT_STORE_ACTIONS.SET_EDITING_ITEM,
+      payload: item,
+    });
+    this.props.dispatch({
+      type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_EDITING_MODE
+    });
+  };
+
   render() {
     const {items} = this.props;
     return(
@@ -26,7 +37,12 @@ class CurrentItems extends Component {
         <strong>current items</strong>
         <ul>
           {items.map(item => (
-            <ItemTile key={item.id} item={item} onClick={this.completeItem(item)} />
+            <ItemTile key={item.id} 
+              currentListItem
+              item={item} 
+              onClick={this.completeItem(item)}
+              onLongPress={this.editItem(item)} 
+            />
           ))}
         </ul>
       </div>
