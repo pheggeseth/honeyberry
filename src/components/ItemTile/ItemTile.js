@@ -34,6 +34,7 @@ const mapStateToProps = state => ({
   editingEssentials: state.currentStore.editingEssentials,
   selectingItems: state.currentStore.selectingItems,
   selectedItems: state.currentStore.selectedItems,
+  editingList: state.currentStore.editingList,
 });
 
 
@@ -42,11 +43,11 @@ class ItemTile extends Component {
   longPressed = false;
 
   itemIsCurrentlySelected = item => {
-    const {categoryItem, selectedItems, editingEssentials, essentialItem} = this.props;
-    if (editingEssentials && categoryItem) {
-      return selectedItems.some(selectedItem => (selectedItem.item_id || selectedItem.id) === item.id);
-    } else if (editingEssentials && essentialItem) {
-      return selectedItems.some(selectedItem => (selectedItem.item_id || selectedItem.id) === item.item_id);
+    const {categoryItem, selectedItems, editingEssentials, essentialItem, editingList, currentListItem, completedListItem} = this.props;
+    if (editingEssentials && (essentialItem || categoryItem)) {
+      return selectedItems.some(selectedItem => (selectedItem.item_id || selectedItem.id) === (item.item_id || item.id));
+    } else if(editingList && (currentListItem || completedListItem)) {
+      return selectedItems.some(selectedItem => selectedItem.id === item.id);
     }
   };
 
@@ -123,14 +124,14 @@ class ItemTile extends Component {
   };
 
   handleCategoryItemClick = () => {
-    const {editingEssentials, selectingItems, item} = this.props;
+    const {editingEssentials, selectingItems, item, editingList} = this.props;
     if (editingEssentials && selectingItems) {
       if (this.itemIsCurrentlySelected(item)) {
         this.deselectItem(item);
       } else {
         this.selectItem(item);
       }
-    } else {
+    } else if (!editingList) {
       this.addItemToCurrentList(item);
     }
   };

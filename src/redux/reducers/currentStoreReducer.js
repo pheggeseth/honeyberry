@@ -78,6 +78,30 @@ const itemToEdit = (state = {}, action) => {
   }
 }
 
+const editingList = (state = false, action) => {
+  if (action.type === CURRENT_STORE_ACTIONS.TOGGLE_LIST_EDITING_MODE) {
+    return !state;
+  } else {
+    return state;
+  }
+}
+
+const movingItems = (state = false, action) => {
+  if (action.type === CURRENT_STORE_ACTIONS.TOGGLE_ITEM_MOVE_MODE) {
+    return !state;
+  } else {
+    return state;
+  }
+}
+
+const deletingItems = (state = false, action) => {
+  if (action.type === CURRENT_STORE_ACTIONS.TOGGLE_ITEM_DELETE_MODE) {
+    return !state;
+  } else {
+    return state;
+  }
+};
+
 // IMPORTED TO MAIN REDUX STORE AS "currentStore"
 export default combineReducers({
   store,
@@ -88,4 +112,7 @@ export default combineReducers({
   itemToEdit,
   selectingItems,
   selectedItems,
+  editingList,
+  movingItems,
+  deletingItems,
 });

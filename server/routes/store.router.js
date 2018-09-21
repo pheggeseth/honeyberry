@@ -114,19 +114,20 @@ router.post('/:storeId/essentials', (req, res) => {
   if (req.isAuthenticated()) {
     const storeId = Number(req.params.storeId);
     const essentialsStoreItemIdPairs = req.body.map(item => [storeId, (item.item_id || item.id)]);
-    
+
     pool.query(`DELETE FROM "store_essential" WHERE "store_id" = $1;`, [storeId])
-    .then(() => {
-      const queryText = `INSERT INTO "store_essential" ("store_id", "item_id") VALUES ($1, $2);`;
+    .then(async () => {
       try {
-        essentialsStoreItemIdPairs.forEach(async values => {
-          await pool.query(queryText, values);
-        });
+        const queryText = `INSERT INTO "store_essential" ("store_id", "item_id") VALUES ($1, $2);`;
+        const insertQueries = essentialsStoreItemIdPairs.map(values => pool.query(queryText, values));
+        await Promise.all(insertQueries);
         res.sendStatus(200);
       } catch(error) {
         console.log(error);
         res.sendStatus(500);
       }
+    }).catch(error => {
+      res.sendStatus(500);
     });
   } else {
     res.sendStatus(401);

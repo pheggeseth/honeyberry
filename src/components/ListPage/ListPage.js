@@ -18,11 +18,16 @@ const mapStateToProps = state => ({
   user: state.user,
   items: state.items,
   categories: state.categories,
+  stores: state.userStores,
   currentStore: state.currentStore.store,
   list: state.currentStore.list,
   essentials: state.currentStore.essentials,
   searching: state.itemSearch.searching,
   editingItem: state.currentStore.editingItem,
+  editingList: state.currentStore.editingList,
+  selectingItems: state.currentStore.selectingItems,
+  selectedItems: state.currentStore.selectedItems,
+  movingItems: state.currentStore.movingItems,
 });
 
 class ListPage extends Component {
@@ -59,11 +64,76 @@ class ListPage extends Component {
     }
   }
 
+  toggleListEditMode = () => {
+    const {dispatch} = this.props;
+    if (this.props.selectingItems) {
+      dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS});
+      dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_SELECTION_MODE});
+    }
+    dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_LIST_EDITING_MODE});
+  };
+
+  startListEditSelect = () => {
+    this.props.dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_SELECTION_MODE});
+    this.props.dispatch({type: CURRENT_STORE_ACTIONS.SET_SELECTED_ITEMS, payload: []});
+  };
+
+  stopListEditSelect = () => {
+    this.props.dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS});
+    this.props.dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_SELECTION_MODE});
+  };
+
+  startListItemMoveMode = () => {
+    console.log('now moving items:', this.props.selectedItems);
+    this.props.dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_MOVE_MODE});
+  };
+
+  stopListItemMoveMode = () => {
+    console.log('stopping moving items:', this.props.selectedItems);
+    this.props.dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_MOVE_MODE});
+  };
+
+  deleteListItems = () => {
+    console.log('deleting items:', this.props.selectedItems);
+    this.props.dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_DELETE_MODE});
+  };
+
+  moveSelectedItemsToStore = storeId => () => {
+    console.log('moving items to store with id '+storeId, this.props.selectedItems);
+  };
+
   render() {
     let content = null;
-    const list = this.props.list;
+    const {list, searching, editingItem, essentials, user, editingList, selectingItems, currentStore, movingItems, stores} = this.props;
 
-    if (this.props.editingItem) {
+    let editListButtons = <div><button onClick={this.toggleListEditMode}>Edit List</button></div>;
+    if (editingList && !selectingItems) {
+      editListButtons = (
+        <div>
+          <button onClick={this.toggleListEditMode}>Back</button>
+          <button onClick={this.startListEditSelect}>Select</button>
+          <button>Share</button>
+        </div>
+      );
+    } else if (editingList && selectingItems && !movingItems) {
+      editListButtons = (
+        <div>
+          <button onClick={this.stopListEditSelect}>Back</button>
+          <button onClick={this.startListItemMoveMode}>Move</button>
+          <button onClick={this.deleteListItems}>Delete</button>
+        </div>
+      );
+    } else if (editingList && movingItems) {
+      editListButtons = (
+        <div>
+          <button onClick={this.stopListItemMoveMode}>Back</button>
+          {stores.filter(store => store.id !== currentStore.id)
+          .map(store => <button key={store.id} onClick={this.moveSelectedItemsToStore(store.id)}>{store.name}</button>)}
+        </div>
+      );
+    }
+
+    if (editingItem) {
       content = (
         <div>
           <ItemEdit />
@@ -73,23 +143,26 @@ class ListPage extends Component {
       content = (
         <div>
           <ItemSearch onFocus={this.startItemSearchMode} />
-          {this.props.searching
+          {searching
           ? null
           : <div>
               <CurrentItems items={list.filter(item => !item.completed)} />
               <CompletedItems items={list.filter(item => item.completed)} />
-              <EssentialItems items={this.props.essentials} />
+              <EssentialItems items={essentials} />
               <ItemsAll />
             </div>}
         </div>
       );
     }
+
+    
     
     return (
       <div>
         <Nav />
         {/* {JSON.stringify(list)} */}
-        { this.props.user.userName ? content : null }
+        {editListButtons}
+        { user.userName ? content : null }
       </div>
     );
   }
