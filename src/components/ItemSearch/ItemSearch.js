@@ -8,6 +8,7 @@ import ItemSearchResults from './ItemSearchResults/ItemSearchResults';
 const mapStateToProps = state => ({
   searching: state.itemSearch.searching,
   searchTerm: state.itemSearch.searchTerm,
+  selectingItems: state.currentStore.selectingItems,
 });
 
 class ItemSearch extends Component {
@@ -24,16 +25,19 @@ class ItemSearch extends Component {
   };
 
   updateSearchTerm = newValue => {
-    if (!this.props.searchTerm && newValue) {
-      this.startItemSearchMode();
-    } else if (this.props.searchTerm && !newValue) {
-      this.stopItemSearchMode();
+    const {selectingItems, searchTerm, dispatch} = this.props;
+    if (!selectingItems) {
+      if (!searchTerm && newValue) {
+        this.startItemSearchMode();
+      } else if (searchTerm && !newValue) {
+        this.stopItemSearchMode();
+      }
+  
+      dispatch({
+        type: ITEM_ACTIONS.SET_ITEM_SEARCH_TERM,
+        payload: newValue,
+      });
     }
-
-    this.props.dispatch({
-      type: ITEM_ACTIONS.SET_ITEM_SEARCH_TERM,
-      payload: newValue,
-    });
   };
 
   handleCancelClick = () => {
