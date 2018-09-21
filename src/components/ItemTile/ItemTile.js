@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { CURRENT_STORE_ACTIONS, addItemOrUpdateQuantity } from '../../redux/actions/currentStoreActions';
+import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
 
 const Container = styled.li`
   height: 100px;
@@ -75,25 +76,98 @@ class ItemTile extends Component {
   };
 
   handleClick = () => {
-    const {editingEssentials, selectingItems, selectedItems, essentialItem, categoryItem, currentListItem, completedListItem, item} = this.props;
+    const {editingEssentials, selectingItems, essentialItem, searchResult, categoryItem, currentListItem, completedListItem, item, dispatch} = this.props;
+    if (currentListItem) {
+      this.handleCurrentListItemClick();
+    } else if (completedListItem) {
+      this.handleCompletedListItemClick();
+    } else if (essentialItem) {
+      this.handleEssentialItemClick();
+    } else if (categoryItem) {
+      this.handleCategoryItemClick();
+    } else if (searchResult) {
+      this.handleSearchResultClick();
+    }
 
-    if (editingEssentials && (essentialItem || categoryItem)) {
+
+    // if (editingEssentials && (essentialItem || categoryItem)) {
+    //   if (this.itemIsCurrentlySelected(item)) {
+    //     this.deselectItem(item)
+    //   } else {
+    //     this.selectItem(item);
+    //   }
+    // } else if (currentListItem) {
+    //   if (selectingItems) {
+    //     if (this.itemIsCurrentlySelected(item)) {
+    //       this.deselectItem(item);
+    //     } else {
+    //       this.selectItem(item);
+    //     }
+    //   } else {
+    //     this.completeCurrentListItem(item);
+    //   }
+    // } else if (completedListItem) {
+    //   this.uncompleteCurrentListItem(item);
+    // } else if (searchResult) {
+    //   dispatch({type: ITEM_ACTIONS.CLEAR_ITEM_SEARCH_TERM});
+    //   dispatch({type: ITEM_ACTIONS.STOP_ITEM_SEARCH_MODE});
+    //   this.addItemToCurrentList(item);
+    // } else if (essentialItem || categoryItem) {
+    //   this.addItemToCurrentList(item);
+    // }
+  };
+
+  handleCurrentListItemClick = () => {
+    const {editingEssentials, selectingItems, item} = this.props;
+    if (selectingItems && !editingEssentials) {
       if (this.itemIsCurrentlySelected(item)) {
-        console.log('deselect item:', item);
-        this.deselectItem(item)
+        this.deselectItem(item);
       } else {
-        console.log('select item:', item);
         this.selectItem(item);
       }
-    } else if (currentListItem) {
-      if (selectingItems) {
+    } else if (!selectingItems) {
+      this.completeCurrentListItem(item);
+    }
+  };
 
-      } else {
-        this.completeCurrentListItem(item);
-      }
-    } else if (completedListItem) {
+  handleCompletedListItemClick = () => {
+    const {selectingItems, item} = this.props;
+    if (!selectingItems) {
       this.uncompleteCurrentListItem(item);
-    } else if (essentialItem || categoryItem) {
+    }
+  };
+
+  handleEssentialItemClick = () => {
+    const {editingEssentials, selectingItems, item} = this.props;
+    if (editingEssentials && selectingItems) {
+      if (this.itemIsCurrentlySelected(item)) {
+        this.deselectItem(item)
+      } else {
+        this.selectItem(item);
+      }
+    } else {
+      this.addItemToCurrentList(item)
+    }
+  };
+
+  handleCategoryItemClick = () => {
+    const {editingEssentials, selectingItems, item} = this.props;
+    if (editingEssentials && selectingItems) {
+      if (this.itemIsCurrentlySelected(item)) {
+        this.deselectItem(item);
+      } else {
+        this.selectItem(item);
+      }
+    } else {
+      this.addItemToCurrentList(item);
+    }
+  };
+
+  handleSearchResultClick = () => {
+    const {selectingItems, dispatch, item} = this.props;
+    if (!selectingItems) {
+      dispatch({type: ITEM_ACTIONS.CLEAR_ITEM_SEARCH_TERM});
+      dispatch({type: ITEM_ACTIONS.STOP_ITEM_SEARCH_MODE});
       this.addItemToCurrentList(item);
     }
   };

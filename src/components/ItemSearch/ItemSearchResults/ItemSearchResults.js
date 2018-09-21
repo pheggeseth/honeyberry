@@ -13,18 +13,6 @@ const mapStateToProps = state => ({
 });
 
 class ItemSearchResults extends Component {
-
-  addItemToCurrentList = item => () => {
-    console.log('add item:', item);
-    this.props.dispatch(addItemOrUpdateQuantity(this.props.currentStore.id, this.props.currentList, item));
-    this.props.dispatch({
-      type: ITEM_ACTIONS.STOP_ITEM_SEARCH_MODE
-    });
-    this.props.dispatch({
-      type: ITEM_ACTIONS.CLEAR_ITEM_SEARCH_TERM
-    });
-  };
-
   render() {
     return (
       <div>
@@ -33,8 +21,8 @@ class ItemSearchResults extends Component {
           .filter(item => item.name.toLowerCase().includes(this.props.searchTerm))
           .map(item => (
             <ItemTile key={item.id}
+              searchResult
               item={item}
-              onClick={this.addItemToCurrentList(item)}
             />
           ))}
       </div>
