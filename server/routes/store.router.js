@@ -114,8 +114,7 @@ router.post('/:storeId/essentials', (req, res) => {
   if (req.isAuthenticated()) {
     const storeId = Number(req.params.storeId);
     const essentialsStoreItemIdPairs = req.body.map(item => [storeId, (item.item_id || item.id)]);
-    // let valueCounter = 1;
-    // const sqlValues = essentialsStoreItemIdPairs.map(item => `()`)
+    
     pool.query(`DELETE FROM "store_essential" WHERE "store_id" = $1;`, [storeId])
     .then(() => {
       const queryText = `INSERT INTO "store_essential" ("store_id", "item_id") VALUES ($1, $2);`;

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addItemOrUpdateQuantity } from '../../../redux/actions/currentStoreActions';
-import { ITEM_ACTIONS } from '../../../redux/actions/itemActions';
 
 import ItemTile from '../../ItemTile/ItemTile';
 

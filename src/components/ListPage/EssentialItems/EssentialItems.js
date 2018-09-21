@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { CURRENT_STORE_ACTIONS, addItemOrUpdateQuantity } from '../../../redux/actions/currentStoreActions';
+import { CURRENT_STORE_ACTIONS } from '../../../redux/actions/currentStoreActions';
 import ItemTile from '../../ItemTile/ItemTile';
 
 const mapStateToProps = state => ({

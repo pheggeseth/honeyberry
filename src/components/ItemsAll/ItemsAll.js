@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { CURRENT_STORE_ACTIONS, addItemOrUpdateQuantity } from '../../redux/actions/currentStoreActions';
 
 import CategoryLabel from '../CategoryLabel/CategoryLabel';
 import ItemTile from '../ItemTile/ItemTile';
@@ -24,39 +23,6 @@ class ItemsAll extends Component {
       }))
     };
   }
-
-  // addItemToEssentialItemsList = newItem => {
-  //   console.log('add to essentials:', newItem);
-  //   const action = {
-  //     type: CURRENT_STORE_ACTIONS.ADD_ESSENTIAL_ITEM,
-  //     payload: {
-  //       storeId: this.props.currentStore.id,
-  //       itemId: newItem.id
-  //     }
-  //   };
-  //   this.props.dispatch(action);
-  // };
-
-  // removeItemFromEssentialItemsList = essentialItemToRemove => {
-  //   console.log('remove from essentials:', essentialItemToRemove);
-  //   const action = {
-  //     type: CURRENT_STORE_ACTIONS.REMOVE_ESSENTIAL_ITEM,
-  //     payload: essentialItemToRemove
-  //   };
-  //   this.props.dispatch(action);
-  // };
-
-  // handleItemClick = clickedItem => () => {
-  //   if (this.props.editingEssentials) {
-  //     if (this.props.currentStoreEssentialItems.find(item => item.id === clickedItem.id)) {
-  //       this.removeItemFromEssentialItemsList(clickedItem);
-  //     } else {
-  //       this.addItemToEssentialItemsList(clickedItem);
-  //     }
-  //   } else {
-  //     this.props.dispatch(addItemOrUpdateQuantity(this.props.currentStore.id, this.props.currentList, clickedItem));
-  //   }
-  // };
 
   toggleCategoryVisibility = index => () => {
     this.setState(prevState => {
@@ -83,7 +49,6 @@ class ItemsAll extends Component {
                   <ItemTile key={item.id}
                     categoryItem 
                     item={item} 
-                    // onClick={this.handleItemClick(item)}
                   />
                 ))}
               </ul> 

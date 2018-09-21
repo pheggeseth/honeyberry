@@ -124,32 +124,6 @@ function* clearCompletedItems(action) {
   }
 }
 
-// function* addEssentialItem(action) {
-//   try {
-//     yield call(axios.post, `/api/store/essential`, action.payload);
-//     yield put({
-//       type: CURRENT_STORE_ACTIONS.FETCH_STORE_ESSENTIALS,
-//       payload: action.payload.storeId,
-//     });
-//   } catch(error) {
-//     console.log('addEssentialItem saga error:', error);
-//   }
-// }
-
-// function* removeEssentialItem(action) {
-//   try {
-//     const storeId = action.payload.store_id;
-//     const essentialId = action.payload.id;
-//     yield call(axios.delete, '/api/store/essential/'+essentialId);
-//     yield put({
-//       type: CURRENT_STORE_ACTIONS.FETCH_STORE_ESSENTIALS,
-//       payload: storeId
-//     });
-//   } catch(error) {
-//     console.log('removeEssentialItem saga error:', error);
-//   }
-// }
-
 function* updateEssentialsList(action) {
   try {
     const {storeId, list} = action.payload;
@@ -186,8 +160,6 @@ function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_ITEM_QUANTITY, updateItemQuantity);
   yield takeEvery(CURRENT_STORE_ACTIONS.CLEAR_COMPLETED, clearCompletedItems);
   yield takeEvery(CURRENT_STORE_ACTIONS.ADD_ITEM, addListItem);
-  // yield takeEvery(CURRENT_STORE_ACTIONS.ADD_ESSENTIAL_ITEM, addEssentialItem);
-  // yield takeEvery(CURRENT_STORE_ACTIONS.REMOVE_ESSENTIAL_ITEM, removeEssentialItem);
   yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_ESSENTIALS_LIST, updateEssentialsList);
   yield takeEvery(CURRENT_STORE_ACTIONS.REMOVE_ITEM, removeItem);
 }
