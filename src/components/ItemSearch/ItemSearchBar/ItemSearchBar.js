@@ -11,6 +11,7 @@ class ItemSearchBar extends Component {
         <input type="text" 
           value={this.props.value} 
           onChange={this.handleChange}
+          placeholder="Search"
         />
       </div>
     );
