@@ -51,7 +51,6 @@ class ItemSearch extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <ItemSearchBar value={this.props.searchTerm} 

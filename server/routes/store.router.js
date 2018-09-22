@@ -298,16 +298,16 @@ router.delete('/items/delete', (req, res) => {
   if(req.isAuthenticated()) {    
     (async () => {
       try {
-        await pool.query('BEGIN');
+        // await pool.query('BEGIN');
         const queryText = `DELETE FROM "store_item" WHERE "id" = $1;`;
         const selectedItemIds = req.body.map(item => item.id);
         const queryPromises = selectedItemIds.map(id => pool.query(queryText, [id]));
         await Promise.all(queryPromises);
-        await pool.query('COMMIT');
+        // await pool.query('COMMIT');
         res.sendStatus(200);
       } catch(error) {
         console.log(error);
-        await pool.query('ROLLBACK');
+        // await pool.query('ROLLBACK');
         res.sendStatus(500);
       }
     })().catch(error=> {

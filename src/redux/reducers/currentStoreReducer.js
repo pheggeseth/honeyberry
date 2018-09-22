@@ -38,8 +38,10 @@ const editingEssentials = (state = false, action) => {
 };
 
 const selectingItems = (state = false, action) => {
-  if (action.type === CURRENT_STORE_ACTIONS.TOGGLE_ITEM_SELECTION_MODE) {
-    return !state;
+  if (action.type === CURRENT_STORE_ACTIONS.START_ITEM_SELECTION_MODE) {
+    return true;
+  } else if (action.type === CURRENT_STORE_ACTIONS.STOP_ITEM_SELECTION_MODE) {
+    return false;
   } else {
     return state;
   }
@@ -79,24 +81,30 @@ const itemToEdit = (state = {}, action) => {
 }
 
 const editingList = (state = false, action) => {
-  if (action.type === CURRENT_STORE_ACTIONS.TOGGLE_LIST_EDITING_MODE) {
-    return !state;
+  if (action.type === CURRENT_STORE_ACTIONS.START_LIST_EDITING_MODE) {
+    return true;
+  } else if (action.type === CURRENT_STORE_ACTIONS.STOP_LIST_EDITING_MODE) {
+    return false;
   } else {
     return state;
   }
 }
 
 const movingItems = (state = false, action) => {
-  if (action.type === CURRENT_STORE_ACTIONS.TOGGLE_ITEM_MOVE_MODE) {
-    return !state;
+  if (action.type === CURRENT_STORE_ACTIONS.START_ITEM_MOVE_MODE) {
+    return true;
+  } else if (action.type === CURRENT_STORE_ACTIONS.STOP_ITEM_MOVE_MODE) {
+    return false;
   } else {
     return state;
   }
 }
 
 const deletingItems = (state = false, action) => {
-  if (action.type === CURRENT_STORE_ACTIONS.TOGGLE_ITEM_DELETE_MODE) {
-    return !state;
+  if (action.type === CURRENT_STORE_ACTIONS.START_ITEM_DELETE_MODE) {
+    return true;
+  } else if (action.type === CURRENT_STORE_ACTIONS.STOP_ITEM_DELETE_MODE) {
+    return false;
   } else {
     return state;
   }
