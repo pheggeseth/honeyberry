@@ -19,19 +19,11 @@ const mapStateToProps = state => ({
   currentStore: state.currentStore.store,
   movingItems: state.currentStore.movingItems,
   deletingItems: state.currentStore.deletingItems,
+  itemMoveTargetStore: state.currentStore.itemMoveTargetStore,
   stores: state.userStores,
 });
 
 class ListEditMenu extends Component {
-  // toggleListEditMode = () => {
-  //   const {dispatch} = this.props;
-  //   if (this.props.selectingItems) {
-  //     dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS});
-  //     dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_SELECTION_MODE});
-  //   }
-  //   dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_LIST_EDITING_MODE});
-  // };
-
   componentWillUnmount() {
     this.stopListEditMode();
     this.stopListEditSelectMode();
@@ -64,6 +56,7 @@ class ListEditMenu extends Component {
   };
 
   stopListItemMoveMode = () => {
+    this.clearItemMoveTargetStore();
     this.props.dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_MOVE_MODE});
   };
 
@@ -77,20 +70,33 @@ class ListEditMenu extends Component {
     this.props.dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_DELETE_MODE});
   }
 
-  moveSelectedItemsToStore = newStoreId => () => {
-    const {selectedItems, currentStore, dispatch} = this.props;
-    console.log('moving items to store with id '+newStoreId, selectedItems);
+  setItemMoveTargetStore = storeId => () => {
+    this.props.dispatch({
+      type: CURRENT_STORE_ACTIONS.SET_ITEM_MOVE_TARGET_STORE,
+      payload: storeId
+    });
+  };
+
+  clearItemMoveTargetStore = () => {
+    this.props.dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_ITEM_MOVE_TARGET_STORE});
+  };
+
+  moveSelectedItemsToTargetStore = () => {
+    const {selectedItems, currentStore, itemMoveTargetStore, dispatch} = this.props;
+    console.log('moving items to store with id '+itemMoveTargetStore, selectedItems);
     dispatch({
-      type: CURRENT_STORE_ACTIONS.MOVE_SELECTED_ITEMS_TO_OTHER_STORE,
+      type: CURRENT_STORE_ACTIONS.MOVE_SELECTED_ITEMS_TO_TARGET_STORE,
       payload: {
         selectedItems: selectedItems,
         currentStoreId: currentStore.id,
-        newStoreId: newStoreId
+        newStoreId: itemMoveTargetStore
       }
     });
+    dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_ITEM_MOVE_TARGET_STORE});
+    dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_MOVE_MODE});
     dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS});
-    dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_SELECTION_MODE});
-    dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_LIST_EDITING_MODE});
+    dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_SELECTION_MODE});
+    dispatch({type: CURRENT_STORE_ACTIONS.STOP_LIST_EDITING_MODE});
   };
 
   deleteSelectedListItems = () => {
@@ -98,7 +104,7 @@ class ListEditMenu extends Component {
   };
 
   render() {
-    const {editingList, selectingItems, selectedItems, currentStore, movingItems, deletingItems, stores} = this.props;
+    const {editingList, selectingItems, selectedItems, currentStore, movingItems, deletingItems, itemMoveTargetStore, stores} = this.props;
     const editListButton = <div><button onClick={this.startListEditMode}>Edit List</button></div>;
     const editListMenu = (
       <div>
@@ -121,12 +127,22 @@ class ListEditMenu extends Component {
       <div>
         <button onClick={this.stopListItemMoveMode}>Back</button>
         {stores.filter(store => store.id !== currentStore.id)
-        .map(store => <button key={store.id} onClick={this.moveSelectedItemsToStore(store.id)}>{store.name}</button>)}
+        .map(store => {
+          if (itemMoveTargetStore === store.id) {
+            return (
+              <span key={store.id}>
+                <button onClick={this.clearItemMoveTargetStore}>Cancel</button>
+                <button onClick={this.moveSelectedItemsToTargetStore}>Confirm</button>
+              </span>
+            );
+          } else {
+            return <button key={store.id} onClick={this.setItemMoveTargetStore(store.id)}>{store.name}</button>;
+          }
+        })}
       </div>
     );
     const deleteItemsMenu = (
       <div>
-        Are you sure?
         <button onClick={this.stopListItemDeleteMode}>Cancel</button>
         <button onClick={this.deleteSelectedListItems}>Confirm</button>
       </div>

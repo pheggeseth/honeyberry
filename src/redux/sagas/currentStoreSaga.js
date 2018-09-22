@@ -152,7 +152,7 @@ function* removeItem(action) {
   }
 }
 
-function* moveSelectedItemsToOtherStore(action) {
+function* moveSelectedItemsToTargetStore(action) {
   try {
     const selectedItems = action.payload.selectedItems;
     const currentStoreId = action.payload.currentStoreId;
@@ -189,7 +189,7 @@ function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.ADD_ITEM, addListItem);
   yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_ESSENTIALS_LIST, updateEssentialsList);
   yield takeEvery(CURRENT_STORE_ACTIONS.REMOVE_ITEM, removeItem);
-  yield takeEvery(CURRENT_STORE_ACTIONS.MOVE_SELECTED_ITEMS_TO_OTHER_STORE, moveSelectedItemsToOtherStore);
+  yield takeEvery(CURRENT_STORE_ACTIONS.MOVE_SELECTED_ITEMS_TO_TARGET_STORE, moveSelectedItemsToTargetStore);
   yield takeEvery(CURRENT_STORE_ACTIONS.DELETE_SELECTED_ITEMS_FROM_STORE, deleteSelectedItemsFromStore);
 }
 

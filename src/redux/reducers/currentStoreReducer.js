@@ -104,6 +104,16 @@ const movingItems = (state = false, action) => {
   }
 }
 
+const itemMoveTargetStore = (state = null, action) => {
+  if (action.type === CURRENT_STORE_ACTIONS.SET_ITEM_MOVE_TARGET_STORE) {
+    return action.payload;
+  } else if (action.type === CURRENT_STORE_ACTIONS.CLEAR_ITEM_MOVE_TARGET_STORE) {
+    return null;
+  } else {
+    return state;
+  }
+};
+
 const deletingItems = (state = false, action) => {
   if (action.type === CURRENT_STORE_ACTIONS.START_ITEM_DELETE_MODE) {
     return true;
@@ -126,5 +136,6 @@ export default combineReducers({
   selectedItems,
   editingList,
   movingItems,
+  itemMoveTargetStore,
   deletingItems,
 });
