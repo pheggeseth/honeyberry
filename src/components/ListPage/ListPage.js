@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -13,6 +14,14 @@ import CurrentItems from './CurrentItems/CurrentItems';
 import CompletedItems from './CompletedItems/CompletedItems';
 import EssentialItems from './EssentialItems/EssentialItems';
 import ItemsAll from '../ItemsAll/ItemsAll';
+
+const ClickAway = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  position: fixed;
+  top: 0;
+`;
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -110,9 +119,12 @@ class ListPage extends Component {
     if (editingList && !selectingItems) {
       editListButtons = (
         <div>
-          <button onClick={this.toggleListEditMode}>Back</button>
-          <button onClick={this.startListEditSelect}>Select</button>
-          <button>Share</button>
+          <div style={{zIndex: 101, position: 'relative'}}>
+            <button onClick={this.toggleListEditMode}>Back</button>
+            <button onClick={this.startListEditSelect}>Select</button>
+            <button>Share</button>
+          </div>
+          <ClickAway onClick={this.toggleListEditMode} />
         </div>
       );
     } else if (editingList && selectingItems && !movingItems) {
