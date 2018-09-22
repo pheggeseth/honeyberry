@@ -152,6 +152,33 @@ function* removeItem(action) {
   }
 }
 
+function* moveSelectedItemsToOtherStore(action) {
+  try {
+    const selectedItems = action.payload.selectedItems;
+    const currentStoreId = action.payload.currentStoreId;
+    const newStoreId = action.payload.newStoreId;
+    const data = {
+      selectedItems,
+      newStoreId
+    };
+    yield call(axios.put, `/api/store/${currentStoreId}/items/move`, data);
+    yield put({
+      type: CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS,
+      payload: currentStoreId,
+    });
+  } catch(error) {
+    console.log('moveSelectedItemsToOtherStore saga error:', error);
+  }
+}
+
+function* deleteSelectedItemsFromStore(action) {
+  // try {
+
+  // } catch(error) {
+  //   console.log('removeSelectedItemsFromStore:', error);
+  // }
+}
+
 function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS, fetchItemsInCurrentStore);
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_STORE_ESSENTIALS, fetchCurrentStoreEssentialItems);
@@ -162,6 +189,8 @@ function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.ADD_ITEM, addListItem);
   yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_ESSENTIALS_LIST, updateEssentialsList);
   yield takeEvery(CURRENT_STORE_ACTIONS.REMOVE_ITEM, removeItem);
+  yield takeEvery(CURRENT_STORE_ACTIONS.MOVE_SELECTED_ITEMS_TO_OTHER_STORE, moveSelectedItemsToOtherStore);
+  yield takeEvery(CURRENT_STORE_ACTIONS.DELETE_SELECTED_ITEMS_FROM_STORE, deleteSelectedItemsFromStore);
 }
 
 export default currentStoreSaga;

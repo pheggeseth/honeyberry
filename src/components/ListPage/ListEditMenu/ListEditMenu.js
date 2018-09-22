@@ -56,8 +56,20 @@ class ListEditMenu extends Component {
     this.props.dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_DELETE_MODE});
   };
 
-  moveSelectedItemsToStore = storeId => () => {
-    console.log('moving items to store with id '+storeId, this.props.selectedItems);
+  moveSelectedItemsToStore = newStoreId => () => {
+    const {selectedItems, currentStore, dispatch} = this.props;
+    console.log('moving items to store with id '+newStoreId, selectedItems);
+    dispatch({
+      type: CURRENT_STORE_ACTIONS.MOVE_SELECTED_ITEMS_TO_OTHER_STORE,
+      payload: {
+        selectedItems: selectedItems,
+        currentStoreId: currentStore.id,
+        newStoreId: newStoreId
+      }
+    });
+    dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS});
+    dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_SELECTION_MODE});
+    dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_LIST_EDITING_MODE});
   };
 
   render() {

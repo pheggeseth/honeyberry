@@ -112,7 +112,7 @@ router.post('/:storeId/item', (req, res) => {
 
 router.post('/:storeId/essentials', (req, res) => {
   if (req.isAuthenticated()) {
-    const storeId = Number(req.params.storeId);
+    const storeId = req.params.storeId;
     const essentialsStoreItemIdPairs = req.body.map(item => [storeId, (item.item_id || item.id)]);
 
     pool.query(`DELETE FROM "store_essential" WHERE "store_id" = $1;`, [storeId])
@@ -182,6 +182,59 @@ router.put('/item/quantity', (req, res) => {
   }
 });
 
+router.put('/:currentStoreId/items/move', (req, res) => {
+  if (req.isAuthenticated()) {
+    const currentStoreId = req.params.currentStoreId;
+    const newStoreId = req.body.newStoreId;
+    const selectedItemIds = req.body.selectedItems.map(item => item.id);
+
+    (async () => {
+      try {
+        const queryText = `UPDATE "store_item" SET "store_id" = $1 WHERE "store_id" = $2 AND "id" = $3;`;
+        const queryPromises = selectedItemIds.map(id => pool.query(queryText, [newStoreId, currentStoreId, id]));
+        await Promise.all(queryPromises);
+        res.sendStatus(200);
+      } catch(error) {
+        console.log(error);
+        res.sendStatus(500);
+      }
+    })().catch(error => {
+      console.log(error);
+      res.sendStatus(500);
+    });
+
+
+    // const queryText = `
+    //   SELECT * FROM "store_item" WHERE "id" = ANY(json_array_elements($1));
+    //   UPDATE "store_item" SET "store_id" = $2 WHERE "store_id" = $3;
+    // `;
+
+    // console.log('ids:', selectedItemIds);
+    // pool.query(`SELECT * FROM "store_item" WHERE "id" = ANY (SELECT json_array_elements_text($1)::int);`, [selectedItemIds])
+    // .then(response => {
+    //   pool.query(`UPDATE $1 SET "store_id" = $2 WHERE "store_id" = $3;`, [response.rows, newStoreId, currentStoreId])
+    //   .then(response => res.sendStatus(200))
+    //   .catch(error => {
+    //     console.log(error);
+    //     res.sendStatus(500);
+    //   });
+    // }).catch(error => {
+    //   console.log(error);
+    //   res.sendStatus(500);
+    // });
+
+
+    // pool.query(queryText, [selectedItemIds, newStoreId, currentStoreId])
+    // .then(() => res.sendStatus(200))
+    // .catch(error => {
+    //   console.log(`/api/store/${currentStoreId}/items/move PUT error:`, error);
+    //   res.sendStatus(500);
+    // });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 router.delete('/', (req, res) => {
   if (req.isAuthenticated()) {
     const queryText = `DELETE FROM "store" WHERE "id" = $1 AND "person_id" = $2;`;
@@ -234,6 +287,31 @@ router.delete('/item/:id', (req, res) => {
     .then(() => res.sendStatus(200))
     .catch(error => {
       console.log(`/api/store/item/${itemId} DELETE error:`, error);
+      res.sendStatus(500);
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+router.delete('/items/delete', (req, res) => {
+  if(req.isAuthenticated()) {    
+    (async () => {
+      try {
+        await pool.query('BEGIN');
+        const queryText = `DELETE FROM "store_item" WHERE "id" = $1;`;
+        const selectedItemIds = req.body.map(item => item.id);
+        const queryPromises = selectedItemIds.map(id => pool.query(queryText, [id]));
+        await Promise.all(queryPromises);
+        await pool.query('COMMIT');
+        res.sendStatus(200);
+      } catch(error) {
+        console.log(error);
+        await pool.query('ROLLBACK');
+        res.sendStatus(500);
+      }
+    })().catch(error=> {
+      console.log(error);
       res.sendStatus(500);
     });
   } else {
