@@ -30,8 +30,10 @@ const essentials = (state = [], action) => {
 };
 
 const editingEssentials = (state = false, action) => {
-  if (action.type === CURRENT_STORE_ACTIONS.TOGGLE_ESSENTIALS_EDITING_MODE) {
-    return !state;
+  if (action.type === CURRENT_STORE_ACTIONS.START_ESSENTIALS_EDITING_MODE) {
+    return true;
+  } else if (action.type === CURRENT_STORE_ACTIONS.STOP_ESSENTIALS_EDITING_MODE) {
+    return false;
   } else {
     return state;
   }
@@ -63,8 +65,10 @@ const selectedItems = (state = [], action) => {
 };
 
 const editingItem = (state = false, action) => {
-  if (action.type === CURRENT_STORE_ACTIONS.TOGGLE_ITEM_EDITING_MODE) {
-    return !state;
+  if (action.type === CURRENT_STORE_ACTIONS.START_ITEM_EDITING_MODE) {
+    return true;
+  } else if (action.type === CURRENT_STORE_ACTIONS.STOP_ITEM_EDITING_MODE) {
+    return false;
   } else {
     return state;
   }

@@ -132,9 +132,9 @@ class ListEditMenu extends Component {
       </div>
     );
     
-    if (deletingItems && selectedItems.length) return deleteItemsMenu;
-    else if (movingItems && selectedItems.length) return moveItemsMenu;
-    else if (selectingItems) return selectItemsMenu;
+    if (editingList && deletingItems && selectedItems.length) return deleteItemsMenu;
+    else if (editingList && movingItems && selectedItems.length) return moveItemsMenu;
+    else if (editingList && selectingItems) return selectItemsMenu;
     else if (editingList) return editListMenu;
     else return editListButton;
   }
