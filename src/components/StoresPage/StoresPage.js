@@ -19,9 +19,10 @@ class StoresPage extends Component {
     this.props.dispatch({type: STORE_ACTIONS.FETCH_USER_STORES});
   }
 
-  componentDidUpdate(prevProps) {
-    if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.history.push('home');
+  componentDidUpdate() {
+    const {user, history} = this.props;
+    if (!user.isLoading && user.userName === null) {
+      history.push('home');
     }
   }
 

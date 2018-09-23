@@ -12,7 +12,6 @@ import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import UserPage from './components/UserPage/UserPage';
-// import InfoPage from './components/InfoPage/InfoPage';
 import ListPage from './components/ListPage/ListPage';
 import StoresPage from './components/StoresPage/StoresPage';
 import StoreSettingsPage from './components/StoreSettingsPage/StoreSettingsPage';

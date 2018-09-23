@@ -12,30 +12,6 @@ const mapStateToProps = state => ({
 });
 
 class EssentialItems extends Component {
-  // toggleEssentialsListEditing = () => {
-  //   const {editingEssentials, selectedItems, dispatch} = this.props;
-  //   if (editingEssentials) {
-  //     dispatch({
-  //       type: CURRENT_STORE_ACTIONS.UPDATE_ESSENTIALS_LIST,
-  //       payload: {
-  //         storeId: this.props.currentStore.id,
-  //         list: selectedItems,
-  //       }
-  //     });
-  //     dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS});
-  //     dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_SELECTION_MODE});
-  //     dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ESSENTIALS_EDITING_MODE});
-  //   } else {
-  //     dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ESSENTIALS_EDITING_MODE});
-  //     dispatch({type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_SELECTION_MODE});
-  //     dispatch({
-  //       type: CURRENT_STORE_ACTIONS.SET_SELECTED_ITEMS,
-  //       payload: this.props.items
-  //     });
-  //   }
-    
-  // };
-
   startEssentialsListEditing = () => {
     const {dispatch, items} = this.props;
     dispatch({type: CURRENT_STORE_ACTIONS.START_ESSENTIALS_EDITING_MODE});

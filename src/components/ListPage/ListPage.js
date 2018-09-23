@@ -20,53 +20,39 @@ const mapStateToProps = state => ({
   user: state.user,
   items: state.items,
   categories: state.categories,
-  // stores: state.userStores,
   currentStore: state.currentStore.store,
   list: state.currentStore.list,
   essentials: state.currentStore.essentials,
   searching: state.itemSearch.searching,
   editingItem: state.currentStore.editingItem,
-  // editingList: state.currentStore.editingList,
-  // selectingItems: state.currentStore.selectingItems,
-  // selectedItems: state.currentStore.selectedItems,
-  // movingItems: state.currentStore.movingItems,
 });
 
 class ListPage extends Component {
   componentDidMount() {
-    this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
+    const {dispatch, categories, items, currentStore} = this.props;
+    dispatch({type: USER_ACTIONS.FETCH_USER});
 
-    if (this.props.items.length === 0) {
-      this.props.dispatch({
-        type: ITEM_ACTIONS.FETCH_ALL_ITEMS
-      });
-    }
+    if (items.length === 0) dispatch({type: ITEM_ACTIONS.FETCH_ALL_ITEMS});
+    if (categories.length === 0) dispatch({type: CATEGORY_ACTIONS.FETCH_ALL_CATEGORIES});
 
-    if (this.props.categories.length === 0) {
-      this.props.dispatch({
-        type: CATEGORY_ACTIONS.FETCH_ALL_CATEGORIES
-      });
-    }
-
-    if (this.props.currentStore.id) {
-      this.props.dispatch({
+    if (currentStore.id) {
+      dispatch({
         type: CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS,
-        payload: this.props.currentStore.id
+        payload: currentStore.id
       });
-      this.props.dispatch({
+      dispatch({
         type: CURRENT_STORE_ACTIONS.FETCH_STORE_ESSENTIALS,
-        payload: this.props.currentStore.id
+        payload: currentStore.id
       });
     }
   }
 
   componentDidUpdate() {
-    if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.history.push('home');
+    const {user, history} = this.props;
+    if (!user.isLoading && user.userName === null) {
+      history.push('home');
     }
   }
-
-
 
   render() {
     let content = null;
