@@ -19,14 +19,15 @@ class Store extends Component {
     // redirect to the list for that store
     this.props.history.push('list');
   };
-  toggleEditStore = () => {
-    console.log('editing store', this.props.storeObj);
+  goToStoreSettings = storeId => () => {
+    this.props.history.push(`/store/${storeId}/settings`);
   };
   render() {
+    const {storeObj} = this.props;
     return (
       <div>
-        <span onClick={this.setCurrentStore}>{this.props.storeObj.name}</span>
-        <EditButton onClick={this.toggleEditStore}>Edit</EditButton>
+        <span onClick={this.setCurrentStore}>{storeObj.name}</span>
+        <EditButton onClick={this.goToStoreSettings(storeObj.id)}>Settings</EditButton>
       </div>
     );
   }
