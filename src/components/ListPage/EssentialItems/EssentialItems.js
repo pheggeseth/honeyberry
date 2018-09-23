@@ -46,6 +46,12 @@ class EssentialItems extends Component {
   };
 
   stopEssentialsListEditing = () => {
+    this.props.dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS});
+    this.props.dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_SELECTION_MODE});
+    this.props.dispatch({type: CURRENT_STORE_ACTIONS.STOP_ESSENTIALS_EDITING_MODE});
+  };
+
+  updateEssentialsList = () => {
     const {dispatch, currentStore, selectedItems} = this.props;
     dispatch({
       type: CURRENT_STORE_ACTIONS.UPDATE_ESSENTIALS_LIST,
@@ -54,9 +60,7 @@ class EssentialItems extends Component {
         list: selectedItems,
       }
     });
-    dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS});
-    dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_SELECTION_MODE});
-    dispatch({type: CURRENT_STORE_ACTIONS.STOP_ESSENTIALS_EDITING_MODE});
+    this.stopEssentialsListEditing();
   };
 
   render() {
@@ -64,14 +68,11 @@ class EssentialItems extends Component {
     return(
       <div>
         <strong>essential items</strong>
-        {/* <button onClick={this.toggleEssentialsListEditing}>
-          {!editingEssentials
-            ? 'Edit'
-            : 'Save'
-          }
-        </button> */}
         {editingEssentials
-        ? <button onClick={this.stopEssentialsListEditing}>Save</button>
+        ? (<span>
+            <button onClick={this.stopEssentialsListEditing}>Undo</button>
+            <button onClick={this.updateEssentialsList}>Save</button>
+          </span>)
         : <button onClick={this.startEssentialsListEditing}>Edit</button>
         }
         <ul>
