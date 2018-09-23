@@ -39,31 +39,6 @@ const editingEssentials = (state = false, action) => {
   }
 };
 
-const selectingItems = (state = false, action) => {
-  if (action.type === CURRENT_STORE_ACTIONS.START_ITEM_SELECTION_MODE) {
-    return true;
-  } else if (action.type === CURRENT_STORE_ACTIONS.STOP_ITEM_SELECTION_MODE) {
-    return false;
-  } else {
-    return state;
-  }
-};
-
-const selectedItems = (state = [], action) => {
-  switch(action.type) {
-    case CURRENT_STORE_ACTIONS.SET_SELECTED_ITEMS:
-      return action.payload;
-    case CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS:
-      return [];
-    case CURRENT_STORE_ACTIONS.ADD_TO_SELECTED_ITEMS:
-      return [...state, action.payload];
-    case CURRENT_STORE_ACTIONS.REMOVE_FROM_SELECTED_ITEMS:
-      return state.filter(item => (item.item_id || item.id) !== (action.payload.item_id || action.payload.id));
-    default:
-      return state;
-  }
-};
-
 const editingItem = (state = false, action) => {
   if (action.type === CURRENT_STORE_ACTIONS.START_ITEM_EDITING_MODE) {
     return true;
@@ -132,8 +107,6 @@ export default combineReducers({
   editingEssentials,
   editingItem,
   itemToEdit,
-  selectingItems,
-  selectedItems,
   editingList,
   movingItems,
   itemMoveTargetStore,

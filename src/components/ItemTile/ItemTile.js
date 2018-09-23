@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { CURRENT_STORE_ACTIONS, addItemOrUpdateQuantity } from '../../redux/actions/currentStoreActions';
+import { ITEM_SELECT_ACTIONS } from '../../redux/actions/itemSelectActions';
 import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
 
 const Container = styled.li`
@@ -32,8 +33,8 @@ const mapStateToProps = state => ({
   currentStore: state.currentStore.store,
   currentList: state.currentStore.list,
   editingEssentials: state.currentStore.editingEssentials,
-  selectingItems: state.currentStore.selectingItems,
-  selectedItems: state.currentStore.selectedItems,
+  selectingItems: state.itemSelect.selectingItems,
+  selectedItems: state.itemSelect.selectedItems,
   editingList: state.currentStore.editingList,
 });
 
@@ -167,14 +168,14 @@ class ItemTile extends Component {
 
   selectItem = item => {
     this.props.dispatch({
-      type: CURRENT_STORE_ACTIONS.ADD_TO_SELECTED_ITEMS,
+      type: ITEM_SELECT_ACTIONS.ADD_TO_SELECTED_ITEMS,
       payload: item,
     });
   };
 
   deselectItem = item => {
     this.props.dispatch({
-      type: CURRENT_STORE_ACTIONS.REMOVE_FROM_SELECTED_ITEMS,
+      type: ITEM_SELECT_ACTIONS.REMOVE_FROM_SELECTED_ITEMS,
       payload: item
     });
   }

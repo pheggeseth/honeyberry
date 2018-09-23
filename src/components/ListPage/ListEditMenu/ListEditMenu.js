@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import { CURRENT_STORE_ACTIONS } from '../../../redux/actions/currentStoreActions';
+import { ITEM_SELECT_ACTIONS } from '../../../redux/actions/itemSelectActions';
 
 const ClickAway = styled.div`
   width: 100%;
@@ -14,8 +15,8 @@ const ClickAway = styled.div`
 
 const mapStateToProps = state => ({
   editingList: state.currentStore.editingList,
-  selectingItems: state.currentStore.selectingItems,
-  selectedItems: state.currentStore.selectedItems,
+  selectingItems: state.itemSelect.selectingItems,
+  selectedItems: state.itemSelect.selectedItems,
   currentStore: state.currentStore.store,
   movingItems: state.currentStore.movingItems,
   deletingItems: state.currentStore.deletingItems,
@@ -41,13 +42,13 @@ class ListEditMenu extends Component {
   }
 
   startListEditSelectMode = () => {
-    this.props.dispatch({type: CURRENT_STORE_ACTIONS.START_ITEM_SELECTION_MODE});
-    this.props.dispatch({type: CURRENT_STORE_ACTIONS.SET_SELECTED_ITEMS, payload: []});
+    this.props.dispatch({type: ITEM_SELECT_ACTIONS.START_ITEM_SELECTION_MODE});
+    this.props.dispatch({type: ITEM_SELECT_ACTIONS.SET_SELECTED_ITEMS, payload: []});
   };
 
   stopListEditSelectMode = () => {
-    this.props.dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS});
-    this.props.dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_SELECTION_MODE});
+    this.props.dispatch({type: ITEM_SELECT_ACTIONS.CLEAR_SELECTED_ITEMS});
+    this.props.dispatch({type: ITEM_SELECT_ACTIONS.STOP_ITEM_SELECTION_MODE});
   };
 
   startListItemMoveMode = () => {
@@ -95,8 +96,8 @@ class ListEditMenu extends Component {
     });
     dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_ITEM_MOVE_TARGET_STORE});
     dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_MOVE_MODE});
-    dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS});
-    dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_SELECTION_MODE});
+    dispatch({type: ITEM_SELECT_ACTIONS.CLEAR_SELECTED_ITEMS});
+    dispatch({type: ITEM_SELECT_ACTIONS.STOP_ITEM_SELECTION_MODE});
     dispatch({type: CURRENT_STORE_ACTIONS.STOP_LIST_EDITING_MODE});
   };
 
@@ -111,8 +112,8 @@ class ListEditMenu extends Component {
       }
     });
     dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_DELETE_MODE});
-    dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS});
-    dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_SELECTION_MODE});
+    dispatch({type: ITEM_SELECT_ACTIONS.CLEAR_SELECTED_ITEMS});
+    dispatch({type: ITEM_SELECT_ACTIONS.STOP_ITEM_SELECTION_MODE});
     dispatch({type: CURRENT_STORE_ACTIONS.STOP_LIST_EDITING_MODE});
   };
 
