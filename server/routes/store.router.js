@@ -204,6 +204,7 @@ router.put('/:currentStoreId/items/move', (req, res) => {
     });
 
 
+    // CODE FROM ATTEMPTING TO PASS AN ARRAY OF IDS AS JSON INTO A SQL QUERY
     // const queryText = `
     //   SELECT * FROM "store_item" WHERE "id" = ANY(json_array_elements($1));
     //   UPDATE "store_item" SET "store_id" = $2 WHERE "store_id" = $3;
@@ -298,16 +299,13 @@ router.delete('/items/delete', (req, res) => {
   if(req.isAuthenticated()) {    
     (async () => {
       try {
-        // await pool.query('BEGIN');
         const queryText = `DELETE FROM "store_item" WHERE "id" = $1;`;
-        const selectedItemIds = req.body.map(item => item.id);
+        const selectedItemIds = req.body.selectedItems.map(item => item.id);
         const queryPromises = selectedItemIds.map(id => pool.query(queryText, [id]));
         await Promise.all(queryPromises);
-        // await pool.query('COMMIT');
         res.sendStatus(200);
       } catch(error) {
         console.log(error);
-        // await pool.query('ROLLBACK');
         res.sendStatus(500);
       }
     })().catch(error=> {

@@ -172,11 +172,18 @@ function* moveSelectedItemsToTargetStore(action) {
 }
 
 function* deleteSelectedItemsFromStore(action) {
-  // try {
-
-  // } catch(error) {
-  //   console.log('removeSelectedItemsFromStore:', error);
-  // }
+  try {
+    const data = {
+      selectedItems: action.payload.selectedItems
+    };
+    yield call(axios.delete, '/api/store/items/delete', {data});
+    yield put({
+      type: CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS,
+      payload: action.payload.storeId
+    });
+  } catch(error) {
+    console.log('removeSelectedItemsFromStore:', error);
+  }
 }
 
 function* currentStoreSaga() {

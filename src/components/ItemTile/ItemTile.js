@@ -76,7 +76,7 @@ class ItemTile extends Component {
   };
 
   handleClick = () => {
-    const {currentListItem, completedListItem, essentialItem, categoryItem, searchResult} = this.props;
+    const {currentListItem, completedListItem, essentialItem, categoryItem, searchResult, areaItem} = this.props;
     if (currentListItem) {
       this.handleCurrentListItemClick();
     } else if (completedListItem) {

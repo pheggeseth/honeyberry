@@ -83,7 +83,7 @@ class ListEditMenu extends Component {
 
   moveSelectedItemsToTargetStore = () => {
     const {selectedItems, currentStore, itemMoveTargetStore, dispatch} = this.props;
-    console.log('moving items to store with id '+itemMoveTargetStore, selectedItems);
+    // console.log('moving items to store with id '+itemMoveTargetStore, selectedItems);
     dispatch({
       type: CURRENT_STORE_ACTIONS.MOVE_SELECTED_ITEMS_TO_TARGET_STORE,
       payload: {
@@ -100,7 +100,19 @@ class ListEditMenu extends Component {
   };
 
   deleteSelectedListItems = () => {
-    console.log('deleting items:', this.props.selectedItems);
+    // console.log('deleting items:', this.props.selectedItems);
+    const {selectedItems, currentStore, dispatch} = this.props;
+    dispatch({
+      type: CURRENT_STORE_ACTIONS.DELETE_SELECTED_ITEMS_FROM_STORE,
+      payload: {
+        selectedItems: selectedItems,
+        storeId: currentStore.id
+      }
+    });
+    dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_DELETE_MODE});
+    dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_SELECTED_ITEMS});
+    dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_SELECTION_MODE});
+    dispatch({type: CURRENT_STORE_ACTIONS.STOP_LIST_EDITING_MODE});
   };
 
   render() {
