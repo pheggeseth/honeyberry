@@ -25,10 +25,11 @@ const mapStateToProps = state => ({
 
 class ListEditMenu extends Component {
   componentWillUnmount() {
-    this.stopListEditMode();
-    this.stopListEditSelectMode();
-    this.stopListItemMoveMode();
-    this.stopListItemDeleteMode();
+    const {editingList, selectingItems, movingItems, deletingItems} = this.props;
+    if (editingList) this.stopListEditMode();
+    if (selectingItems) this.stopListEditSelectMode();
+    if (movingItems) this.stopListItemMoveMode();
+    if (deletingItems) this.stopListItemDeleteMode();
   }
 
   startListEditMode = () => {

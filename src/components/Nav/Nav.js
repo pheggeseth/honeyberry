@@ -20,6 +20,11 @@ const Nav = () => (
             Stores
           </Link>
         </li>
+        <li>
+          <Link to="/more">
+            More
+          </Link>
+        </li>
       </ul>
     </div>
   </div>

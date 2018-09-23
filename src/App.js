@@ -15,6 +15,7 @@ import UserPage from './components/UserPage/UserPage';
 // import InfoPage from './components/InfoPage/InfoPage';
 import ListPage from './components/ListPage/ListPage';
 import StoresPage from './components/StoresPage/StoresPage';
+import StoreSettingsPage from './components/StoreSettingsPage/StoreSettingsPage';
 
 import './styles/main.css';
 
@@ -45,6 +46,10 @@ class App extends React.Component {
             <Route
               path="/stores"
               component={StoresPage}
+            />
+            <Route
+              path="/store/:id/settings"
+              component={StoreSettingsPage}
             />
             {/* OTHERWISE (no path!) */}
             <Route render={() => <h1>404</h1>} />
