@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
-import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
-import { CATEGORY_ACTIONS } from '../../redux/actions/categoryActions';
 
 import ItemSearch from '../ItemSearch/ItemSearch';
 import ItemEdit from '../ItemEdit/ItemEdit';
@@ -18,8 +16,6 @@ import ListEditMenu from './ListEditMenu/ListEditMenu';
 
 const mapStateToProps = state => ({
   user: state.user,
-  items: state.items,
-  categories: state.categories,
   currentStore: state.currentStore.store,
   list: state.currentStore.list,
   essentials: state.currentStore.essentials,
@@ -29,11 +25,8 @@ const mapStateToProps = state => ({
 
 class ListPage extends Component {
   componentDidMount() {
-    const {dispatch, categories, items, currentStore} = this.props;
+    const {dispatch, currentStore} = this.props;
     dispatch({type: USER_ACTIONS.FETCH_USER});
-
-    if (items.length === 0) dispatch({type: ITEM_ACTIONS.FETCH_ALL_ITEMS});
-    if (categories.length === 0) dispatch({type: CATEGORY_ACTIONS.FETCH_ALL_CATEGORIES});
 
     if (currentStore.id) {
       dispatch({
@@ -85,7 +78,6 @@ class ListPage extends Component {
     return (
       <div>
         <Nav />
-        {/* {JSON.stringify(list)} */}
         <ListEditMenu />
         { user.userName ? content : null }
       </div>

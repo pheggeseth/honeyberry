@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
+import { CATEGORY_ACTIONS } from '../../redux/actions/categoryActions';
+
 import CategoryLabel from '../CategoryLabel/CategoryLabel';
 import ItemTile from '../ItemTile/ItemTile';
 
@@ -17,11 +20,24 @@ class ItemsAll extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categories: this.props.categories.map(category => ({
-        ...category,
-        visible: false
-      }))
+      categories: []
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {items, categories, dispatch} = nextProps;
+    if (items.length === 0) dispatch({type: ITEM_ACTIONS.FETCH_ALL_ITEMS});
+    if (categories.length === 0) dispatch({type: CATEGORY_ACTIONS.FETCH_ALL_CATEGORIES});
+    if (categories.length !== prevState.categories.length) {
+      return {
+        categories: categories.map(category => ({
+          ...category,
+          visible: false
+        }))
+      }
+    } else {
+      return prevState;
+    }
   }
 
   toggleCategoryVisibility = index => () => {
