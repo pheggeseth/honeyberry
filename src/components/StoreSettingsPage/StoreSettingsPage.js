@@ -9,6 +9,7 @@ import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
 import { AREA_ACTIONS } from '../../redux/actions/areaActions';
 import { ITEM_SELECT_ACTIONS } from '../../redux/actions/itemSelectActions';
 
+import StoreAreas from '../StoreAreas/StoreAreas';
 import ItemsAll from '../ItemsAll/ItemsAll';
 
 const mapStateToProps = state => ({
@@ -89,15 +90,21 @@ class StoreSettingsPage extends Component {
     return (
       <div>
         <Nav />
-        {JSON.stringify(this.props.areas)}<br />
-        <input type="text" placeholder="Store Name"
-          value={this.state.storeName} 
-          onChange={this.handleStoreNameChange}
-        />
-        <input type="text" placeholder="Add a new area."
-        value={this.state.newAreaName}
-        onChange={this.handleNewAreaNameChange} 
-        /> <button onClick={this.addNewArea}>Add</button>
+        <div>
+          {JSON.stringify(this.props.areas)}<br />
+          <input type="text" placeholder="Store Name"
+            value={this.state.storeName} 
+            onChange={this.handleStoreNameChange}
+          />
+        </div>
+        <div>
+          <input type="text" placeholder="Add a new area."
+            value={this.state.newAreaName}
+            onChange={this.handleNewAreaNameChange} 
+          /> 
+          <button onClick={this.addNewArea}>Add</button>
+        </div>
+        <StoreAreas />
         <ItemsAll />
       </div>
     );

@@ -10,10 +10,10 @@ import ItemTile from '../ItemTile/ItemTile';
 const mapStateToProps = state => ({
   categories: state.categories,
   items: state.items,
-  currentStore: state.currentStore.store,
-  currentList: state.currentStore.list,
-  currentStoreEssentialItems: state.currentStore.essentials,
-  editingEssentials: state.currentStore.editingEssentials,
+  // currentStore: state.currentStore.store,
+  // currentList: state.currentStore.list,
+  // currentStoreEssentialItems: state.currentStore.essentials,
+  // editingEssentials: state.currentStore.editingEssentials,
 });
 
 class ItemsAll extends Component {

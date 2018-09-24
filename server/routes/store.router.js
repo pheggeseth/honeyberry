@@ -111,6 +111,7 @@ router.get('/:storeId/areas', (req, res) => {
           const areaItems = areaItemsResponse.rows;
           const areaItemsInOrder = areaAtOrderPosition.item_order.map(itemId => areaItems.find(area_item => area_item.id === itemId));
           areaAtOrderPosition.items = areaItemsInOrder;
+          areaAtOrderPosition.visible = false;
 
           return areaAtOrderPosition;
         }));
