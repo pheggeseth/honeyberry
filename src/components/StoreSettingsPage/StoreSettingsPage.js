@@ -43,14 +43,18 @@ class StoreSettingsPage extends Component {
   }
 
   componentDidMount() {
-    const {dispatch} = this.props;
+    const {dispatch, match} = this.props;
     dispatch({type: USER_ACTIONS.FETCH_USER});
     dispatch({type: STORE_ACTIONS.FETCH_USER_STORES});
+    dispatch({
+      type: CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS,
+      payload: match.params.id
+    });
   }
 
   componentDidUpdate() {
     const {user, history} = this.props;
-    const {dispatch, currentStore, match, userStores, areas} = this.props;
+    const {dispatch, currentStore, match, userStores} = this.props;
     if (!user.isLoading && user.userName === null) {
       history.push('home');
     }
@@ -59,13 +63,6 @@ class StoreSettingsPage extends Component {
       dispatch({
         type: STORE_ACTIONS.SET_CURRENT_STORE,
         payload: userStores.find(store => store.id === Number(match.params.id))
-      });
-    }
-
-    if (currentStore.id === Number(match.params.id) && areas.length === 0) {
-      dispatch({
-        type: CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS,
-        payload: currentStore.id
       });
     }
   }
