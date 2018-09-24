@@ -186,6 +186,19 @@ function* deleteSelectedItemsFromStore(action) {
   }
 }
 
+function* fetchStoreAreas(action) {
+  try {
+    const storeId = action.payload;
+    const responseAreas = yield call(axios.get, `/api/store/${storeId}/areas`);
+    yield put({
+      type: CURRENT_STORE_ACTIONS.SET_STORE_AREAS,
+      payload: responseAreas.data
+    });
+  } catch(error) {
+    console.log('fetchStoreAreas saga error:', error);
+  }
+}
+
 function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS, fetchItemsInCurrentStore);
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_STORE_ESSENTIALS, fetchCurrentStoreEssentialItems);
@@ -198,6 +211,7 @@ function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.REMOVE_ITEM, removeItem);
   yield takeEvery(CURRENT_STORE_ACTIONS.MOVE_SELECTED_ITEMS_TO_TARGET_STORE, moveSelectedItemsToTargetStore);
   yield takeEvery(CURRENT_STORE_ACTIONS.DELETE_SELECTED_ITEMS_FROM_STORE, deleteSelectedItemsFromStore);
+  yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS, fetchStoreAreas);
 }
 
 export default currentStoreSaga;

@@ -73,6 +73,63 @@ router.get('/:storeId/essentials', (req, res) => {
   }
 });
 
+router.get('/:storeId/areas', (req, res) => {
+  if (req.isAuthenticated()) {
+    const storeId = req.params.storeId;
+    (async () => {
+      try {
+        const areaOrderQueryText = `SELECT "area_order" from "store" WHERE "id" = $1;`;
+        const areaOrderResponse = await pool.query(areaOrderQueryText, [storeId]);
+        console.log('area order:', areaOrderResponse.rows[0].area_order);
+        const areaOrder = areaOrderResponse.rows[0].area_order;
+
+        const areasQueryText = `SELECT
+          "area"."id",
+          "area"."name",
+          "area"."store_id",
+          "area"."item_order"
+        FROM "area" WHERE "store_id" = $1;`;
+        const areasResponse = await pool.query(areasQueryText, [storeId]);
+        const areas = areasResponse.rows;
+
+        
+        const areasInOrderWithItems = await Promise.all(areaOrder.map(async areaId => {
+          const areaAtOrderPosition = areas.find(area => area.id === areaId);
+          
+          const areaItemsQueryText = `SELECT
+            "area_item"."id",
+            "area_item"."area_id",
+            "area_item"."item_id",
+            "item"."name" as "name",
+            "item"."default_unit" as "default_unit",
+            "item"."category_id" as "category_id",
+            "item"."image_path" as "image_path"
+          FROM "area_item" 
+          JOIN "item" ON "area_item"."item_id" = "item"."id"
+          WHERE "area_item"."area_id" = $1;`;
+          const areaItemsResponse = await pool.query(areaItemsQueryText, [areaAtOrderPosition.id]);
+          const areaItems = areaItemsResponse.rows;
+          const areaItemsInOrder = areaAtOrderPosition.item_order.map(itemId => areaItems.find(area_item => area_item.id === itemId));
+          areaAtOrderPosition.items = areaItemsInOrder;
+
+          return areaAtOrderPosition;
+        }));
+
+        res.send(areasInOrderWithItems);
+
+      } catch(error) {
+        console.log(`/api/store/${storeId}/areas GET error:`, error);
+        res.sendStatus(500);
+      }
+    })().catch(error => {
+      console.log(`/api/store/${storeId}/areas GET error:`, error);
+      res.sendStatus(500);
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 /**
  * POST route template
  */

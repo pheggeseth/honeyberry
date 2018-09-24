@@ -99,6 +99,14 @@ const deletingItems = (state = false, action) => {
   }
 };
 
+const areas = (state = [], action) => {
+  if (action.type === CURRENT_STORE_ACTIONS.SET_STORE_AREAS) {
+    return action.payload;
+  } else {
+    return state;
+  }
+};
+
 // IMPORTED TO MAIN REDUX STORE AS "currentStore"
 export default combineReducers({
   store,
@@ -111,4 +119,5 @@ export default combineReducers({
   movingItems,
   itemMoveTargetStore,
   deletingItems,
+  areas,
 });

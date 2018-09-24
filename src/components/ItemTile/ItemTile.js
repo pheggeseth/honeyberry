@@ -88,6 +88,8 @@ class ItemTile extends Component {
       this.handleCategoryItemClick();
     } else if (searchResult) {
       this.handleSearchResultClick();
+    } else if (areaItem) {
+      this.handleAreaItemClick();
     }
   };
 
@@ -144,6 +146,10 @@ class ItemTile extends Component {
       dispatch({type: ITEM_ACTIONS.STOP_ITEM_SEARCH_MODE});
       this.addItemToCurrentList(item);
     }
+  };
+
+  handleAreaItemClick = () => {
+    console.log('clicked area item');
   };
   
   handleLongPress = () => {

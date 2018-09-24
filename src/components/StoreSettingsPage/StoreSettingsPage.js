@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { STORE_ACTIONS } from '../../redux/actions/storeActions';
+import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
+import { AREA_ACTIONS } from '../../redux/actions/areaActions';
 import { ITEM_SELECT_ACTIONS } from '../../redux/actions/itemSelectActions';
 
 import ItemsAll from '../ItemsAll/ItemsAll';
@@ -15,6 +17,7 @@ const mapStateToProps = state => ({
   currentStore: state.currentStore.store,
   items: state.items,
   categories: state.categories,
+  areas: state.currentStore.areas,
   selectingItems: state.itemSelect.selectingItems,
   selectedItems: state.itemSelect.selectedItems,
 });
@@ -24,7 +27,8 @@ class StoreSettingsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      storeName: ''
+      storeName: '',
+      newAreaName: ''
     };
   }
 
@@ -46,7 +50,7 @@ class StoreSettingsPage extends Component {
 
   componentDidUpdate() {
     const {user, history} = this.props;
-    const {dispatch, currentStore, match, userStores} = this.props;
+    const {dispatch, currentStore, match, userStores, areas} = this.props;
     if (!user.isLoading && user.userName === null) {
       history.push('home');
     }
@@ -57,20 +61,46 @@ class StoreSettingsPage extends Component {
         payload: userStores.find(store => store.id === Number(match.params.id))
       });
     }
+
+    if (currentStore.id === Number(match.params.id) && areas.length === 0) {
+      dispatch({
+        type: CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS,
+        payload: currentStore.id
+      });
+    }
   }
 
-  changeStoreName = event => {
+  handleStoreNameChange = event => {
     this.setState({
       storeName: event.target.value
     });
   };
 
+  handleNewAreaNameChange = event => {
+    this.setState({
+      newAreaName: event.target.value
+    });
+  };
+
+  addNewArea = () => {
+    const {currentStore} = this.props;
+    console.log(`add new area ${this.state.newAreaName} to store ${currentStore.name}`);
+  };
+
   render() {
-    const storeId = this.props.match.params.id;
+    // const storeId = this.props.match.params.id;
     return (
       <div>
         <Nav />
-        <input type="text" value={this.state.storeName} onChange={this.changeStoreName}/>
+        {JSON.stringify(this.props.areas)}<br />
+        <input type="text" placeholder="Store Name"
+          value={this.state.storeName} 
+          onChange={this.handleStoreNameChange}
+        />
+        <input type="text" placeholder="Add a new area."
+        value={this.state.newAreaName}
+        onChange={this.handleNewAreaNameChange} 
+        /> <button onClick={this.addNewArea}>Add</button>
         <ItemsAll />
       </div>
     );
