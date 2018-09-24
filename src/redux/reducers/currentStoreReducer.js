@@ -99,6 +99,16 @@ const deletingItems = (state = false, action) => {
   }
 };
 
+const editingAreaId = (state = null, action) => {
+  if (action.type === CURRENT_STORE_ACTIONS.START_AREA_EDITING_MODE) {
+    return action.payload;
+  } else if (action.type === CURRENT_STORE_ACTIONS.STOP_AREA_EDITING_MODE) {
+    return null;
+  } else {
+    return state;
+  }
+};
+
 const areas = (state = [], action) => {
   if (action.type === CURRENT_STORE_ACTIONS.SET_STORE_AREAS) {
     return action.payload;
@@ -119,5 +129,6 @@ export default combineReducers({
   movingItems,
   itemMoveTargetStore,
   deletingItems,
+  editingAreaId,
   areas,
 });
