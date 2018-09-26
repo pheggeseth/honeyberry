@@ -47,6 +47,7 @@ class StoreSettingsPage extends Component {
     const {dispatch, match} = this.props;
     dispatch({type: USER_ACTIONS.FETCH_USER});
     dispatch({type: STORE_ACTIONS.FETCH_USER_STORES});
+    dispatch({type: CURRENT_STORE_ACTIONS.START_STORE_SETTINGS_EDIT});
     dispatch({
       type: CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS,
       payload: match.params.id
@@ -66,6 +67,10 @@ class StoreSettingsPage extends Component {
         payload: userStores.find(store => store.id === Number(match.params.id))
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch({type: CURRENT_STORE_ACTIONS.STOP_STORE_SETTINGS_EDIT});
   }
 
   handleStoreNameChange = event => {

@@ -36,6 +36,7 @@ const mapStateToProps = state => ({
   selectingItems: state.itemSelect.selectingItems,
   selectedItems: state.itemSelect.selectedItems,
   editingList: state.currentStore.editingList,
+  editingStoreSettings: state.currentStore.editingStoreSettings,
   editingAreaId: state.currentStore.editingAreaId,
 });
 
@@ -149,6 +150,7 @@ class ItemTile extends Component {
       selectingItems, 
       item, 
       editingList,
+      editingStoreSettings,
       editingAreaId,
     } = this.props;
     if ((editingEssentials && selectingItems) || (editingAreaId && selectingItems)) {
@@ -157,7 +159,7 @@ class ItemTile extends Component {
       } else {
         this.selectItem(item);
       }
-    } else if (!editingList) {
+    } else if (!editingStoreSettings && !editingList) {
       this.addItemToCurrentList(item);
     }
   };
@@ -217,11 +219,11 @@ class ItemTile extends Component {
   }
 
   render() {
-    const {currentList, selectingItems, item} = this.props;
+    const {currentList, selectingItems, editingStoreSettings, item} = this.props;
     let className;
     if (selectingItems && this.itemIsCurrentlySelected(item)) {
       className = 'selected';
-    } else if (!selectingItems && !item.completed && itemIsInCurrentList(currentList, item)) {
+    } else if (!editingStoreSettings && !selectingItems && !item.completed && itemIsInCurrentList(currentList, item)) {
       className = 'inCurrentList';
     }
     return (

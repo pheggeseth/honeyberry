@@ -240,22 +240,26 @@ router.post('/area/:areaId/items', (req, res) => {
   if (req.isAuthenticated()) {
     (async () => {
       try {
-        const {areaId} = req.params;
+        const areaId = Number(req.params.areaId);
         const items = req.body;
+        console.log('items:', items);
         const itemIdPairs = items.map(item => [areaId, (item.item_id || item.id)]);
-        await pool.query('BEGIN');
+        console.log('itemIdPairs:', itemIdPairs);
+        // await pool.query('BEGIN');
         await pool.query(`DELETE FROM "area_item" WHERE "area_id" = $1;`, [areaId]);
+        console.log('delete done');
         const insertItemsQueryText = `INSERT INTO "area_item" ("area_id", "item_id") VALUES ($1, $2);`;
         const insertQueries = itemIdPairs.map(values => pool.query(insertItemsQueryText, values));
         await Promise.all(insertQueries);
+        console.log('inserts done');
         const newAreaItemRows = await pool.query(`SELECT "id" FROM "area_item" WHERE "area_id" = $1;`, [areaId]);
         const newAreaItemIds = newAreaItemRows.rows.map(item => item.id);
         console.log('newAreaItems:', newAreaItemIds);
         await pool.query('UPDATE "area" SET "item_order" = $1 WHERE "id" = $2;', [JSON.stringify(newAreaItemIds), areaId]);
-        await pool.query('COMMIT');
+        // await pool.query('COMMIT');
         res.sendStatus(200);
       } catch(error) {
-        await pool.query('ROLLBACK');
+        // await pool.query('ROLLBACK');
         console.log(`/api/store/area/${areaId}/items POST error:`, error);
         throw error;
       }
@@ -306,15 +310,15 @@ router.put('/:currentStoreId/items/move', (req, res) => {
 
     (async () => {
       try {
-        await pool.query('BEGIN');
+        // await pool.query('BEGIN');
         const queryText = `UPDATE "store_item" SET "store_id" = $1 WHERE "store_id" = $2 AND "id" = $3;`;
         const queryPromises = selectedItemIds.map(id => pool.query(queryText, [newStoreId, currentStoreId, id]));
         await Promise.all(queryPromises);
-        await pool.query('COMMIT');
+        // await pool.query('COMMIT');
         res.sendStatus(200);
       } catch(error) {
         console.log(`/api/store/${currentStoreId}/items/move PUT error:`, error);
-        await pool.query('ROLLBACK');
+        // await pool.query('ROLLBACK');
         throw error;
       }
     })().catch(error => {
