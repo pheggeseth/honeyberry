@@ -53,7 +53,7 @@ class ItemTile extends Component {
       editingList, 
       currentListItem, 
       completedListItem,
-      areas, 
+      // areas, 
       areaItem,
       editingAreaId,
     } = this.props;

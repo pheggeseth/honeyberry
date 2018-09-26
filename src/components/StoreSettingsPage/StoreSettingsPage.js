@@ -6,8 +6,8 @@ import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { STORE_ACTIONS } from '../../redux/actions/storeActions';
 import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
-import { AREA_ACTIONS } from '../../redux/actions/areaActions';
-import { ITEM_SELECT_ACTIONS } from '../../redux/actions/itemSelectActions';
+// import { AREA_ACTIONS } from '../../redux/actions/areaActions';
+// import { ITEM_SELECT_ACTIONS } from '../../redux/actions/itemSelectActions';
 
 import StoreAreas from '../StoreAreas/StoreAreas';
 import ItemsAll from '../ItemsAll/ItemsAll';
@@ -81,8 +81,18 @@ class StoreSettingsPage extends Component {
   };
 
   addNewArea = () => {
-    const {currentStore} = this.props;
+    const {currentStore, dispatch} = this.props;
     console.log(`add new area ${this.state.newAreaName} to store ${currentStore.name}`);
+    dispatch({
+      type: CURRENT_STORE_ACTIONS.ADD_STORE_AREA,
+      payload: {
+        areaName: this.state.newAreaName,
+        storeId: currentStore.id,
+      }
+    });
+    this.setState({
+      newAreaName: ''
+    });
   };
 
   render() {
@@ -91,14 +101,14 @@ class StoreSettingsPage extends Component {
       <div>
         <Nav />
         <div>
-          {JSON.stringify(this.props.areas)}<br />
-          <input type="text" placeholder="Store Name"
+          {/* {JSON.stringify(this.props.areas)}<br /> */}
+          Store Name: <input type="text" placeholder="Store Name"
             value={this.state.storeName} 
             onChange={this.handleStoreNameChange}
           />
         </div>
         <div>
-          <input type="text" placeholder="Add a new area."
+          Add New Area: <input type="text" placeholder="Name"
             value={this.state.newAreaName}
             onChange={this.handleNewAreaNameChange} 
           /> 

@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
   if (req.isAuthenticated()) {
     console.log('/api/store GET hit');
-    const queryText = `SELECT "id", "name" FROM "store" WHERE "person_id" = $1;`;
+    const queryText = `SELECT "id", "name", "area_order" FROM "store" WHERE "person_id" = $1;`;
     pool.query(queryText, [req.user.id])
     .then(response => res.send(response.rows))
     .catch(error => {
@@ -208,6 +208,35 @@ router.post('/essential', (req, res) => {
   }
 });
 
+router.post('/area', (req, res) => {
+  if (req.isAuthenticated()) {
+    (async () => {
+      try {
+        await pool.query('BEGIN');
+        const userId = req.user.id;
+        const {areaName, storeId} = req.body;
+        const insertQueryText = `INSERT INTO "area" ("name", "person_id", "store_id") VALUES ($1, $2, $3) RETURNING "id";`;
+        const insertResponse = await pool.query(insertQueryText, [areaName, userId, storeId]);
+        const newAreaId = insertResponse.rows[0].id;
+        const storeAreaOrderResponse = await pool.query(`SELECT "area_order" FROM "store" WHERE "id" = $1;`, [storeId]);
+        const storeAreaOrderArray = storeAreaOrderResponse.rows[0].area_order;
+        storeAreaOrderArray.push(newAreaId);
+        await pool.query(`UPDATE "store" SET "area_order" = $1 WHERE "id" = $2;`, [JSON.stringify(storeAreaOrderArray), storeId]);
+        await pool.query('COMMIT');
+        res.sendStatus(200);
+      } catch(error) {
+        await pool.query('ROLLBACK');
+        throw error;
+      }
+    })().catch(error => {
+      console.log('/api/store/area POST error:', error);
+      res.sendStatus(500);
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 router.post('/area/:areaId/items', (req, res) => {
   if (req.isAuthenticated()) {
     const {areaId} = req.params;
@@ -216,6 +245,7 @@ router.post('/area/:areaId/items', (req, res) => {
     pool.query(`DELETE FROM "area_item" WHERE "area_id" = $1;`, [areaId])
     .then(async () => {
       try {
+        await pool.query('BEGIN');
         const insertItemsQueryText = `INSERT INTO "area_item" ("area_id", "item_id") VALUES ($1, $2);`;
         const insertQueries = itemIdPairs.map(values => pool.query(insertItemsQueryText, values));
         await Promise.all(insertQueries);
@@ -223,15 +253,16 @@ router.post('/area/:areaId/items', (req, res) => {
         const newAreaItemIds = newAreaItemRows.rows.map(item => item.id);
         console.log('newAreaItems:', newAreaItemIds);
         await pool.query('UPDATE "area" SET "item_order" = $1 WHERE "id" = $2;', [JSON.stringify(newAreaItemIds), areaId]);
+        await pool.query('COMMIT');
         res.sendStatus(200);
       } catch(error) {
-        console.log(error);
-        res.sendStatus(500);
+        await pool.query('ROLLBACK');
+        console.log(`/api/store/area/${areaId}/items POST error:`, error);
+        throw error;
       }
     }).catch(error => {
-      console.log(error);
       res.sendStatus(500);
-    })
+    });
   } else {
     res.sendStatus(401);
   }
@@ -240,7 +271,6 @@ router.post('/area/:areaId/items', (req, res) => {
 router.put('/item/completed', (req, res) => {
   if (req.isAuthenticated()) {
     const item = req.body;
-    // console.log('item', item);
     const queryText = `UPDATE "store_item" SET "completed" = $1 WHERE "id" = $2;`;
 
     pool.query(queryText, [item.completed, item.id])
@@ -277,16 +307,18 @@ router.put('/:currentStoreId/items/move', (req, res) => {
 
     (async () => {
       try {
+        await pool.query('BEGIN');
         const queryText = `UPDATE "store_item" SET "store_id" = $1 WHERE "store_id" = $2 AND "id" = $3;`;
         const queryPromises = selectedItemIds.map(id => pool.query(queryText, [newStoreId, currentStoreId, id]));
         await Promise.all(queryPromises);
+        await pool.query('COMMIT');
         res.sendStatus(200);
       } catch(error) {
-        console.log(error);
-        res.sendStatus(500);
+        console.log(`/api/store/${currentStoreId}/items/move PUT error:`, error);
+        await pool.query('ROLLBACK');
+        throw error;
       }
     })().catch(error => {
-      console.log(error);
       res.sendStatus(500);
     });
 

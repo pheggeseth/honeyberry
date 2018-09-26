@@ -186,6 +186,20 @@ function* deleteSelectedItemsFromStore(action) {
   }
 }
 
+function* addStoreArea(action) {
+  try {
+    // payload: areaName, storeId
+    console.log(action.payload);
+    yield call(axios.post, '/api/store/area', action.payload);
+    yield put({
+      type: CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS,
+      payload: action.payload.storeId
+    })
+  } catch(error) {
+    console.log('addStoreArea saga error:', error);
+  }
+}
+
 function* fetchStoreAreas(action) {
   try {
     const storeId = action.payload;
@@ -225,6 +239,7 @@ function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.MOVE_SELECTED_ITEMS_TO_TARGET_STORE, moveSelectedItemsToTargetStore);
   yield takeEvery(CURRENT_STORE_ACTIONS.DELETE_SELECTED_ITEMS_FROM_STORE, deleteSelectedItemsFromStore);
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS, fetchStoreAreas);
+  yield takeEvery(CURRENT_STORE_ACTIONS.ADD_STORE_AREA, addStoreArea);
   yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_AREA_ITEMS, updateAreaItems);
 }
 

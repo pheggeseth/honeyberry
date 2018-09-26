@@ -55,6 +55,8 @@ class StoreAreas extends Component {
         if (area.id === id) {
           indexFound = index;
           return true;
+        } else {
+          return false;
         }
       });
       areaToToggle = {
