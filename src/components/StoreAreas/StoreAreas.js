@@ -72,6 +72,9 @@ class StoreAreas extends Component {
 
   startEditingArea = area => () => {
     const {dispatch} = this.props;
+    if (this.state.areaVisibility.find(a => a.id === area.id).visible === false) {
+      this.toggleAreaVisiblity(area.id)();
+    }
     dispatch({
       type: CURRENT_STORE_ACTIONS.START_AREA_EDITING_MODE,
       payload: area.id
