@@ -44,11 +44,12 @@ class StoreAreas extends Component {
   // }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.areas && nextProps.areas.length !== prevState.areaVisibility.length) {
-      const areaVisibility = nextProps.areas.map(area => ({
-        id: area.id,
-        visible: false,
-      }));
+    if (nextProps.areas && nextProps.areas.length !== Object.keys(prevState.areaVisibility).length) {
+      console.log('reset areaVisibility');
+      const areaVisibility = nextProps.areas.reduce((acc, area) => {
+        acc[area.id] = false;
+        return acc;
+      }, {});
       return {
         areaVisibility
       };
@@ -58,31 +59,16 @@ class StoreAreas extends Component {
   }
 
   toggleAreaVisiblity = id => () => {
-    this.setState(prevState => {
-      const areaVisibility = [...prevState.areaVisibility];
-      let indexFound;
-      let areaToToggle = areaVisibility.find((area, index) => {
-        if (area.id === id) {
-          indexFound = index;
-          return true;
-        } else {
-          return false;
-        }
-      });
-      areaToToggle = {
-        ...areaToToggle,
-        visible: !areaToToggle.visible
-      };
-      areaVisibility.splice(indexFound, 1, areaToToggle);
-      return {
-        areaVisibility
-      };
+    const areaVisibility = {...this.state.areaVisibility};
+    areaVisibility[id] = !areaVisibility[id];
+    this.setState({
+      areaVisibility
     });
   };
 
   startEditingArea = area => () => {
     const {dispatch} = this.props;
-    if (this.state.areaVisibility.find(a => a.id === area.id).visible === false) {
+    if (this.state.areaVisibility[area.id] === false) {
       this.toggleAreaVisiblity(area.id)();
     }
     dispatch({
@@ -133,6 +119,7 @@ class StoreAreas extends Component {
   render() {
     const {editingAreaId, areas} = this.props;
     const {areaVisibility} = this.state;
+    console.log(areaVisibility);
     if (areas) {
       return (
         <div>
@@ -146,7 +133,7 @@ class StoreAreas extends Component {
                 </span>
               : <button onClick={this.startEditingArea(area)}>Edit</button>}
               <button onClick={this.deleteArea(area)}>Delete</button>
-              {areaVisibility.find(a => a.id === area.id).visible
+              {areaVisibility[area.id]
               ? <ul>
                   {area.items.map(item => (
                     <ItemTile key={item.id}
