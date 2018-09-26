@@ -66,15 +66,6 @@ class StoreAreas extends Component {
         areaVisibility
       };
     });
-    // this.setState(prevState => {
-    //   const areas = [...prevState.areas];
-    //   const areaToToggle = {...areas[index]};
-    //   areaToToggle.visible = !areaToToggle.visible;
-    //   areas.splice(index, 1, areaToToggle);
-    //   return {
-    //     areas
-    //   };
-    // });
   };
 
   startEditingArea = area => () => {
@@ -92,9 +83,6 @@ class StoreAreas extends Component {
 
   saveAreaEdits = area => () => {
     const {dispatch, currentStore, selectedItems} = this.props;
-    // console.log('saving area edits:', selectedItems);
-    // delete items from area_items table, save new area items, 
-    // then save json array as area item_order
     dispatch({
       type: CURRENT_STORE_ACTIONS.UPDATE_AREA_ITEMS,
       payload: {
