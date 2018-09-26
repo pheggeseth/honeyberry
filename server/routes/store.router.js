@@ -80,7 +80,7 @@ router.get('/:storeId/areas', (req, res) => {
       try {
         const areaOrderQueryText = `SELECT "area_order" from "store" WHERE "id" = $1;`;
         const areaOrderResponse = await pool.query(areaOrderQueryText, [storeId]);
-        console.log('area order:', areaOrderResponse.rows[0].area_order);
+        // console.log('area order:', areaOrderResponse.rows[0].area_order);
         const areaOrder = areaOrderResponse.rows[0].area_order;
 
         const areasQueryText = `SELECT
@@ -120,10 +120,9 @@ router.get('/:storeId/areas', (req, res) => {
 
       } catch(error) {
         console.log(`/api/store/${storeId}/areas GET error:`, error);
-        res.sendStatus(500);
+        throw error;
       }
     })().catch(error => {
-      console.log(`/api/store/${storeId}/areas GET error:`, error);
       res.sendStatus(500);
     });
   } else {
@@ -239,13 +238,13 @@ router.post('/area', (req, res) => {
 
 router.post('/area/:areaId/items', (req, res) => {
   if (req.isAuthenticated()) {
-    const {areaId} = req.params;
-    const items = req.body;
-    const itemIdPairs = items.map(item => [areaId, (item.item_id || item.id)]);
-    pool.query(`DELETE FROM "area_item" WHERE "area_id" = $1;`, [areaId])
-    .then(async () => {
+    (async () => {
       try {
+        const {areaId} = req.params;
+        const items = req.body;
+        const itemIdPairs = items.map(item => [areaId, (item.item_id || item.id)]);
         await pool.query('BEGIN');
+        await pool.query(`DELETE FROM "area_item" WHERE "area_id" = $1;`, [areaId]);
         const insertItemsQueryText = `INSERT INTO "area_item" ("area_id", "item_id") VALUES ($1, $2);`;
         const insertQueries = itemIdPairs.map(values => pool.query(insertItemsQueryText, values));
         await Promise.all(insertQueries);
@@ -260,7 +259,7 @@ router.post('/area/:areaId/items', (req, res) => {
         console.log(`/api/store/area/${areaId}/items POST error:`, error);
         throw error;
       }
-    }).catch(error => {
+    })().catch(error => {
       res.sendStatus(500);
     });
   } else {
@@ -431,6 +430,40 @@ router.delete('/items/delete', (req, res) => {
       console.log(error);
       res.sendStatus(500);
     });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+router.delete('/:storeId/area/:areaId', (req, res) => {
+  if (req.isAuthenticated()) {
+    (async () => {
+      try {
+        await pool.query('BEGIN');
+        const {storeId, areaId} = req.params;
+        // delete items in this area first
+        await pool.query(`DELETE FROM "area_item" WHERE "area_id" = $1;`, [areaId]);
+        // get the area_order JSON array from the store
+        const storeAreaOrderResponse = await pool.query(`SELECT "area_order" FROM "store" WHERE "id" = $1;`, [storeId]);
+        const storeAreaOrderArray = storeAreaOrderResponse.rows[0].area_order;
+        // splice out areaId from area order array
+        const indexOfAreaInArray = storeAreaOrderArray.findIndex(area => area.id === areaId);
+        storeAreaOrderArray.splice(indexOfAreaInArray, 1);
+        // store the array back in the store
+        await pool.query(`UPDATE "store" SET "area_order" = $1 WHERE "id" = $2;`, [JSON.stringify(storeAreaOrderArray), storeId]);
+        // delete area from area table with id
+        await pool.query(`DELETE FROM "area" WHERE "id" = $1;`, [areaId]);
+        await pool.query('COMMIT');
+        res.sendStatus(200);
+      } catch(error) {
+        await pool.query('ROLLBACK');
+        console.log(`/api/store/${storeId}/area/${areaId} DELETE error:`, error);
+        throw error;
+      }
+    })().catch(error => {
+      res.sendStatus(500);
+    });
+    
   } else {
     res.sendStatus(401);
   }

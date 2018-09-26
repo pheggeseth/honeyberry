@@ -186,6 +186,19 @@ function* deleteSelectedItemsFromStore(action) {
   }
 }
 
+function* fetchStoreAreas(action) {
+  try {
+    const storeId = action.payload;
+    const responseAreas = yield call(axios.get, `/api/store/${storeId}/areas`);
+    yield put({
+      type: CURRENT_STORE_ACTIONS.SET_STORE_AREAS,
+      payload: responseAreas.data
+    });
+  } catch(error) {
+    console.log('fetchStoreAreas saga error:', error);
+  }
+}
+
 function* addStoreArea(action) {
   try {
     // payload: areaName, storeId
@@ -200,16 +213,16 @@ function* addStoreArea(action) {
   }
 }
 
-function* fetchStoreAreas(action) {
+function* deleteStoreArea(action) {
   try {
-    const storeId = action.payload;
-    const responseAreas = yield call(axios.get, `/api/store/${storeId}/areas`);
+    const {storeId, areaId} = action.payload;
+    yield call(axios.delete, `/api/store/${storeId}/area/${areaId}`);
     yield put({
-      type: CURRENT_STORE_ACTIONS.SET_STORE_AREAS,
-      payload: responseAreas.data
+      type: CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS,
+      payload: storeId
     });
   } catch(error) {
-    console.log('fetchStoreAreas saga error:', error);
+    console.log('deleteStoreArea saga error:', error);
   }
 }
 
@@ -240,6 +253,7 @@ function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.DELETE_SELECTED_ITEMS_FROM_STORE, deleteSelectedItemsFromStore);
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS, fetchStoreAreas);
   yield takeEvery(CURRENT_STORE_ACTIONS.ADD_STORE_AREA, addStoreArea);
+  yield takeEvery(CURRENT_STORE_ACTIONS.DELETE_STORE_AREA, deleteStoreArea);
   yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_AREA_ITEMS, updateAreaItems);
 }
 
