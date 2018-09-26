@@ -33,6 +33,7 @@ export const CURRENT_STORE_ACTIONS = {
   ADD_STORE_AREA: 'ADD_STORE_AREA',
   DELETE_STORE_AREA: 'DELETE_STORE_AREA',
   UPDATE_STORE_AREA_ORDER: 'UPDATE_STORE_AREA_ORDER',
+  UPDATE_AREA_ITEMS: 'UPDATE_AREA_ITEMS',
 };
 
 export const addItemOrUpdateQuantity = (storeId, itemList, newItem) => {

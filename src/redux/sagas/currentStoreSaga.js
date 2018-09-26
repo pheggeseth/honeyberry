@@ -127,7 +127,7 @@ function* clearCompletedItems(action) {
 function* updateEssentialsList(action) {
   try {
     const {storeId, list} = action.payload;
-    console.log('update essentials:', list);
+    // console.log('update essentials:', list);
     yield call(axios.post, `/api/store/${storeId}/essentials`, list);
     yield put({
       type: CURRENT_STORE_ACTIONS.FETCH_STORE_ESSENTIALS,
@@ -199,6 +199,19 @@ function* fetchStoreAreas(action) {
   }
 }
 
+function* updateAreaItems(action) {
+  try {
+    const {storeId, areaId, items} = action.payload;
+    yield call(axios.post, `/api/store/area/${areaId}/items`, items);
+    yield put({
+      type: CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS,
+      payload: storeId
+    });
+  } catch(error) {
+    console.log('updateAreaItems saga error:', error);
+  }
+}
+
 function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_LIST_ITEMS, fetchItemsInCurrentStore);
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_STORE_ESSENTIALS, fetchCurrentStoreEssentialItems);
@@ -212,6 +225,7 @@ function* currentStoreSaga() {
   yield takeEvery(CURRENT_STORE_ACTIONS.MOVE_SELECTED_ITEMS_TO_TARGET_STORE, moveSelectedItemsToTargetStore);
   yield takeEvery(CURRENT_STORE_ACTIONS.DELETE_SELECTED_ITEMS_FROM_STORE, deleteSelectedItemsFromStore);
   yield takeEvery(CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS, fetchStoreAreas);
+  yield takeEvery(CURRENT_STORE_ACTIONS.UPDATE_AREA_ITEMS, updateAreaItems);
 }
 
 export default currentStoreSaga;

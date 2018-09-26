@@ -208,6 +208,35 @@ router.post('/essential', (req, res) => {
   }
 });
 
+router.post('/area/:areaId/items', (req, res) => {
+  if (req.isAuthenticated()) {
+    const {areaId} = req.params;
+    const items = req.body;
+    const itemIdPairs = items.map(item => [areaId, (item.item_id || item.id)]);
+    pool.query(`DELETE FROM "area_item" WHERE "area_id" = $1;`, [areaId])
+    .then(async () => {
+      try {
+        const insertItemsQueryText = `INSERT INTO "area_item" ("area_id", "item_id") VALUES ($1, $2);`;
+        const insertQueries = itemIdPairs.map(values => pool.query(insertItemsQueryText, values));
+        await Promise.all(insertQueries);
+        const newAreaItemRows = await pool.query(`SELECT "id" FROM "area_item" WHERE "area_id" = $1;`, [areaId]);
+        const newAreaItemIds = newAreaItemRows.rows.map(item => item.id);
+        console.log('newAreaItems:', newAreaItemIds);
+        await pool.query('UPDATE "area" SET "item_order" = $1 WHERE "id" = $2;', [JSON.stringify(newAreaItemIds), areaId]);
+        res.sendStatus(200);
+      } catch(error) {
+        console.log(error);
+        res.sendStatus(500);
+      }
+    }).catch(error => {
+      console.log(error);
+      res.sendStatus(500);
+    })
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 router.put('/item/completed', (req, res) => {
   if (req.isAuthenticated()) {
     const item = req.body;

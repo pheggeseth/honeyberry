@@ -69,11 +69,22 @@ class StoreAreas extends Component {
   };
 
   saveAreaEdits = area => () => {
-    const {dispatch, selectedItems} = this.props;
-    console.log('saving area edits:', selectedItems);
+    const {dispatch, currentStore, selectedItems} = this.props;
+    // console.log('saving area edits:', selectedItems);
+    // delete items from area_items table, save new area items, 
+    // then save json array as area item_order
+    dispatch({
+      type: CURRENT_STORE_ACTIONS.UPDATE_AREA_ITEMS,
+      payload: {
+        storeId: currentStore.id,
+        areaId: area.id,
+        items: selectedItems,
+      }
+    });
+    this.stopEditingArea();
   };
 
-  discardAreaEdits = () => {
+  stopEditingArea = () => {
     const {dispatch} = this.props;
     dispatch({type: ITEM_SELECT_ACTIONS.CLEAR_SELECTED_ITEMS});
     dispatch({type: ITEM_SELECT_ACTIONS.STOP_ITEM_SELECTION_MODE});
@@ -90,7 +101,7 @@ class StoreAreas extends Component {
             <CategoryLabel name={area.name} onClick={this.toggleAreaVisiblity(index)} />
             {editingAreaId === area.id
             ? <span>
-                <button onClick={this.discardAreaEdits}>Cancel</button>
+                <button onClick={this.stopEditingArea}>Cancel</button>
                 <button onClick={this.saveAreaEdits(area)}>Save</button>
               </span>
             : <button onClick={this.startEditingArea(area)}>Edit</button>}

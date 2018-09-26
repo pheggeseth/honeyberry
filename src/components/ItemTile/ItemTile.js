@@ -36,6 +36,7 @@ const mapStateToProps = state => ({
   selectingItems: state.itemSelect.selectingItems,
   selectedItems: state.itemSelect.selectedItems,
   editingList: state.currentStore.editingList,
+  editingAreaId: state.currentStore.editingAreaId,
 });
 
 
@@ -44,11 +45,27 @@ class ItemTile extends Component {
   longPressed = false;
 
   itemIsCurrentlySelected = item => {
-    const {categoryItem, selectedItems, editingEssentials, essentialItem, editingList, currentListItem, completedListItem} = this.props;
+    const {
+      categoryItem, 
+      selectedItems, 
+      editingEssentials, 
+      essentialItem, 
+      editingList, 
+      currentListItem, 
+      completedListItem,
+      areas, 
+      areaItem,
+      editingAreaId,
+    } = this.props;
+
     if (editingEssentials && (essentialItem || categoryItem)) {
+      return selectedItems.some(selectedItem => (selectedItem.item_id || selectedItem.id) === (item.item_id || item.id));
+    } else if (editingAreaId && (areaItem || categoryItem)) {
       return selectedItems.some(selectedItem => (selectedItem.item_id || selectedItem.id) === (item.item_id || item.id));
     } else if(editingList && (currentListItem || completedListItem)) {
       return selectedItems.some(selectedItem => selectedItem.id === item.id);
+    } else {
+      return false;
     }
   };
 
@@ -127,8 +144,14 @@ class ItemTile extends Component {
   };
 
   handleCategoryItemClick = () => {
-    const {editingEssentials, selectingItems, item, editingList} = this.props;
-    if (editingEssentials && selectingItems) {
+    const {
+      editingEssentials, 
+      selectingItems, 
+      item, 
+      editingList,
+      editingAreaId,
+    } = this.props;
+    if ((editingEssentials && selectingItems) || (editingAreaId && selectingItems)) {
       if (this.itemIsCurrentlySelected(item)) {
         this.deselectItem(item);
       } else {
@@ -149,7 +172,14 @@ class ItemTile extends Component {
   };
 
   handleAreaItemClick = () => {
-    console.log('clicked area item');
+    const {selectingItems, editingAreaId, item} = this.props;
+    if (selectingItems && editingAreaId === item.area_id) {
+      if (this.itemIsCurrentlySelected(item)) {
+        this.deselectItem(item);
+      } else {
+        this.selectItem(item);
+      }
+    }
   };
   
   handleLongPress = () => {
