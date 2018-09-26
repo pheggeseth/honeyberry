@@ -20,7 +20,7 @@ class StoreAreas extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      areas: []
+      areaVisibility: []
     };
   }
   componentDidMount() {
@@ -34,25 +34,47 @@ class StoreAreas extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.areas.length !== prevState.areas.length) {
+    if (nextProps.areas.length !== prevState.areaVisibility.length) {
+      const areaVisibility = nextProps.areas.map(area => ({
+        id: area.id,
+        visible: false,
+      }));
       return {
-        areas: nextProps.areas
+        areaVisibility
       };
     } else {
       return prevState;
     }
   }
 
-  toggleAreaVisiblity = index => () => {
+  toggleAreaVisiblity = id => () => {
     this.setState(prevState => {
-      const areas = [...prevState.areas];
-      const areaToToggle = {...areas[index]};
-      areaToToggle.visible = !areaToToggle.visible;
-      areas.splice(index, 1, areaToToggle);
+      const areaVisibility = [...prevState.areaVisibility];
+      let indexFound;
+      let areaToToggle = areaVisibility.find((area, index) => {
+        if (area.id === id) {
+          indexFound = index;
+          return true;
+        }
+      });
+      areaToToggle = {
+        ...areaToToggle,
+        visible: !areaToToggle.visible
+      };
+      areaVisibility.splice(indexFound, 1, areaToToggle);
       return {
-        areas
+        areaVisibility
       };
     });
+    // this.setState(prevState => {
+    //   const areas = [...prevState.areas];
+    //   const areaToToggle = {...areas[index]};
+    //   areaToToggle.visible = !areaToToggle.visible;
+    //   areas.splice(index, 1, areaToToggle);
+    //   return {
+    //     areas
+    //   };
+    // });
   };
 
   startEditingArea = area => () => {
@@ -92,20 +114,20 @@ class StoreAreas extends Component {
   };
 
   render() {
-    const {editingAreaId} = this.props;
-    const {areas} = this.state;
+    const {editingAreaId, areas} = this.props;
+    const {areaVisibility} = this.state;
     return (
       <div>
-        {areas.map((area, index) => (
+        {areas.map(area => (
           <div key={area.id}>
-            <CategoryLabel name={area.name} onClick={this.toggleAreaVisiblity(index)} />
+            <CategoryLabel name={area.name} onClick={this.toggleAreaVisiblity(area.id)} />
             {editingAreaId === area.id
             ? <span>
                 <button onClick={this.stopEditingArea}>Cancel</button>
                 <button onClick={this.saveAreaEdits(area)}>Save</button>
               </span>
             : <button onClick={this.startEditingArea(area)}>Edit</button>}
-            {area.visible
+            {areaVisibility.find(a => a.id === area.id).visible
             ? <ul>
                 {area.items.map(item => (
                   <ItemTile key={item.id}
