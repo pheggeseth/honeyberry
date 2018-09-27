@@ -1,33 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+
 import { CURRENT_STORE_ACTIONS, addItemOrUpdateQuantity } from '../../redux/actions/currentStoreActions';
 import { ITEM_SELECT_ACTIONS } from '../../redux/actions/itemSelectActions';
 import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
 
-const Container = styled.li`
-  height: 100px;
-  width: 100px;
-  background-color: white;
-  border: 1px solid black;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  :hover {
-    filter: brightness(0.95);
-    cursor: pointer;
-  }
+// import styled from 'styled-components';
+import { ItemTileContainer } from '../styledComponents';
 
-  &.selected {
-    border: 3px solid lightpink;
-  }
 
-  &.inCurrentList {
-    border: 3px solid lightgreen;
-  }
-`;
 
 const mapStateToProps = state => ({
   currentStore: state.currentStore.store,
@@ -228,7 +209,7 @@ class ItemTile extends Component {
       className = 'inCurrentList';
     }
     return (
-      <Container 
+      <ItemTileContainer 
         className={className}
         onMouseDown={this.handlePressStart}
         onMouseUp={this.handlePressEnd}
@@ -236,7 +217,7 @@ class ItemTile extends Component {
         onTouchEnd={this.handlePressEnd}
       >
         {this.props.item.name + (this.props.item.quantity > 1 ? ' '+this.props.item.quantity : '')}
-      </Container>
+      </ItemTileContainer>
     );
   }
 }

@@ -1,0 +1,10 @@
+export const STYLE_CONSTANTS = {
+  MAX_SCREEN_WIDTH: 768,
+  BOTTOM_NAV_HEIGHT: 60,
+  DESKTOP_VERTICAL_MARGIN: 5, //vh
+  CONTENT_MARGIN: 10,
+  TILE_SIZE: 118,
+  TILE_MARGIN: 3,
+  // TOTAL_TILE_WIDTH is its size plus the left and right margins
+  TOTAL_TILE_WIDTH: 118 + 3 * 2,
+};
