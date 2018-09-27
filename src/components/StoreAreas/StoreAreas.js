@@ -119,7 +119,7 @@ class StoreAreas extends Component {
   render() {
     const {editingAreaId, areas} = this.props;
     const {areaVisibility} = this.state;
-    console.log(areaVisibility);
+    // console.log(areaVisibility);
     if (areas) {
       return (
         <div>

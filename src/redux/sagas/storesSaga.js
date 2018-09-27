@@ -17,9 +17,20 @@ function* fetchUserStores() {
   }
 }
 
+function* updateStoreName(action) {
+  try {
+    const {storeId, newName} = action.payload;
+    yield call(axios.put, `/api/store/${storeId}/name`, {newName});
+    yield put({type: STORE_ACTIONS.FETCH_USER_STORES});
+  } catch(error) {
+    console.log('updateStoreName saga error:', error);
+  }
+}
+
 // combine all saga
 function* storesSaga() {
   yield takeEvery(STORE_ACTIONS.FETCH_USER_STORES, fetchUserStores);
+  yield takeEvery(STORE_ACTIONS.UPDATE_STORE_NAME, updateStoreName);
 }
 
 export default storesSaga;

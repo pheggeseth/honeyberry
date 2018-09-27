@@ -358,6 +358,21 @@ router.put('/:currentStoreId/items/move', (req, res) => {
   }
 });
 
+router.put('/:storeId/name', (req, res) => {
+  if (req.isAuthenticated()) {
+    const newName = req.body.newName;
+    const storeId = Number(req.params.storeId);
+    pool.query(`UPDATE "store" SET "name" = $1 WHERE "id" = $2;`, [newName, storeId])
+    .then(() => res.sendStatus(200))
+    .catch(error => {
+      console.log(`/api/store/${storeId}/name PUT error`);
+      res.sendStatus(500);
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 router.delete('/', (req, res) => {
   if (req.isAuthenticated()) {
     const queryText = `DELETE FROM "store" WHERE "id" = $1 AND "person_id" = $2;`;

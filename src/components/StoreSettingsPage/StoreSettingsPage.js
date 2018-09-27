@@ -28,15 +28,17 @@ class StoreSettingsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      originalStoreName: '',
       storeName: '',
       newAreaName: ''
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.currentStore.name && nextProps.currentStore.name !== prevState.storeName) {
+    if (nextProps.currentStore.name && nextProps.currentStore.name !== prevState.originalStoreName) {
       return {
         ...prevState,
+        originalStoreName: nextProps.currentStore.name,
         storeName: nextProps.currentStore.name
       };
     } else {
@@ -47,7 +49,7 @@ class StoreSettingsPage extends Component {
   componentDidMount() {
     const {dispatch, match} = this.props;
     dispatch({type: USER_ACTIONS.FETCH_USER});
-    
+    dispatch({type: STORE_ACTIONS.FETCH_USER_STORES});
     dispatch({type: CURRENT_STORE_ACTIONS.START_STORE_SETTINGS_EDIT});
     dispatch({
       type: CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS,
@@ -59,18 +61,16 @@ class StoreSettingsPage extends Component {
     const {user, history} = this.props;
     const {dispatch, currentStore, match, userStores} = this.props;
     if (!user.isLoading && user.userName === null) {
-      history.push('home');
-    }
-
-    if (!user.isLoading && user.userName && !userStores.length) {
-      dispatch({type: STORE_ACTIONS.FETCH_USER_STORES});
-    }
-
-    if (userStores.length && currentStore.id !== Number(match.params.id)) {
-      dispatch({
-        type: STORE_ACTIONS.SET_CURRENT_STORE,
-        payload: userStores.find(store => store.id === Number(match.params.id))
-      });
+      history.push('/home');
+    } else {
+      if (!userStores.length) {
+        // dispatch({type: STORE_ACTIONS.FETCH_USER_STORES});
+      } else if (currentStore.id !== Number(match.params.id)) {
+        dispatch({
+          type: STORE_ACTIONS.SET_CURRENT_STORE,
+          payload: userStores.find(store => store.id === Number(match.params.id))
+        });
+      }
     }
   }
 
@@ -111,6 +111,16 @@ class StoreSettingsPage extends Component {
   };
 
   closeStoreSettings = () => {
+    const {currentStore, dispatch} = this.props;
+    if (currentStore.name !== this.state.storeName) {
+      dispatch({
+        type: STORE_ACTIONS.UPDATE_STORE_NAME,
+        payload: {
+          storeId: currentStore.id,
+          newName: this.state.storeName
+        }
+      });
+    }
     this.props.history.push('/stores');
   };
 
