@@ -27,7 +27,6 @@ export const Screen = styled.div`
 
 export const Content = styled.div`
   // height: 100%;
-  clear: both;
   padding: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
   margin-bottom: ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT}px;
 `;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
 // import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -28,6 +28,10 @@ const mapStateToProps = state => ({
   editingItem: state.currentStore.editingItem,
   selectingItems: state.itemSelect.selectingItems,
 });
+
+const TopBarSpacer = styled.div`
+  height: 75px;
+`;
 
 class ListPage extends Component {
   componentDidMount() {
@@ -88,6 +92,7 @@ class ListPage extends Component {
       content = (
         <div>
           <ListPageTopBar history={this.props.history}/>
+          <TopBarSpacer />
           {/* <ListEditMenu /> */}
           {/* <ItemSearch /> */}
           {searching
