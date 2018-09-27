@@ -373,16 +373,35 @@ router.put('/:storeId/name', (req, res) => {
   }
 });
 
-router.delete('/', (req, res) => {
+router.delete('/:storeId', (req, res) => {
   if (req.isAuthenticated()) {
-    const queryText = `DELETE FROM "store" WHERE "id" = $1 AND "person_id" = $2;`;
-    
-    pool.query(queryText, [req.query.id, req.user.id])
-    .then(() => res.send(200))
-    .catch(error => {
-      console.log('/api/store DELETE error for user id:', req.user.id, error);
+    (async () => {
+      try {
+        const storeId = req.params.storeId;
+        await pool.query(`DELETE FROM "store_item" WHERE "store_id" = $1;`, [storeId]);
+        await pool.query(`DELETE FROM "store_essential" WHERE "store_id" = $1;`, [storeId]);
+        await pool.query(`DELETE FROM "area_item" USING "area" WHERE "area_item"."area_id" = "area"."id" AND "area"."store_id" = $1;`, [storeId]);
+        await pool.query(`DELETE FROM "area" WHERE "store_id" = $1;`, [storeId]);
+        await pool.query(`DELETE FROM "store" WHERE "id" = $1;`, [storeId]);
+        res.sendStatus(200);
+      } catch(error) {
+        console.log('/api/store DELETE errror:', error);
+        throw error;
+      }
+    })().catch(error => {
       res.sendStatus(500);
     });
+
+
+
+  //   const queryText = `DELETE FROM "store" WHERE "id" = $1 AND "person_id" = $2;`;
+    
+  //   pool.query(queryText, [req.query.id, req.user.id])
+  //   .then(() => res.sendStatus(200))
+  //   .catch(error => {
+  //     console.log('/api/store DELETE error for user id:', req.user.id, error);
+  //     res.sendStatus(500);
+  //   });
   } else {
     res.sendStatus(401);
   }

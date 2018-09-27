@@ -45,7 +45,7 @@ class StoresPage extends Component {
       alert("A store with that name already exists. Please choose a different name.");
       return;
     } else {
-      this.props.dispatch({
+      dispatch({
         type: STORE_ACTIONS.ADD_NEW_STORE,
         payload: this.state.newStoreName
       });
@@ -65,6 +65,7 @@ class StoresPage extends Component {
           <div>
             <input type="text" 
               placeholder="Add a new store."
+              value={this.state.newStoreName}
               onChange={this.handleNewStoreNameChange}
             />
             <button onClick={this.addNewStore}>Add</button>

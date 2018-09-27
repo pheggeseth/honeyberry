@@ -37,11 +37,22 @@ function* addNewStore(action) {
   }
 }
 
+function* deleteStore(action) {
+  try {
+    const storeId = action.payload;
+    yield call(axios.delete, `/api/store/${storeId}`);
+    yield put({type: STORE_ACTIONS.FETCH_USER_STORES});
+  } catch(error) {
+    console.log('deleteStore saga error:', error);
+  }
+}
+
 // combine all saga
 function* storesSaga() {
   yield takeEvery(STORE_ACTIONS.FETCH_USER_STORES, fetchUserStores);
   yield takeEvery(STORE_ACTIONS.UPDATE_STORE_NAME, updateStoreName);
   yield takeEvery(STORE_ACTIONS.ADD_NEW_STORE, addNewStore);
+  yield takeEvery(STORE_ACTIONS.DELETE_STORE, deleteStore);
 }
 
 export default storesSaga;

@@ -20,12 +20,18 @@ class Store extends Component {
     this.props.history.push('list');
   };
 
-  goToStoreSettings = storeId => () => {
-    this.props.history.push(`/store/${storeId}/settings`);
+  goToStoreSettings = () => {
+    this.props.history.push(`/store/${this.props.storeObj.id}/settings`);
   };
 
-  deleteStore = storeId => () => {
-    
+  deleteStore = () => {
+    const confirmed = window.confirm('Are you sure? You cannot undo this action.');
+    if (confirmed) {
+      this.props.dispatch({
+        type: STORE_ACTIONS.DELETE_STORE,
+        payload: this.props.storeObj.id
+      });
+    }
   };
 
   render() {
@@ -33,7 +39,8 @@ class Store extends Component {
     return (
       <div>
         <span onClick={this.setCurrentStore}>{storeObj.name}</span>
-        <EditButton onClick={this.goToStoreSettings(storeObj.id)}>Settings</EditButton>
+        <EditButton onClick={this.goToStoreSettings}>Settings</EditButton>
+        <button onClick={this.deleteStore}>Delete</button>
       </div>
     );
   }
