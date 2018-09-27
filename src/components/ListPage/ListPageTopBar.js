@@ -4,17 +4,9 @@ import { connect } from 'react-redux';
 import ListEditMenu from './ListEditMenu/ListEditMenu';
 import ItemSearchBar from '../ItemSearch/ItemSearchBar/ItemSearchBar';
 
-import styled from 'styled-components';
-const Container = styled.div`
-  width: 100%;
-  height: 75px;
-  max-width: 778px;
-  background-color: lightpink;
-  position: fixed;
-  top: 0;
-  margin-left: -10px;
-  z-index: 100;
-`;
+// import styled from 'styled-components';
+import { TopBarContainer } from '../styledComponents';
+
 
 const mapStateToProps = state => ({
   currentStore: state.currentStore.store
@@ -28,16 +20,16 @@ class ListPageTopBar extends Component {
 
   render() {
     return (
-      <Container className="container">
+      <TopBarContainer className="ListPageTopBarContainer">
         {/* <TopBar className="top-bar"> */}
           <div>
             {this.props.currentStore.name}
             <button onClick={this.goToStoreSettings}>Settings</button>
           </div>
           <ListEditMenu />
-          <ItemSearchBar />
+          {/* <ItemSearchBar /> */}
         {/* </TopBar> */}
-      </Container>
+      </TopBarContainer>
     );
   }
 }

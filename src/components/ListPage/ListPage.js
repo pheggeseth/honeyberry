@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 
 // import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -15,8 +15,11 @@ import CompletedItems from './CompletedItems/CompletedItems';
 import EssentialItems from './EssentialItems/EssentialItems';
 import ItemsAll from '../ItemsAll/ItemsAll';
 import ListPageTopBar from '../ListPage/ListPageTopBar';
+import ItemSearchBar from '../ItemSearch/ItemSearchBar/ItemSearchBar';
 import ItemSearchResults from '../ItemSearch/ItemSearchResults/ItemSearchResults';
 // import ListEditMenu from './ListEditMenu/ListEditMenu';
+
+import { TopBarContainerSpacer } from '../styledComponents';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -28,10 +31,6 @@ const mapStateToProps = state => ({
   editingItem: state.currentStore.editingItem,
   selectingItems: state.itemSelect.selectingItems,
 });
-
-const TopBarSpacer = styled.div`
-  height: 75px;
-`;
 
 class ListPage extends Component {
   componentDidMount() {
@@ -92,7 +91,7 @@ class ListPage extends Component {
       content = (
         <div>
           <ListPageTopBar history={this.props.history}/>
-          <TopBarSpacer />
+          <TopBarContainerSpacer />
           {/* <ListEditMenu /> */}
           {/* <ItemSearch /> */}
           {searching
@@ -103,6 +102,10 @@ class ListPage extends Component {
               <EssentialItems items={essentials} />
               <ItemsAll />
             </div>}
+          {/* <ItemSearchBarContainer> */}
+            <ItemSearchBar />
+          {/* </ItemSearchBarContainer> */}
+          
         </div>
       );
     }

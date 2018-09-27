@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ITEM_ACTIONS } from '../../../redux/actions/itemActions';
 
-import styled from 'styled-components';
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
+// import styled from 'styled-components';
+import { ItemSearchBarContainer } from '../../styledComponents';
+
 
 const mapStateToProps = state => ({
   searching: state.itemSearch.searching,
@@ -51,14 +49,14 @@ class ItemSearchBar extends Component {
 
   render() {
     return (
-      <Container>
+      <ItemSearchBarContainer>
         <input type="text" style={{flexGrow: 1}}
           value={this.props.searchTerm} 
           onChange={this.updateSearchTerm}
           placeholder="Search"
         />
         {this.props.searching ? <button onClick={this.handleCancelClick}>Cancel</button> : null}
-      </Container>
+      </ItemSearchBarContainer>
     );
   }
 }

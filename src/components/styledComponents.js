@@ -16,7 +16,6 @@ export const Screen = styled.div`
   height: 100%;
   width: 100%;
   max-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px;
-  background-color: gainsboro;
 
   @media only screen 
   and (min-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px)
@@ -26,9 +25,49 @@ export const Screen = styled.div`
 `;
 
 export const Content = styled.div`
-  // height: 100%;
+  min-height: calc(100% - ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT + STYLE_CONSTANTS.CONTENT_MARGIN * 2}px);
+  background-color: gainsboro;
   padding: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
-  margin-bottom: ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT}px;
+  padding-bottom: ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT + STYLE_CONSTANTS.CONTENT_MARGIN}px;
+`;
+
+export const TopBarContainer = styled.div`
+  width: 100%;
+  height: ${STYLE_CONSTANTS.TOP_BAR_HEIGHT}px;
+  max-width: 778px;
+  background-color: lightpink;
+  position: fixed;
+  top: 0;
+  margin-left: -10px;
+  z-index: 100;
+
+  @media only screen 
+  and (min-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px)
+  and (min-height: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px) {
+    margin-top: ${STYLE_CONSTANTS.DESKTOP_VERTICAL_MARGIN}vh;
+  }
+`;
+
+export const TopBarContainerSpacer = styled.div`
+  height: ${STYLE_CONSTANTS.TOP_BAR_HEIGHT}px;
+`;
+
+export const ItemSearchBarContainer = styled.div`
+  width: 100%;
+  max-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px;
+  margin-left: -${STYLE_CONSTANTS.CONTENT_MARGIN}px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  bottom: ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT }px;
+  // left: 0px;
+
+  @media only screen 
+  and (min-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px)
+  and (min-height: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px) {
+    margin-bottom: ${STYLE_CONSTANTS.DESKTOP_VERTICAL_MARGIN}vh;
+  }
 `;
 
 export const BottomNav = styled.div`
@@ -43,7 +82,7 @@ export const BottomNav = styled.div`
   @media only screen 
   and (min-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px)
   and (min-height: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px) {
-    margin-bottom: 5vh;
+    margin-bottom: ${STYLE_CONSTANTS.DESKTOP_VERTICAL_MARGIN}vh;
   }
 
   & > ul {
