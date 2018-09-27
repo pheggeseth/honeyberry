@@ -16,7 +16,7 @@ import ListPage from './components/ListPage/ListPage';
 import StoresPage from './components/StoresPage/StoresPage';
 import StoreSettingsPage from './components/StoreSettingsPage/StoreSettingsPage';
 import MorePage from './components/MorePage/MorePage';
-import Nav from './components/Nav/Nav';
+// import Nav from './components/Nav/Nav';
 
 import './styles/main.css';
 
@@ -56,6 +56,8 @@ const Screen = styled.div`
 `;
 
 const Content = styled.div`
+  // height: 100%;
+  clear: both;
   padding: ${CONTENT_MARGIN}px;
   margin-bottom: ${BOTTOM_NAV_HEIGHT}px;
 `;
@@ -67,6 +69,7 @@ const BottomNav = styled.div`
   background-color: dimgray;
   position: fixed;
   bottom: 0;
+  display: flex;
 
   @media only screen 
   and (min-width: ${MAX_SCREEN_WIDTH + 1}px)
@@ -75,19 +78,18 @@ const BottomNav = styled.div`
   }
 
   & > ul {
+    width: 100%;
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-  }
-  & > ul li {
-    float: left;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
   }
   & > ul li a {
-    display: block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
     text-decoration: none;
   }
 `;
@@ -132,9 +134,9 @@ class App extends React.Component {
     return (
       <Router>
         <Switch>
-          <Container>
-            <Screen>
-              <Content>
+          <Container className="container">
+            <Screen className="screen">
+              <Content className="content">
                 <Redirect exact from="/" to="/home" />
                 <Route
                   path="/home"
@@ -163,7 +165,7 @@ class App extends React.Component {
                 {/* OTHERWISE (no path!) */}
                 {/* <Route render={() => <h1>404</h1>} /> */}
               </Content>
-              <BottomNav>
+              <BottomNav className="bottom-nav">
                 <ul>
                   <li>
                     <Link to="/list">
