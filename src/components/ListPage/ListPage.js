@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import styled from 'styled-components';
 
-import Nav from '../../components/Nav/Nav';
+// import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
 import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
@@ -106,7 +106,7 @@ class ListPage extends Component {
     
     return (
       <div>
-        <Nav />
+        {/* <Nav /> */}
         <div>
           {this.props.currentStore.name}
           <button onClick={this.goToStoreSettings}>Settings</button>
