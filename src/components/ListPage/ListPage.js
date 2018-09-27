@@ -8,13 +8,15 @@ import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
 import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
 import { ITEM_SELECT_ACTIONS } from '../../redux/actions/itemSelectActions';
 
-import ItemSearch from '../ItemSearch/ItemSearch';
+// import ItemSearch from '../ItemSearch/ItemSearch';
 import ItemEdit from '../ItemEdit/ItemEdit';
 import CurrentItems from './CurrentItems/CurrentItems';
 import CompletedItems from './CompletedItems/CompletedItems';
 import EssentialItems from './EssentialItems/EssentialItems';
 import ItemsAll from '../ItemsAll/ItemsAll';
-import ListEditMenu from './ListEditMenu/ListEditMenu';
+import ListPageTopBar from '../ListPage/ListPageTopBar';
+import ItemSearchResults from '../ItemSearch/ItemSearchResults/ItemSearchResults';
+// import ListEditMenu from './ListEditMenu/ListEditMenu';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -70,10 +72,7 @@ class ListPage extends Component {
     }
   }
 
-  goToStoreSettings = () => {
-    const {history, currentStore} = this.props;
-    history.push(`/store/${currentStore.id}/settings`);
-  };
+  
 
   render() {
     let content = null;
@@ -88,10 +87,11 @@ class ListPage extends Component {
     } else {
       content = (
         <div>
-          <ListEditMenu />
-          <ItemSearch onFocus={this.startItemSearchMode} />
+          <ListPageTopBar history={this.props.history}/>
+          {/* <ListEditMenu /> */}
+          {/* <ItemSearch /> */}
           {searching
-          ? null
+          ? <ItemSearchResults />
           : <div>
               <CurrentItems items={list.filter(item => !item.completed)} />
               <CompletedItems items={list.filter(item => item.completed)} />
@@ -107,10 +107,7 @@ class ListPage extends Component {
     return (
       <div>
         {/* <Nav /> */}
-        <div>
-          {this.props.currentStore.name}
-          <button onClick={this.goToStoreSettings}>Settings</button>
-        </div>
+        
         { user.userName ? content : null }
       </div>
     );
