@@ -47,9 +47,16 @@ class StoreSettingsPage extends Component {
   }
 
   componentDidMount() {
-    const {dispatch, match} = this.props;
+    const {dispatch, userStores, match} = this.props;
     dispatch({type: USER_ACTIONS.FETCH_USER});
-    dispatch({type: STORE_ACTIONS.FETCH_USER_STORES});
+    if (!userStores.length) {
+      dispatch({type: STORE_ACTIONS.FETCH_USER_STORES});
+    } else {
+      dispatch({
+        type: STORE_ACTIONS.SET_CURRENT_STORE,
+        payload: userStores.find(store => store.id === Number(match.params.id))
+      });
+    }
     dispatch({type: CURRENT_STORE_ACTIONS.START_STORE_SETTINGS_EDIT});
     dispatch({
       type: CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS,
