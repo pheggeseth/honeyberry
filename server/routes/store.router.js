@@ -30,9 +30,9 @@ router.get('/:storeId/items', (req, res) => {
       "store_item"."store_id",
       "store_item"."item_id",
       "store_item"."quantity",
+      "store_item"."unit",
       "store_item"."completed",
       "item"."name", 
-      "item"."default_unit", 
       "item"."image_path" 
     FROM "store_item" 
     JOIN "item" ON "item_id" = "item"."id" 
@@ -155,8 +155,9 @@ router.post('/:storeId/item', (req, res) => {
   if (req.isAuthenticated()) {
     const storeId = req.params.storeId;
     const item = req.body;
-    const queryText = `INSERT INTO "store_item" ("store_id", "item_id") VALUES ($1, $2);`;
-    pool.query(queryText, [storeId, item.item_id || item.id])
+    console.log('adding item to list:', item);
+    const queryText = `INSERT INTO "store_item" ("store_id", "item_id", "unit") VALUES ($1, $2, $3);`;
+    pool.query(queryText, [storeId, (item.item_id || item.id), item.default_unit])
     .then(() => res.sendStatus(201))
     .catch(error => {
       console.log(`/api/store/${storeId}/item POST error:`, error);
@@ -354,6 +355,26 @@ router.put('/:currentStoreId/items/move', (req, res) => {
     //   res.sendStatus(500);
     // });
   } else {
+    res.sendStatus(401);
+  }
+});
+
+router.put('/item/edit', (req, res) => {
+  if (req.isAuthenticated()) {
+    const itemToUpdate = req.body;
+    const queryText = `UPDATE "store_item" SET "quantity" = $1, "unit" = $2 WHERE "id" = $3;`;
+    pool.query(queryText, [
+      itemToUpdate.quantity, 
+      itemToUpdate.unit, 
+      itemToUpdate.id
+    ]).then(() => res.sendStatus(200))
+    .catch(error => {
+      console.log(`/api/store/item/edit PUT error:`, error);
+      res.sendStatus(500);
+    });
+
+  } else {
+    // console.log(`/api/store/item/edit PUT error:`, error);
     res.sendStatus(401);
   }
 });

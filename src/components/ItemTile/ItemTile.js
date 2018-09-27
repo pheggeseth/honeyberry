@@ -91,6 +91,7 @@ class ItemTile extends Component {
 
   addItemToCurrentList = item => {
     const {dispatch, currentStore, currentList} = this.props;
+    console.log('adding item to list:', item);
     dispatch(addItemOrUpdateQuantity(currentStore.id, currentList, item));
   };
 

@@ -50,14 +50,19 @@ const editingItem = (state = false, action) => {
 };
 
 const itemToEdit = (state = {}, action) => {
-  if (action.type === CURRENT_STORE_ACTIONS.SET_EDITING_ITEM) {
-    return {...action.payload}
-  } else if (action.type === CURRENT_STORE_ACTIONS.CLEAR_EDITING_ITEM) {
-    return {};
-  } else {
-    return state;
+  switch(action.type) {
+    case CURRENT_STORE_ACTIONS.SET_EDITING_ITEM:
+      return {...action.payload};
+    case CURRENT_STORE_ACTIONS.CLEAR_EDITING_ITEM:
+      return {};
+    case CURRENT_STORE_ACTIONS.UPDATE_EDITING_ITEM_QUANTITY:
+      return {...state, quantity: action.payload};
+    case CURRENT_STORE_ACTIONS.UPDATE_EDITING_ITEM_UNIT:
+      return {...state, unit: action.payload};
+    default:
+      return state;
   }
-}
+};
 
 const editingList = (state = false, action) => {
   if (action.type === CURRENT_STORE_ACTIONS.START_LIST_EDITING_MODE) {
@@ -67,7 +72,7 @@ const editingList = (state = false, action) => {
   } else {
     return state;
   }
-}
+};
 
 const movingItems = (state = false, action) => {
   if (action.type === CURRENT_STORE_ACTIONS.START_ITEM_MOVE_MODE) {
@@ -77,7 +82,7 @@ const movingItems = (state = false, action) => {
   } else {
     return state;
   }
-}
+};
 
 const itemMoveTargetStore = (state = null, action) => {
   if (action.type === CURRENT_STORE_ACTIONS.SET_ITEM_MOVE_TARGET_STORE) {

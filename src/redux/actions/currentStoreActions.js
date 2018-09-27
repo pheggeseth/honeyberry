@@ -14,6 +14,9 @@ export const CURRENT_STORE_ACTIONS = {
   STOP_ITEM_EDITING_MODE: 'STOP_ITEM_EDITING_MODE',
   SET_EDITING_ITEM: 'SET_EDITING_ITEM',
   CLEAR_EDITING_ITEM: 'CLEAR_EDITING_ITEM',
+  UPDATE_EDITING_ITEM_QUANTITY: 'UPDATE_EDITING_ITEM_QUANTITY',
+  UPDATE_EDITING_ITEM_UNIT: 'UPDATE_EDITING_ITEM_UNIT',
+  SAVE_EDITING_ITEM_CHANGES: 'SAVE_EDITING_ITEM_CHANGES',
   UPDATE_ESSENTIALS_LIST: 'UPDATE_ESSENTIALS_LIST',
   REMOVE_ITEM: 'REMOVE_ITEM',
   START_LIST_EDITING_MODE: 'START_LIST_EDITING_MODE',
@@ -40,6 +43,7 @@ export const CURRENT_STORE_ACTIONS = {
 
 export const addItemOrUpdateQuantity = (storeId, itemList, newItem) => {
   const action = {};
+  console.log('in addItemOrUpdateQuantity, item is:', newItem);
   const existingListItem = itemList.find(currentItem => 
     currentItem.item_id === (newItem.item_id || newItem.id) && currentItem.completed === false
   );
