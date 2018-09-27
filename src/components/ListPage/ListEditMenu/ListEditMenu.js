@@ -15,6 +15,7 @@ const ClickAway = styled.div`
 
 const mapStateToProps = state => ({
   editingList: state.currentStore.editingList,
+  editingEssentials: state.currentStore.editingEssentials,
   selectingItems: state.itemSelect.selectingItems,
   selectedItems: state.itemSelect.selectedItems,
   currentStore: state.currentStore.store,
@@ -34,7 +35,13 @@ class ListEditMenu extends Component {
   }
 
   startListEditMode = () => {
-    this.props.dispatch({type: CURRENT_STORE_ACTIONS.START_LIST_EDITING_MODE});
+    const {editingEssentials, dispatch} = this.props;
+    if (editingEssentials) {
+      dispatch({type: ITEM_SELECT_ACTIONS.CLEAR_SELECTED_ITEMS});
+      dispatch({type: ITEM_SELECT_ACTIONS.STOP_ITEM_SELECTION_MODE});
+      dispatch({type: CURRENT_STORE_ACTIONS.STOP_ESSENTIALS_EDITING_MODE});
+    }
+    dispatch({type: CURRENT_STORE_ACTIONS.START_LIST_EDITING_MODE});
   };
 
   stopListEditMode = () => {

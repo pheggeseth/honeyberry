@@ -8,12 +8,29 @@ const mapStateToProps = state => ({
   currentStore: state.currentStore.store,
   currentList: state.currentStore.list,
   editingEssentials: state.currentStore.editingEssentials,
+  selectingItems: state.currentStore.selectingItems,
   selectedItems: state.itemSelect.selectedItems,
+  editingList: state.currentStore.editingList,
+  movingItems: state.currentStore.movingItems,
+  deletingItems: state.currentStore.deletingItems,
 });
 
 class EssentialItems extends Component {
   startEssentialsListEditing = () => {
-    const {dispatch, items} = this.props;
+    const {dispatch, editingList, selectingItems, movingItems, deletingItems, items} = this.props;
+    if (editingList) {
+      dispatch({type: CURRENT_STORE_ACTIONS.STOP_LIST_EDITING_MODE});
+      if (selectingItems) {
+        dispatch({type: ITEM_SELECT_ACTIONS.CLEAR_SELECTED_ITEMS});
+        dispatch({type: ITEM_SELECT_ACTIONS.STOP_ITEM_SELECTION_MODE});
+      }
+      if (movingItems) {
+        dispatch({type: CURRENT_STORE_ACTIONS.CLEAR_ITEM_MOVE_TARGET_STORE});
+        dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_MOVE_MODE});
+      } else if (deletingItems) {
+        dispatch({type: CURRENT_STORE_ACTIONS.STOP_ITEM_DELETE_MODE});
+      }
+    }
     dispatch({type: CURRENT_STORE_ACTIONS.START_ESSENTIALS_EDITING_MODE});
     dispatch({type: ITEM_SELECT_ACTIONS.START_ITEM_SELECTION_MODE});
     dispatch({

@@ -26,7 +26,7 @@ class CurrentItems extends Component {
       payload: item,
     });
     this.props.dispatch({
-      type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_EDITING_MODE
+      type: CURRENT_STORE_ACTIONS.START_ITEM_EDITING_MODE
     });
   };
 

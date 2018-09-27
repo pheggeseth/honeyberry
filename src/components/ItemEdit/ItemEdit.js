@@ -12,13 +12,13 @@ class ItemEdit extends Component {
       type: CURRENT_STORE_ACTIONS.CLEAR_EDITING_ITEM
     });
     this.props.dispatch({
-      type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_EDITING_MODE
+      type: CURRENT_STORE_ACTIONS.STOP_ITEM_EDITING_MODE
     });
   }
 
   handleSave = () => {
     this.props.dispatch({
-      type: CURRENT_STORE_ACTIONS.TOGGLE_ITEM_EDITING_MODE
+      type: CURRENT_STORE_ACTIONS.STOP_ITEM_EDITING_MODE
     });
   };
 
