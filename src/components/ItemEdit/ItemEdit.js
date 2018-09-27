@@ -16,22 +16,20 @@ class ItemEdit extends Component {
   }
 
   updateQuantity = event => {
-    const {dispatch} = this.props;
     this.setState({
       quantity: event.target.value
     });
-    dispatch({
+    this.props.dispatch({
       type: CURRENT_STORE_ACTIONS.UPDATE_EDITING_ITEM_QUANTITY,
       payload: event.target.value
     });
   };
 
   updateUnit = event => {
-    const {dispatch, item} = this.props;
     this.setState({
       unit: event.target.value
     });
-    dispatch({
+    this.props.dispatch({
       type: CURRENT_STORE_ACTIONS.UPDATE_EDITING_ITEM_UNIT,
       payload: event.target.value
     });

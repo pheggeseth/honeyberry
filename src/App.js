@@ -7,13 +7,14 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Header from './components/Header/Header';
+// import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
-import UserPage from './components/UserPage/UserPage';
+// import UserPage from './components/UserPage/UserPage';
 import ListPage from './components/ListPage/ListPage';
 import StoresPage from './components/StoresPage/StoresPage';
 import StoreSettingsPage from './components/StoreSettingsPage/StoreSettingsPage';
+import MorePage from './components/MorePage/MorePage';
 
 import './styles/main.css';
 
@@ -34,10 +35,6 @@ class App extends React.Component {
               component={RegisterPage}
             />
             <Route
-              path="/user"
-              component={UserPage}
-            />
-            <Route
               path="/list"
               component={ListPage}
             />
@@ -48,6 +45,10 @@ class App extends React.Component {
             <Route
               path="/store/:id/settings"
               component={StoreSettingsPage}
+            />
+            <Route
+              path="/more"
+              component={MorePage}
             />
             {/* OTHERWISE (no path!) */}
             <Route render={() => <h1>404</h1>} />
