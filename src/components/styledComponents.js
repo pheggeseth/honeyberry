@@ -6,7 +6,6 @@ export const ScreenContainer = styled.div`
 
   @media only screen 
   and (min-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px) {
-  // and (min-height: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px) {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,12 +15,12 @@ export const ScreenContainer = styled.div`
 export const Screen = styled.div`
   height: 100%;
   width: 100%;
-  max-width: 768px;
+  max-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px;
   background-color: gainsboro;
 
   @media only screen 
-  and (min-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH + 1}px)
-  and (min-height: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH + 1}px) {
+  and (min-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px)
+  and (min-height: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px) {
     max-height: ${100 - STYLE_CONSTANTS.DESKTOP_VERTICAL_MARGIN * 2}vh;
   }
 `;
@@ -43,8 +42,8 @@ export const BottomNav = styled.div`
   display: flex;
 
   @media only screen 
-  and (min-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH + 1}px)
-  and (min-height: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH + 1}px) {
+  and (min-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px)
+  and (min-height: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px) {
     margin-bottom: 5vh;
   }
 
@@ -70,9 +69,7 @@ export const List = styled.div`
   flex-wrap: wrap;
   margin: 0 auto;
 
-  @media only screen 
-    and (min-width: ${STYLE_CONSTANTS.TOTAL_TILE_WIDTH * 3 + STYLE_CONSTANTS.CONTENT_MARGIN * 2}px) {
-    // and (max-width: ${STYLE_CONSTANTS.TOTAL_TILE_WIDTH * 4 - 1}px) {
+  @media only screen and (min-width: ${STYLE_CONSTANTS.TOTAL_TILE_WIDTH * 3 + STYLE_CONSTANTS.CONTENT_MARGIN * 2}px) {
     max-width: ${STYLE_CONSTANTS.TOTAL_TILE_WIDTH * 3}px;
   }
   @media only screen and (min-width: ${STYLE_CONSTANTS.TOTAL_TILE_WIDTH * 4 + STYLE_CONSTANTS.CONTENT_MARGIN * 2}px) {
