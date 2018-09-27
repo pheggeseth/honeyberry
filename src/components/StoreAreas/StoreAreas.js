@@ -105,7 +105,11 @@ class StoreAreas extends Component {
   deleteArea = area => () => {
     const confirmed = window.confirm('Are you sure?');
     if (confirmed) {
-      const {dispatch, currentStore} = this.props;
+      const {dispatch, selectingItems, currentStore} = this.props;
+      if (selectingItems) {
+        dispatch({type: ITEM_SELECT_ACTIONS.CLEAR_SELECTED_ITEMS});
+        dispatch({type: ITEM_SELECT_ACTIONS.STOP_ITEM_SELECTION_MODE});
+      }
       dispatch({
         type: CURRENT_STORE_ACTIONS.DELETE_STORE_AREA,
         payload: {
