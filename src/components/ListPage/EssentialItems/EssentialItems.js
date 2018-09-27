@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CURRENT_STORE_ACTIONS } from '../../../redux/actions/currentStoreActions';
 import { ITEM_SELECT_ACTIONS } from '../../../redux/actions/itemSelectActions';
+
+import { List } from '../../styledComponents';
 import ItemTile from '../../ItemTile/ItemTile';
 
 const mapStateToProps = state => ({
@@ -69,14 +71,14 @@ class EssentialItems extends Component {
           </span>)
         : <button onClick={this.startEssentialsListEditing}>Edit</button>
         }
-        <ul>
+        <List>
           {items.map(item => (
             <ItemTile key={item.id} 
               essentialItem
               item={item} 
             />
           ))}
-        </ul>
+        </List>
       </div>
     );
   }
