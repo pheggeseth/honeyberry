@@ -21,7 +21,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header title="Project Base" />
+        {/* <Header title="Project Base" /> */}
         <Router>
           <Switch>
             <Redirect exact from="/" to="/home" />
