@@ -132,14 +132,14 @@ class ItemTile extends Component {
   };
 
   handleEssentialItemClick = () => {
-    const {editingEssentials, selectingItems, item} = this.props;
+    const {editingEssentials, selectingItems, editingList, item} = this.props;
     if (editingEssentials && selectingItems) {
       if (this.itemIsCurrentlySelected(item)) {
         this.deselectItem(item)
       } else {
         this.selectItem(item);
       }
-    } else {
+    } else if (!editingList) {
       this.addItemToCurrentList(item)
     }
   };
