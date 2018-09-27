@@ -14,6 +14,13 @@ const mapStateToProps = state => ({
 });
 
 class StoresPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      newStoreName: ''
+    };
+  }
+
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     this.props.dispatch({type: STORE_ACTIONS.FETCH_USER_STORES});
@@ -26,6 +33,28 @@ class StoresPage extends Component {
     }
   }
 
+  handleNewStoreNameChange = event => {
+    this.setState({
+      newStoreName: event.target.value
+    });
+  };
+
+  addNewStore = () => {
+    const {stores, dispatch} = this.props;
+    if (stores.find(store => store.name === this.state.newStoreName)) {
+      alert("A store with that name already exists. Please choose a different name.");
+      return;
+    } else {
+      this.props.dispatch({
+        type: STORE_ACTIONS.ADD_NEW_STORE,
+        payload: this.state.newStoreName
+      });
+      this.setState({
+        newStoreName: ''
+      });
+    }
+  };
+
   render() {
     const {user, stores} = this.props;
     let content = null;
@@ -33,12 +62,18 @@ class StoresPage extends Component {
     if (user.userName) {
       content = (
         <div>
-          <p>
-            Stores Page
-          </p>
-          {stores.map(store => (
-            <Store key={store.id} storeObj={store} history={this.props.history}/>
-          ))}
+          <div>
+            <input type="text" 
+              placeholder="Add a new store."
+              onChange={this.handleNewStoreNameChange}
+            />
+            <button onClick={this.addNewStore}>Add</button>
+          </div>
+          <div>
+            {stores.map(store => (
+              <Store key={store.id} storeObj={store} history={this.props.history}/>
+            ))}
+          </div>
         </div>
       );
     }

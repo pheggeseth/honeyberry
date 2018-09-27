@@ -19,9 +19,15 @@ class Store extends Component {
     // redirect to the list for that store
     this.props.history.push('list');
   };
+
   goToStoreSettings = storeId => () => {
     this.props.history.push(`/store/${storeId}/settings`);
   };
+
+  deleteStore = storeId => () => {
+    
+  };
+
   render() {
     const {storeObj} = this.props;
     return (
