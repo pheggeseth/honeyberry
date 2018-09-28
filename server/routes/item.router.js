@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
       "item"."name",
       "item"."default_unit",
       "category"."name" AS "category",
-      "item"."image_path"
+      "item"."icon_path"
     FROM "item" 
     JOIN "category" ON "category"."id" = "item"."category_id";`;
 

@@ -33,7 +33,7 @@ router.get('/:storeId/items', (req, res) => {
       "store_item"."unit",
       "store_item"."completed",
       "item"."name", 
-      "item"."image_path" 
+      "item"."icon_path" 
     FROM "store_item" 
     JOIN "item" ON "item_id" = "item"."id" 
     WHERE "store_id" = $1;`;
@@ -55,7 +55,7 @@ router.get('/:storeId/essentials', (req, res) => {
       "store_essential"."id",
       "item"."name", 
       "item"."default_unit", 
-      "item"."image_path",
+      "item"."icon_path",
       "store_essential"."store_id",
       "store_essential"."item_id"
     FROM "store_essential" 
@@ -103,7 +103,7 @@ router.get('/:storeId/areas', (req, res) => {
             "item"."name" as "name",
             "item"."default_unit" as "default_unit",
             "item"."category_id" as "category_id",
-            "item"."image_path" as "image_path"
+            "item"."icon_path" as "icon_path"
           FROM "area_item" 
           JOIN "item" ON "area_item"."item_id" = "item"."id"
           WHERE "area_item"."area_id" = $1;`;

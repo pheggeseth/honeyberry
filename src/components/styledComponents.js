@@ -132,6 +132,7 @@ export const StoresListItem = styled.div`
   margin-top: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
   display: flex;
   flex-direction: row;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4);
 `;
 
 export const StoreName = styled.div`
@@ -182,7 +183,7 @@ export const Content = styled.div`
 export const TopBarContainer = styled.div`
   width: 100%;
   height: ${STYLE_CONSTANTS.TOP_BAR_HEIGHT}px;
-  max-width: 778px;
+  max-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px;
   background-color: ${STYLE_CONSTANTS.COLORS.BLUE};
   color: white;
   font-size: 1.25em;
@@ -204,7 +205,7 @@ export const TopBarContainerSpacer = styled.div`
   height: ${STYLE_CONSTANTS.TOP_BAR_HEIGHT}px;
 `;
 
-export const ItemSearchBarContainer = styled.div`
+export const SearchBarContainer = styled.div`
   width: 100%;
   height: ${STYLE_CONSTANTS.SEARCH_BAR_HEIGHT}px;
   max-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px;
@@ -219,6 +220,11 @@ export const ItemSearchBarContainer = styled.div`
   and (min-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px)
   and (min-height: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px) {
     margin-bottom: ${STYLE_CONSTANTS.DESKTOP_VERTICAL_MARGIN}vh;
+  }
+
+  & > input[type="text"] {
+    height: 100%;
+    flex-grow: 1;
   }
 `;
 

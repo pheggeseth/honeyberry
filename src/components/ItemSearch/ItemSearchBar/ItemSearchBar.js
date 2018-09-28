@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { ITEM_ACTIONS } from '../../../redux/actions/itemActions';
 
 // import styled from 'styled-components';
-import { ItemSearchBarContainer } from '../../styledComponents';
+import { SearchBarContainer } from '../../styledComponents';
 
 
 const mapStateToProps = state => ({
@@ -49,14 +49,14 @@ class ItemSearchBar extends Component {
 
   render() {
     return (
-      <ItemSearchBarContainer>
-        <input type="text" style={{height: '100%', flexGrow: 1}}
+      <SearchBarContainer>
+        <input type="text"
           value={this.props.searchTerm} 
           onChange={this.updateSearchTerm}
           placeholder="Find an item by name"
         />
         {this.props.searching ? <button onClick={this.handleCancelClick}>Cancel</button> : null}
-      </ItemSearchBarContainer>
+      </SearchBarContainer>
     );
   }
 }

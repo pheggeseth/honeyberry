@@ -216,7 +216,8 @@ class ItemTile extends Component {
         onTouchStart={this.handlePressStart}
         onTouchEnd={this.handlePressEnd}
       >
-        {this.props.item.name + (this.props.item.quantity > 1 ? ' '+this.props.item.quantity : '')}
+        {item.name + (item.quantity > 1 ? ' '+item.quantity : '')}<br />
+        <img src={item.icon_path}/>
       </ItemTileContainer>
     );
   }
