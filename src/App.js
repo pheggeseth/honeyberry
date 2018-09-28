@@ -36,7 +36,7 @@ class App extends React.Component {
           <ScreenContainer className="container">
             <Screen className="screen">
               <Content className="content">
-                <Redirect exact from="/" to="/home" />
+                {/* <Redirect exact from="/" to="/home" /> */}
                 <Route
                   path="/home"
                   component={LoginPage}

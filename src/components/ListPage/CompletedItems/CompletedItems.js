@@ -57,7 +57,7 @@ class CompletedItems extends Component {
     const {items} = this.props;
     return(
       <div>
-        <strong>completed items</strong> 
+        <div style={{color: 'white', fontWeight: 'bold'}}>COMPLETED ITEMS</div> 
         {items.length
         ? <button onClick={this.clearCompleted}>Clear</button>
         : null}

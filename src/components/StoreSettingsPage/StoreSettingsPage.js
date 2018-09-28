@@ -136,14 +136,14 @@ class StoreSettingsPage extends Component {
       <div>
         {/* <Nav /> */}
         <div>
-          Store Name: <input type="text" placeholder="Store Name"
+          <span style={{color: 'white', fontWeight: 'bold'}}>Store Name: </span><input type="text" placeholder="Store Name"
             value={this.state.storeName} 
             onChange={this.handleStoreNameChange}
           />
           <button onClick={this.closeStoreSettings}>Done</button>
         </div>
         <div>
-          Add New Area: <input type="text" placeholder="Name"
+        <span style={{color: 'white', fontWeight: 'bold'}}>Add new area: </span><input type="text" placeholder="Name"
             value={this.state.newAreaName}
             onChange={this.handleNewAreaNameChange} 
           /> 

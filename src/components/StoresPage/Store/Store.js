@@ -38,7 +38,7 @@ class Store extends Component {
     const {storeObj} = this.props;
     return (
       <div>
-        <span onClick={this.setCurrentStore}>{storeObj.name}</span>
+        <span onClick={this.setCurrentStore} style={{color: 'white', fontWeight: 'bold'}}>{storeObj.name}</span>
         <EditButton onClick={this.goToStoreSettings}>Settings</EditButton>
         <button onClick={this.deleteStore}>Delete</button>
       </div>

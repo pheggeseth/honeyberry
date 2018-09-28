@@ -63,7 +63,7 @@ class EssentialItems extends Component {
     const {items, editingEssentials} = this.props;
     return(
       <div>
-        <strong>essential items</strong>
+        <div style={{color: 'white', fontWeight: 'bold'}}>ESSENTIAL ITEMS</div>
         {editingEssentials
         ? (<span>
             <button onClick={this.stopEssentialsListEditing}>Undo</button>
