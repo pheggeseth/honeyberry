@@ -23,8 +23,13 @@ import './styles/main.css';
 // import styled from 'styled-components';
 import { ScreenContainer, Screen, Content, BottomNav } from './components/styledComponents';
 
+const mapStateToProps = state => ({
+  user: state.user
+});
+
 class App extends React.Component {
   render() {
+    const {user} = this.props;
     return (
       <Router>
         <Switch>
@@ -59,7 +64,8 @@ class App extends React.Component {
                 {/* OTHERWISE (no path!) */}
                 {/* <Route render={() => <h1>404</h1>} /> */}
               </Content>
-              <BottomNav className="bottom-nav">
+              {!user.isLoading && user.userName 
+              ? <BottomNav className="bottom-nav">
                 <ul>
                   <li>
                     <Link to="/list">
@@ -77,7 +83,8 @@ class App extends React.Component {
                     </Link>
                   </li>
                 </ul>
-              </BottomNav>
+              </BottomNav> 
+              : null}
             </Screen>
           </ScreenContainer>
         </Switch>
@@ -86,4 +93,4 @@ class App extends React.Component {
   }
 }
 
-export default connect()(App);
+export default connect(mapStateToProps)(App);

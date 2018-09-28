@@ -8,4 +8,9 @@ export const STYLE_CONSTANTS = {
   TILE_MARGIN: 3,
   // TOTAL_TILE_WIDTH is its size plus the left and right margins
   TOTAL_TILE_WIDTH: 118 + 3 * 2,
+  PRIMARY_GREEN: '#2E8B57',
+  LIGHT_GREEN: '#4DB571',
+  RED: '#A82D1E',
+  ORANGE: '#DB9034',
+  BLUE: '#2C8DBE'
 };

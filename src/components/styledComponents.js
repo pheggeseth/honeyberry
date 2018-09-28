@@ -12,6 +12,94 @@ export const ScreenContainer = styled.div`
   }
 `;
 
+export const LoginContainer = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const LoginWindow = styled.div`
+  height: 500px;
+  width: 100%;
+  max-width: 350px;
+  background-color: ${STYLE_CONSTANTS.PRIMARY_GREEN};
+  display: flex;
+  // flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const LoginWindowContentGrid = styled.div`
+  display: grid;
+  grid-template-rows: 75px 30px 30px 30px 30px;
+  grid-gap: 20px;
+`;
+
+export const LoginWindowGridItem = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const AppLogo = styled.h1`
+  font-family: Oleo Script Swash Caps, cursive;
+  font-size: 3em;
+  font-weight: normal;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+`;
+
+export const Input = styled.input`
+  height: 100%;
+  font-size: 1em;
+  text-align: center;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4) inset;
+  
+  flex-grow: 1;
+`;
+
+export const Button = styled.button`
+  border: none;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  font-size: 1em;
+
+  &.rounded {
+    border-radius: 10px;
+  }
+
+  &.flat {
+    box-shadow: none;
+  }
+
+  &.red {
+    background-color: ${STYLE_CONSTANTS.RED};
+    color: white;
+  }
+
+  &.green {
+    background-color: ${STYLE_CONSTANTS.LIGHT_GREEN};
+    color: white;
+  }
+
+  &.orange {
+    background-color: ${STYLE_CONSTANTS.ORANGE};
+    color: white;
+  }
+
+  &.orange.subtle {
+    background-color: transparent;
+    color: ${STYLE_CONSTANTS.ORANGE};
+  }
+
+  &:active {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.4) inset;
+    filter: brightness(0.9);
+  }
+`;
+
 export const Screen = styled.div`
   height: 100%;
   width: 100%;
@@ -26,9 +114,12 @@ export const Screen = styled.div`
 
 export const Content = styled.div`
   min-height: calc(100% - ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT + STYLE_CONSTANTS.CONTENT_MARGIN * 2}px);
-  background-color: gainsboro;
+  background-color: ${STYLE_CONSTANTS.PRIMARY_GREEN};
   padding: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
   padding-bottom: ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT + STYLE_CONSTANTS.CONTENT_MARGIN}px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 `;
 
 export const TopBarContainer = styled.div`
@@ -38,7 +129,7 @@ export const TopBarContainer = styled.div`
   background-color: lightpink;
   position: fixed;
   top: 0;
-  margin-left: -10px;
+  margin-left: -${STYLE_CONSTANTS.CONTENT_MARGIN}px;
   z-index: 100;
 
   @media only screen 
@@ -61,7 +152,6 @@ export const ItemSearchBarContainer = styled.div`
   align-items: center;
   position: fixed;
   bottom: ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT }px;
-  // left: 0px;
 
   @media only screen 
   and (min-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px)

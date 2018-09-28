@@ -4,6 +4,15 @@ import { connect } from 'react-redux';
 import { triggerLogin, formError, clearError } from '../../redux/actions/loginActions';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
+import { 
+  LoginContainer, 
+  LoginWindow, 
+  LoginWindowContentGrid, 
+  LoginWindowGridItem,
+  AppLogo,
+  Input,
+  Button,
+} from '../styledComponents';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -61,44 +70,59 @@ class LoginPage extends Component {
     return (<span />);
   }
 
+  handleCreateClick = () => {
+    this.props.history.push('/register');
+  };
+
   render() {
     return (
-      <div>
-        { this.renderAlert() }
-        <form onSubmit={this.login}>
-          <h1>Login</h1>
-          <div>
-            <label htmlFor="username">
-              Username:
-              <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                onChange={this.handleInputChangeFor('username')}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="password">
-              Password:
-              <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={this.handleInputChangeFor('password')}
-              />
-            </label>
-          </div>
-          <div>
-            <input
-              type="submit"
-              name="submit"
-              value="Log In"
-            />
-            <Link to="/register">Register</Link>
-          </div>
-        </form>
-      </div>
+      <LoginContainer>
+        <LoginWindow>
+          { this.renderAlert() }
+          <form onSubmit={this.login}>
+            <LoginWindowContentGrid>
+              <LoginWindowGridItem>
+                <AppLogo>
+                  Honeyberry
+                </AppLogo>
+              </LoginWindowGridItem>
+              <LoginWindowGridItem>
+                <Input
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  value={this.state.username}
+                  onChange={this.handleInputChangeFor('username')}
+                />
+              </LoginWindowGridItem>
+              <LoginWindowGridItem>
+                  <Input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={this.state.password}
+                    onChange={this.handleInputChangeFor('password')}
+                  />
+              </LoginWindowGridItem>
+            <LoginWindowGridItem>
+              <Button className="red rounded" style={{height: '100%', flexGrow: 1}}
+                type="submit"
+                name="submit"
+                >
+                Log In
+              </Button>
+            </LoginWindowGridItem>
+            <LoginWindowGridItem>
+              <Button className="orange rounded flat" style={{height: '70%', flexGrow: 0.7}}
+                onClick={this.handleCreateClick}>
+                Create An Account
+              </Button>
+              {/* <Link to="/register">Register</Link> */}
+            </LoginWindowGridItem>
+            </LoginWindowContentGrid>
+          </form>
+        </LoginWindow>
+      </LoginContainer>
     );
   }
 }
