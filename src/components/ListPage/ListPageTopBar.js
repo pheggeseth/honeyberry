@@ -5,7 +5,7 @@ import ListEditMenu from './ListEditMenu/ListEditMenu';
 import ItemSearchBar from '../ItemSearch/ItemSearchBar/ItemSearchBar';
 
 // import styled from 'styled-components';
-import { TopBarContainer } from '../styledComponents';
+import { TopBarContainer, Button } from '../styledComponents';
 
 
 const mapStateToProps = state => ({
@@ -20,13 +20,15 @@ class ListPageTopBar extends Component {
 
   render() {
     return (
-      <TopBarContainer className="ListPageTopBarContainer">
+      <TopBarContainer className="TopBarContainer">
         {/* <TopBar className="top-bar"> */}
-          <div>
-            {this.props.currentStore.name}
-            <button onClick={this.goToStoreSettings}>Settings</button>
-          </div>
-          <ListEditMenu />
+            <span style={{flex: '1 1 auto'}}>
+              {this.props.currentStore.name}
+            </span>
+            <Button className="light-blue flat" style={{height: '100%'}} onClick={this.goToStoreSettings}>Settings</Button>
+          
+          
+          
           {/* <ItemSearchBar /> */}
         {/* </TopBar> */}
       </TopBarContainer>

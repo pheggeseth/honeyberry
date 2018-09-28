@@ -24,7 +24,7 @@ export const LoginWindow = styled.div`
   height: 500px;
   width: 100%;
   max-width: 350px;
-  background-color: ${STYLE_CONSTANTS.PRIMARY_GREEN};
+  background-color: ${STYLE_CONSTANTS.COLORS.DARK_GREEN};
   display: flex;
   // flex-direction: column;
   justify-content: center;
@@ -66,6 +66,16 @@ export const Button = styled.button`
   box-shadow: 0 1px 2px rgba(0,0,0,0.4);
   font-size: 1em;
 
+  &:hover {
+    cursor: pointer;
+    filter: brightness(0.95);
+  }
+
+  &:active {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.4) inset;
+    filter: brightness(0.8);
+  }
+
   &.rounded {
     border-radius: 10px;
   }
@@ -74,29 +84,34 @@ export const Button = styled.button`
     box-shadow: none;
   }
 
-  &.red {
-    background-color: ${STYLE_CONSTANTS.RED};
+  &.dark-blue {
+    background-color: ${STYLE_CONSTANTS.COLORS.DARK_BLUE};
+    color: white;
+  }
+
+  &.blue {
+    background-color: ${STYLE_CONSTANTS.COLORS.BLUE};
+    color: white;
+  }
+
+  &.light-blue {
+    background-color: ${STYLE_CONSTANTS.COLORS.LIGHT_BLUE};
     color: white;
   }
 
   &.green {
-    background-color: ${STYLE_CONSTANTS.LIGHT_GREEN};
+    background-color: ${STYLE_CONSTANTS.COLORS.GREEN};
+    color: white;
+  }
+
+  &.light_green {
+    background-color: ${STYLE_CONSTANTS.COLORS.LIGHT_GREEN};
     color: white;
   }
 
   &.orange {
-    background-color: ${STYLE_CONSTANTS.ORANGE};
+    background-color: ${STYLE_CONSTANTS.COLORS.ORANGE};
     color: white;
-  }
-
-  &.orange.subtle {
-    background-color: transparent;
-    color: ${STYLE_CONSTANTS.ORANGE};
-  }
-
-  &:active {
-    box-shadow: 0 1px 2px rgba(0,0,0,0.4) inset;
-    filter: brightness(0.9);
   }
 `;
 
@@ -114,7 +129,7 @@ export const Screen = styled.div`
 
 export const Content = styled.div`
   min-height: calc(100% - ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT + STYLE_CONSTANTS.CONTENT_MARGIN * 2}px);
-  background-color: ${STYLE_CONSTANTS.PRIMARY_GREEN};
+  background-color: ${STYLE_CONSTANTS.COLORS.DARK_GREEN};
   padding: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
   padding-bottom: ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT + STYLE_CONSTANTS.CONTENT_MARGIN}px;
   display: flex;
@@ -125,8 +140,13 @@ export const Content = styled.div`
 export const TopBarContainer = styled.div`
   width: 100%;
   height: ${STYLE_CONSTANTS.TOP_BAR_HEIGHT}px;
-  max-width: 778px;
-  background-color: lightpink;
+  max-width: 768px;
+  background-color: ${STYLE_CONSTANTS.COLORS.DARK_BLUE};
+  color: white;
+  font-size: 1.25em;
+  padding-left: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
+  display: flex;
+  align-items: center;
   position: fixed;
   top: 0;
   margin-left: -${STYLE_CONSTANTS.CONTENT_MARGIN}px;
@@ -145,6 +165,7 @@ export const TopBarContainerSpacer = styled.div`
 
 export const ItemSearchBarContainer = styled.div`
   width: 100%;
+  height: ${STYLE_CONSTANTS.SEARCH_BAR_HEIGHT}px;
   max-width: ${STYLE_CONSTANTS.MAX_SCREEN_WIDTH}px;
   margin-left: -${STYLE_CONSTANTS.CONTENT_MARGIN}px;
   display: flex;
@@ -160,11 +181,17 @@ export const ItemSearchBarContainer = styled.div`
   }
 `;
 
+export const SearchBarSpacer = styled.div`
+  height: ${STYLE_CONSTANTS.SEARCH_BAR_HEIGHT}px;
+`;
+
 export const BottomNav = styled.div`
   height: ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT}px;
   width: inherit;
   max-width: inherit;
-  background-color: dimgray;
+  background-color: ${STYLE_CONSTANTS.COLORS.DARK_BLUE};
+  color: white;
+  font-size: 1.25em;
   position: fixed;
   bottom: 0;
   display: flex;
@@ -214,10 +241,8 @@ export const List = styled.div`
 export const ItemTileContainer = styled.div`
   height: ${STYLE_CONSTANTS.TILE_SIZE}px;
   width: ${STYLE_CONSTANTS.TILE_SIZE}px;
-  background-color: lightgreen;
+  background-color: ${STYLE_CONSTANTS.COLORS.GREEN};
   margin: ${STYLE_CONSTANTS.TILE_MARGIN}px;
-
-  border: 1px solid black;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -229,11 +254,14 @@ export const ItemTileContainer = styled.div`
   }
 
   &.selected {
-    border: 3px solid lightpink;
+    border: 3px solid ${STYLE_CONSTANTS.COLORS.ORANGE};
+    
   }
 
   &.inCurrentList {
-    border: 3px solid lightgreen;
+    background-color: ${STYLE_CONSTANTS.COLORS.LIGHT_GREEN};
+    // border: 3px solid ${STYLE_CONSTANTS.DARK_GREEN};
+    box-shadow: 0 1px 2px rgba(0,0,0,0.4);
   }
 
   @media only screen and (max-width: ${STYLE_CONSTANTS.TOTAL_TILE_WIDTH * 3 + STYLE_CONSTANTS.CONTENT_MARGIN * 2}px) {

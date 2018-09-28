@@ -134,7 +134,7 @@ class StoreSettingsPage extends Component {
   render() {
     return (
       <div>
-        <Nav />
+        {/* <Nav /> */}
         <div>
           Store Name: <input type="text" placeholder="Store Name"
             value={this.state.storeName} 

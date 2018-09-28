@@ -109,7 +109,13 @@ router.get('/:storeId/areas', (req, res) => {
           WHERE "area_item"."area_id" = $1;`;
           const areaItemsResponse = await pool.query(areaItemsQueryText, [areaAtOrderPosition.id]);
           const areaItems = areaItemsResponse.rows;
-          const areaItemsInOrder = areaAtOrderPosition.item_order.map(itemId => areaItems.find(area_item => area_item.id === itemId));
+
+          let areaItemsInOrder;
+          if (areaItems.length === 0) {
+            areaItemsInOrder = [];
+          } else {
+            areaItemsInOrder = areaAtOrderPosition.item_order.map(itemId => areaItems.find(area_item => area_item.id === itemId));
+          }
           areaAtOrderPosition.items = areaItemsInOrder;
           areaAtOrderPosition.visible = false;
 

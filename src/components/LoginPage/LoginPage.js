@@ -105,7 +105,7 @@ class LoginPage extends Component {
                   />
               </LoginWindowGridItem>
             <LoginWindowGridItem>
-              <Button className="red rounded" style={{height: '100%', flexGrow: 1}}
+              <Button className="blue rounded" style={{height: '100%', flexGrow: 1}}
                 type="submit"
                 name="submit"
                 >
@@ -113,7 +113,7 @@ class LoginPage extends Component {
               </Button>
             </LoginWindowGridItem>
             <LoginWindowGridItem>
-              <Button className="orange rounded flat" style={{height: '70%', flexGrow: 0.7}}
+              <Button className="dark-blue rounded flat" style={{height: '70%', flexGrow: 0.7}}
                 onClick={this.handleCreateClick}>
                 Create An Account
               </Button>

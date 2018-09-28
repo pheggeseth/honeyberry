@@ -8,9 +8,22 @@ export const STYLE_CONSTANTS = {
   TILE_MARGIN: 3,
   // TOTAL_TILE_WIDTH is its size plus the left and right margins
   TOTAL_TILE_WIDTH: 118 + 3 * 2,
-  PRIMARY_GREEN: '#2E8B57',
-  LIGHT_GREEN: '#4DB571',
-  RED: '#A82D1E',
-  ORANGE: '#DB9034',
-  BLUE: '#2C8DBE'
+  SEARCH_BAR_HEIGHT: 30,
+  COLORS: {
+    DARK_GREEN: '#203B1D',
+    GREEN: '#5F8A3C',
+    LIGHT_GREEN: '#96C16C',
+    DARK_BLUE: '#27507A',
+    BLUE: '#5182C3',
+    LIGHT_BLUE: '#8DBCF0',
+    ORANGE: '#F7AD4C',
+    // GRAY: '#D6CFC9',
+    // LIGHT_GREEN: '#C2C290',
+    // GREEN: '#4A572C',
+    RED: '#803018',
+    // LIGHT_RED: '#E34819',
+    // ORANGE: '#F59A44',
+  },
 };
+
+// HEX Codes from top to bottom: #D6CFC9, #C2C290, #4A572C, #803018, #E34819, #E87F60

@@ -50,7 +50,7 @@ class ItemSearchBar extends Component {
   render() {
     return (
       <ItemSearchBarContainer>
-        <input type="text" style={{flexGrow: 1}}
+        <input type="text" style={{height: '100%', flexGrow: 1}}
           value={this.props.searchTerm} 
           onChange={this.updateSearchTerm}
           placeholder="Search"

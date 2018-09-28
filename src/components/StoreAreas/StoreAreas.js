@@ -137,7 +137,7 @@ class StoreAreas extends Component {
                 </span>
               : <button onClick={this.startEditingArea(area)}>Edit</button>}
               <button onClick={this.deleteArea(area)}>Delete</button>
-              {areaVisibility[area.id]
+              {areaVisibility[area.id] && area.items[0] !== null
               ? <ul>
                   {area.items.map(item => (
                     <ItemTile key={item.id}

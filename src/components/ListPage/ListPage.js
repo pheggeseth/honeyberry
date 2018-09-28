@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
 // import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -17,9 +17,17 @@ import ItemsAll from '../ItemsAll/ItemsAll';
 import ListPageTopBar from '../ListPage/ListPageTopBar';
 import ItemSearchBar from '../ItemSearch/ItemSearchBar/ItemSearchBar';
 import ItemSearchResults from '../ItemSearch/ItemSearchResults/ItemSearchResults';
-// import ListEditMenu from './ListEditMenu/ListEditMenu';
+import ListEditMenu from './ListEditMenu/ListEditMenu';
+import { TopBarContainerSpacer, SearchBarSpacer } from '../styledComponents';
 
-import { TopBarContainerSpacer } from '../styledComponents';
+// import { STYLE_CONSTANTS } from '../../styles/styleConstants';
+// const PositionedListEditMenu = styled(ListEditMenu)`
+//   position: fixed;
+//   // top: ${STYLE_CONSTANTS.TOP_BAR_HEIGHT}px;
+//   top: 100px;
+// `;
+
+
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -92,6 +100,7 @@ class ListPage extends Component {
         <div>
           <ListPageTopBar history={this.props.history}/>
           <TopBarContainerSpacer />
+          <ListEditMenu />
           {/* <ListEditMenu /> */}
           {/* <ItemSearch /> */}
           {searching
@@ -102,10 +111,8 @@ class ListPage extends Component {
               <EssentialItems items={essentials} />
               <ItemsAll />
             </div>}
-          {/* <ItemSearchBarContainer> */}
-            <ItemSearchBar />
-          {/* </ItemSearchBarContainer> */}
-          
+          <SearchBarSpacer />
+          <ItemSearchBar />
         </div>
       );
     }
