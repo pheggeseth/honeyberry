@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import { STORE_ACTIONS } from '../../../redux/actions/storeActions';
 
 import styled from 'styled-components';
-
-const EditButton = styled.button`
-  
-`;
+import { StoresListItem, StoreName, Button } from '../../styledComponents';
 
 class Store extends Component {
   // when the user clicks the name of the store,
@@ -37,11 +34,13 @@ class Store extends Component {
   render() {
     const {storeObj} = this.props;
     return (
-      <div>
-        <span onClick={this.setCurrentStore} style={{color: 'white', fontWeight: 'bold'}}>{storeObj.name}</span>
-        <EditButton onClick={this.goToStoreSettings}>Settings</EditButton>
-        <button onClick={this.deleteStore}>Delete</button>
-      </div>
+      <StoresListItem>
+        <StoreName onClick={this.setCurrentStore}>
+          {storeObj.name}
+        </StoreName>
+        <Button className="light-blue flat" onClick={this.goToStoreSettings}>Settings</Button>
+        <Button className="red flat" onClick={this.deleteStore}>Delete</Button>
+      </StoresListItem>
     );
   }
 }

@@ -65,15 +65,16 @@ export const Button = styled.button`
   border: none;
   box-shadow: 0 1px 2px rgba(0,0,0,0.4);
   font-size: 1em;
+  height: 100%;
 
   &:hover {
     cursor: pointer;
-    filter: brightness(0.95);
+    filter: brightness(0.9);
   }
 
   &:active {
     box-shadow: 0 1px 2px rgba(0,0,0,0.4) inset;
-    filter: brightness(0.8);
+    filter: brightness(0.7);
   }
 
   &.rounded {
@@ -113,6 +114,47 @@ export const Button = styled.button`
     background-color: ${STYLE_CONSTANTS.COLORS.ORANGE};
     color: white;
   }
+
+  &.red {
+    background-color: ${STYLE_CONSTANTS.COLORS.RED};
+    color: white;
+  }
+`;
+
+export const StoresListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+`;
+
+export const StoresListItem = styled.div`
+  height: 30px;
+  margin-top: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
+  display: flex;
+  flex-direction: row;
+`;
+
+export const StoreName = styled.div`
+  height: 100%;
+  background-color: ${STYLE_CONSTANTS.COLORS.BLUE};
+  color: white;
+  font-size: 1.25em;
+  font-weight: bold;
+  padding-left: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+
+  ${props => {
+    if (props.onClick) {
+      return `
+        &:hover {
+          filter: brightness(0.9);
+          cursor: pointer;
+        }
+      `;
+    }
+  }}
 `;
 
 export const Screen = styled.div`
@@ -140,11 +182,10 @@ export const Content = styled.div`
 export const TopBarContainer = styled.div`
   width: 100%;
   height: ${STYLE_CONSTANTS.TOP_BAR_HEIGHT}px;
-  max-width: 768px;
-  background-color: ${STYLE_CONSTANTS.COLORS.DARK_BLUE};
+  max-width: 778px;
+  background-color: ${STYLE_CONSTANTS.COLORS.BLUE};
   color: white;
   font-size: 1.25em;
-  padding-left: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
   display: flex;
   align-items: center;
   position: fixed;

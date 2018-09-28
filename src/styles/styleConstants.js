@@ -21,7 +21,7 @@ export const STYLE_CONSTANTS = {
     // GRAY: '#D6CFC9',
     // LIGHT_GREEN: '#C2C290',
     // GREEN: '#4A572C',
-    RED: '#803018',
+    RED: '#913C22',
     // LIGHT_RED: '#E34819',
     // ORANGE: '#F59A44',
   },

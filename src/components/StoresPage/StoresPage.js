@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { STORE_ACTIONS } from '../../redux/actions/storeActions';
 
+import { StoresListContainer } from '../styledComponents';
+
 import Store from './Store/Store';
 
 const mapStateToProps = state => ({
@@ -70,11 +72,11 @@ class StoresPage extends Component {
             />
             <button onClick={this.addNewStore}>Add</button>
           </div>
-          <div>
+          <StoresListContainer id="StoresListContainer">
             {stores.map(store => (
               <Store key={store.id} storeObj={store} history={this.props.history}/>
             ))}
-          </div>
+          </StoresListContainer>
         </div>
       );
     }

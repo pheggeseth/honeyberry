@@ -53,7 +53,7 @@ class ItemSearchBar extends Component {
         <input type="text" style={{height: '100%', flexGrow: 1}}
           value={this.props.searchTerm} 
           onChange={this.updateSearchTerm}
-          placeholder="Search"
+          placeholder="Find an item by name"
         />
         {this.props.searching ? <button onClick={this.handleCancelClick}>Cancel</button> : null}
       </ItemSearchBarContainer>
