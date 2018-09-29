@@ -18,7 +18,7 @@ export const STYLE_CONSTANTS = {
     BLUE: '#5182C3',
     LIGHT_BLUE: '#8DBCF0',
     ORANGE: '#F7AD4C',
-    // GRAY: '#D6CFC9',
+    GRAY: '#bbb',
     // LIGHT_GREEN: '#C2C290',
     // GREEN: '#4A572C',
     RED: '#913C22',

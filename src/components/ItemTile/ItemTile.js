@@ -6,7 +6,7 @@ import { ITEM_SELECT_ACTIONS } from '../../redux/actions/itemSelectActions';
 import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
 
 // import styled from 'styled-components';
-import { ItemTileContainer } from '../styledComponents';
+import { ItemTileContainer, ItemQuantity, ItemIcon } from '../styledComponents';
 
 
 
@@ -203,11 +203,13 @@ class ItemTile extends Component {
   render() {
     const {currentList, selectingItems, editingStoreSettings, item} = this.props;
     let className;
+
     if (selectingItems && this.itemIsCurrentlySelected(item)) {
       className = 'selected';
     } else if (!editingStoreSettings && !selectingItems && !item.completed && itemIsInCurrentList(currentList, item)) {
       className = 'inCurrentList';
     }
+
     return (
       <ItemTileContainer 
         className={className}
@@ -216,13 +218,27 @@ class ItemTile extends Component {
         onTouchStart={this.handlePressStart}
         onTouchEnd={this.handlePressEnd}
       >
-        {item.name + (item.quantity > 1 ? ' '+item.quantity : '')}<br />
-        <img src={item.icon_path}/>
+        
+        {/* {item.name + (item.quantity > 1 ? ' '+item.quantity : '')}<br /> */}
+        <ItemIcon>
+          <img src={item.icon_path} alt={item.name}/>
+        </ItemIcon>
+        {className !== 'selected' 
+        ? addQuantityBadgeToItemsInCurrentList(currentList, item)
+        : null}
       </ItemTileContainer>
     );
   }
 }
 
 const itemIsInCurrentList = (list, item) => list.some(listItem => !listItem.completed && listItem.item_id === (item.item_id || item.id));
+const addQuantityBadgeToItemsInCurrentList = (list, item) => {
+  const itemFoundInList = list.find(listItem => listItem.item_id === (item.item_id || item.id));
+  if (itemFoundInList && itemFoundInList.quantity > 1) {
+    return <ItemQuantity>{itemFoundInList.quantity}</ItemQuantity>;
+  } else {
+    return null;
+  }
+};
 
 export default connect(mapStateToProps)(ItemTile);

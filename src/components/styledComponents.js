@@ -288,15 +288,20 @@ export const List = styled.div`
 export const ItemTileContainer = styled.div`
   height: ${STYLE_CONSTANTS.TILE_SIZE}px;
   width: ${STYLE_CONSTANTS.TILE_SIZE}px;
-  background-color: ${STYLE_CONSTANTS.COLORS.GREEN};
+  background-color: ${STYLE_CONSTANTS.COLORS.BLUE};
   margin: ${STYLE_CONSTANTS.TILE_MARGIN}px;
   box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 25% 1fr;
+  grid-template-rows: 25% 1fr 20%;
+  grid-template-areas: 
+    "icon icon icon quantity"
+    "icon icon icon icon"
+    "name name name name"
+    "unit unit unit unit";
   
   :hover {
-    filter: brightness(0.97);
+    filter: brightness(0.9);
     cursor: pointer;
   }
 
@@ -307,13 +312,34 @@ export const ItemTileContainer = styled.div`
 
   &.inCurrentList {
     background-color: ${STYLE_CONSTANTS.COLORS.LIGHT_GREEN};
-    // border: 3px solid ${STYLE_CONSTANTS.DARK_GREEN};
     box-shadow: 0 1px 2px rgba(0,0,0,0.4);
   }
 
   @media only screen and (max-width: ${STYLE_CONSTANTS.TOTAL_TILE_WIDTH * 3 + STYLE_CONSTANTS.CONTENT_MARGIN * 2}px) {
     width: calc((100vw - ${STYLE_CONSTANTS.CONTENT_MARGIN * 2 + STYLE_CONSTANTS.TILE_MARGIN * 6}px) / 3);
     height: calc((100vw - ${STYLE_CONSTANTS.CONTENT_MARGIN * 2 + STYLE_CONSTANTS.TILE_MARGIN * 6}px) / 3);
+  }
+`;
+
+export const ItemQuantity = styled.div`
+  background-color: ${STYLE_CONSTANTS.COLORS.RED};
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 1;
+`;
+
+
+export const ItemIcon = styled.div`
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+
+  & > img {
+    margin: ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px;
+    width: calc(100% - ${STYLE_CONSTANTS.CONTENT_MARGIN}px);
+    max-height: calc(100% - ${STYLE_CONSTANTS.CONTENT_MARGIN}px);
   }
 `;
 
