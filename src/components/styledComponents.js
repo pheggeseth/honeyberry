@@ -292,8 +292,8 @@ export const ItemTileContainer = styled.div`
   margin: ${STYLE_CONSTANTS.TILE_MARGIN}px;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 25% 1fr;
-  grid-template-rows: 25% 1fr 20%;
+  grid-template-columns: 20% 1fr;
+  grid-template-rows: 20% 1fr 20%;
   grid-template-areas: 
     "icon icon icon quantity"
     "icon icon icon icon"
@@ -321,6 +321,17 @@ export const ItemTileContainer = styled.div`
   }
 `;
 
+export const ItemIcon = styled.div`
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+
+  & > img {
+    margin: ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px;
+    width: calc(100% - ${STYLE_CONSTANTS.CONTENT_MARGIN}px);
+    max-height: calc(100% - ${STYLE_CONSTANTS.CONTENT_MARGIN}px);
+  }
+`;
+
 export const ItemQuantity = styled.div`
   background-color: ${STYLE_CONSTANTS.COLORS.RED};
   color: white;
@@ -331,16 +342,14 @@ export const ItemQuantity = styled.div`
   grid-row: 1 / span 1;
 `;
 
-
-export const ItemIcon = styled.div`
+export const ItemName = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${STYLE_CONSTANTS.COLORS.DARK_BLUE};
+  color: white;
   grid-column: 1 / span 2;
-  grid-row: 1 / span 2;
-
-  & > img {
-    margin: ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px;
-    width: calc(100% - ${STYLE_CONSTANTS.CONTENT_MARGIN}px);
-    max-height: calc(100% - ${STYLE_CONSTANTS.CONTENT_MARGIN}px);
-  }
+  grid-row: 3 / span 1;
 `;
 
 // const ItemTile = styled.div`

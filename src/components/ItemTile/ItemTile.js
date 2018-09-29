@@ -6,7 +6,7 @@ import { ITEM_SELECT_ACTIONS } from '../../redux/actions/itemSelectActions';
 import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
 
 // import styled from 'styled-components';
-import { ItemTileContainer, ItemQuantity, ItemIcon } from '../styledComponents';
+import { ItemTileContainer, ItemQuantity, ItemIcon, ItemName } from '../styledComponents';
 
 
 
@@ -223,6 +223,7 @@ class ItemTile extends Component {
         <ItemIcon>
           <img src={item.icon_path} alt={item.name}/>
         </ItemIcon>
+        <ItemName>{item.name}</ItemName>
         {className !== 'selected' 
         ? addQuantityBadgeToItemsInCurrentList(currentList, item)
         : null}
