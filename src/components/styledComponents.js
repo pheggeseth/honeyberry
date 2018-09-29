@@ -292,13 +292,8 @@ export const ItemTileContainer = styled.div`
   margin: ${STYLE_CONSTANTS.TILE_MARGIN}px;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 20% 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: 20% 1fr 20%;
-  grid-template-areas: 
-    "icon icon icon quantity"
-    "icon icon icon icon"
-    "name name name name"
-    "unit unit unit unit";
   
   :hover {
     filter: brightness(0.9);
@@ -332,16 +327,6 @@ export const ItemIcon = styled.div`
   }
 `;
 
-export const ItemQuantity = styled.div`
-  background-color: ${STYLE_CONSTANTS.COLORS.RED};
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  grid-column: 1 / span 1;
-  grid-row: 1 / span 1;
-`;
-
 export const ItemName = styled.div`
   display: flex;
   justify-content: center;
@@ -352,14 +337,29 @@ export const ItemName = styled.div`
   grid-row: 3 / span 1;
 `;
 
-// const ItemTile = styled.div`
-//   height: ${TILE_SIZE}px;
-//   width: ${TILE_SIZE}px;
-//   background-color: lightgreen;
-//   margin: ${TILE_MARGIN}px;
+export const ItemBadgeContainer = styled.div`
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 1;
+  display: flex;
+`;
 
-//   @media only screen and (max-width: 415px) {
-//     width: calc((100vw - ${CONTENT_MARGIN * 2 + TILE_MARGIN * 6}px) / 3);
-//     height: calc((100vw - ${CONTENT_MARGIN * 2 + TILE_MARGIN * 6}px) / 3);
-//   }
+export const ItemBadge = styled.div`
+  min-width: 20%;
+  background-color: ${STYLE_CONSTANTS.COLORS.RED};
+  color: white;
+  padding: 0 ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+`;
+
+// export const ItemUnit = styled.div`
+//   background-color: ${STYLE_CONSTANTS.COLORS.DARK_BLUE};
+//   color: white;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   grid-column: 2 / span 1;
+//   grid-row: 1 / span 1;
 // `;
