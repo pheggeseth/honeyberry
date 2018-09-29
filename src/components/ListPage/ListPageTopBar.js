@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCog, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import ListEditMenu from './ListEditMenu/ListEditMenu';
 import ItemSearchBar from '../ItemSearch/ItemSearchBar/ItemSearchBar';
@@ -25,7 +27,10 @@ class ListPageTopBar extends Component {
             <StoreName>
               {this.props.currentStore.name}
             </StoreName>
-            <Button className="light-blue flat" style={{height: '100%'}} onClick={this.goToStoreSettings}>Settings</Button>
+            <Button className="dark-blue flat" style={{height: '100%'}} 
+              onClick={this.goToStoreSettings}>
+              <FontAwesomeIcon icon={faCog}/>
+            </Button>
           
           
           
