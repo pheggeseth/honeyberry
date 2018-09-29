@@ -128,7 +128,7 @@ export const StoresListContainer = styled.div`
 `;
 
 export const StoresListItem = styled.div`
-  height: 30px;
+  height: 40px;
   margin-top: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
   display: flex;
   flex-direction: row;
@@ -285,12 +285,25 @@ export const List = styled.div`
   }
 `;
 
+export const CategoryLabelContainer = styled.div`
+  padding: ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px;
+  margin: ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px 0;
+  background-color: ${STYLE_CONSTANTS.COLORS.GREEN};
+  color: white;
+  border-radius: 5px;
+  &:hover {
+    filter: brightness(0.9);
+    cursor: pointer;
+  }
+`;
+
 export const ItemTileContainer = styled.div`
   height: ${STYLE_CONSTANTS.TILE_SIZE}px;
   width: ${STYLE_CONSTANTS.TILE_SIZE}px;
   background-color: ${STYLE_CONSTANTS.COLORS.BLUE};
   margin: ${STYLE_CONSTANTS.TILE_MARGIN}px;
   box-sizing: border-box;
+  border-radius: 5px;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 20% 1fr 20%;
@@ -307,7 +320,7 @@ export const ItemTileContainer = styled.div`
 
   &.inCurrentList {
     background-color: ${STYLE_CONSTANTS.COLORS.LIGHT_GREEN};
-    box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 2px rgba(0,0,0,0.5);
   }
 
   @media only screen and (max-width: ${STYLE_CONSTANTS.TOTAL_TILE_WIDTH * 3 + STYLE_CONSTANTS.CONTENT_MARGIN * 2}px) {
@@ -333,6 +346,8 @@ export const ItemName = styled.div`
   align-items: center;
   background-color: ${STYLE_CONSTANTS.COLORS.DARK_BLUE};
   color: white;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   grid-column: 1 / span 2;
   grid-row: 3 / span 1;
 `;
@@ -348,10 +363,11 @@ export const ItemBadge = styled.div`
   background-color: ${STYLE_CONSTANTS.COLORS.RED};
   color: white;
   padding: 0 ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  
 `;
 
 // export const ItemUnit = styled.div`

@@ -228,7 +228,8 @@ class ItemTile extends Component {
           <img src={item.icon_path} alt={item.name}/>
         </ItemIcon>
         <ItemName>{item.name}</ItemName>
-        {className !== 'selected' 
+        {/* {className !== 'selected'  */}
+        {!selectingItems
         ? quantityUnitBadgeForItemsInCurrentList(currentList, item)
         : null}
         {/* {className !== 'selected'

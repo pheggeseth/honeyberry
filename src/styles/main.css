@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps:400,700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 html, body, #react-root {
+  font-family: 'Open Sans', sans-serif;
   padding: 0;
   margin: 0;
   height: 100%;

@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 
-const LabelContainer = styled.div`
-  background-color: white;
-  &:hover {
-    filter: brightness(0.95);
-    cursor: pointer;
-  }
-`;
+import { CategoryLabelContainer } from '../styledComponents';
+
+// const LabelContainer = styled.div`
+//   background-color: white;
+//   &:hover {
+//     filter: brightness(0.9);
+//     cursor: pointer;
+//   }
+// `;
 
 class CategoryLabel extends Component {
   handleClick = () => this.props.onClick();
   render() {
     return (
-      <LabelContainer onClick={this.handleClick}>
+      <CategoryLabelContainer onClick={this.handleClick}>
         {this.props.name}
-      </LabelContainer>
+      </CategoryLabelContainer>
     );
   }
 }
