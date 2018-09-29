@@ -362,6 +362,7 @@ export const ItemBadge = styled.div`
   min-width: 20%;
   background-color: ${STYLE_CONSTANTS.COLORS.RED};
   color: white;
+  font-size: 0.8em;
   padding: 0 ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -369,13 +370,3 @@ export const ItemBadge = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-// export const ItemUnit = styled.div`
-//   background-color: ${STYLE_CONSTANTS.COLORS.DARK_BLUE};
-//   color: white;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   grid-column: 2 / span 1;
-//   grid-row: 1 / span 1;
-// `;
