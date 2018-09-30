@@ -66,6 +66,9 @@ export const Button = styled.button`
   box-shadow: 0 1px 2px rgba(0,0,0,0.4);
   font-size: 1em;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     cursor: pointer;
@@ -105,7 +108,7 @@ export const Button = styled.button`
     color: white;
   }
 
-  &.light_green {
+  &.light-green {
     background-color: ${STYLE_CONSTANTS.COLORS.LIGHT_GREEN};
     color: white;
   }
@@ -141,6 +144,8 @@ export const StoreName = styled.div`
   color: white;
   font-size: 1.25em;
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   padding-left: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
   flex-grow: 1;
   display: flex;
@@ -172,12 +177,14 @@ export const Screen = styled.div`
 
 export const Content = styled.div`
   min-height: calc(100% - ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT + STYLE_CONSTANTS.CONTENT_MARGIN * 2}px);
+  height: calc(100% - ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT + STYLE_CONSTANTS.CONTENT_MARGIN * 2}px);
   background-color: ${STYLE_CONSTANTS.COLORS.DARK_GREEN};
   padding: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
   padding-bottom: ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT + STYLE_CONSTANTS.CONTENT_MARGIN}px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  overflow-y: scroll;
 `;
 
 export const TopBarContainer = styled.div`
@@ -230,6 +237,7 @@ export const SearchBarContainer = styled.div`
 
 export const SearchBarSpacer = styled.div`
   height: ${STYLE_CONSTANTS.SEARCH_BAR_HEIGHT}px;
+  margin: 0;
 `;
 
 export const BottomNav = styled.div`
@@ -238,6 +246,8 @@ export const BottomNav = styled.div`
   max-width: inherit;
   background-color: ${STYLE_CONSTANTS.COLORS.DARK_BLUE};
   color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
   font-size: 1.25em;
   position: fixed;
   bottom: 0;
@@ -269,7 +279,7 @@ export const BottomNav = styled.div`
 export const List = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin: 0 auto;
+  margin: ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px auto;
 
   @media only screen and (min-width: ${STYLE_CONSTANTS.TOTAL_TILE_WIDTH * 3 + STYLE_CONSTANTS.CONTENT_MARGIN * 2}px) {
     max-width: ${STYLE_CONSTANTS.TOTAL_TILE_WIDTH * 3}px;
@@ -286,11 +296,40 @@ export const List = styled.div`
 `;
 
 export const CategoryLabelContainer = styled.div`
-  padding: ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px;
-  margin: ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px 0;
+  height: 30px;
+  padding: 0 ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
+  margin-top: ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px;
   background-color: ${STYLE_CONSTANTS.COLORS.GREEN};
   color: white;
+  font-weight: bold;
+  letter-spacing: 1px;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  &:hover {
+    filter: brightness(0.9);
+    cursor: pointer;
+  }
+`;
+
+export const StoreAreaLabelContainer = styled.div`
+  height: 30px;
+  margin: ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px 0;
+  color: white;
+  display: flex;
+  align-items: stretch;
+`;
+
+export const StoreAreaLabelName = styled.div`
+  padding-left: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
+  background-color: ${STYLE_CONSTANTS.COLORS.BLUE};
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
   &:hover {
     filter: brightness(0.9);
     cursor: pointer;
@@ -359,7 +398,6 @@ export const ItemBadgeContainer = styled.div`
 `;
 
 export const ItemBadge = styled.div`
-  min-width: 20%;
   background-color: ${STYLE_CONSTANTS.COLORS.RED};
   color: white;
   font-size: 0.8em;

@@ -207,7 +207,7 @@ class ItemTile extends Component {
   }
 
   render() {
-    const {currentList, selectingItems, editingStoreSettings, item} = this.props;
+    const {currentList, selectingItems, editingStoreSettings, areaItem, item} = this.props;
     let className;
 
     if (selectingItems && this.itemIsCurrentlySelected(item)) {
@@ -229,7 +229,7 @@ class ItemTile extends Component {
         </ItemIcon>
         <ItemName>{item.name}</ItemName>
         {/* {className !== 'selected'  */}
-        {!selectingItems
+        {!selectingItems && !areaItem
         ? quantityUnitBadgeForItemsInCurrentList(currentList, item)
         : null}
         {/* {className !== 'selected'

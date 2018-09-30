@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 
-// import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
 import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
 import { ITEM_SELECT_ACTIONS } from '../../redux/actions/itemSelectActions';
 
-// import ItemSearch from '../ItemSearch/ItemSearch';
 import ItemEdit from '../ItemEdit/ItemEdit';
 import CurrentItems from './CurrentItems/CurrentItems';
 import CompletedItems from './CompletedItems/CompletedItems';
@@ -19,14 +16,6 @@ import ItemSearchBar from '../ItemSearch/ItemSearchBar/ItemSearchBar';
 import ItemSearchResults from '../ItemSearch/ItemSearchResults/ItemSearchResults';
 import ListEditMenu from './ListEditMenu/ListEditMenu';
 import { TopBarContainerSpacer, SearchBarSpacer } from '../styledComponents';
-
-// import { STYLE_CONSTANTS } from '../../styles/styleConstants';
-// const PositionedListEditMenu = styled(ListEditMenu)`
-//   position: fixed;
-//   // top: ${STYLE_CONSTANTS.TOP_BAR_HEIGHT}px;
-//   top: 100px;
-// `;
-
 
 
 const mapStateToProps = state => ({
@@ -101,14 +90,12 @@ class ListPage extends Component {
           <ListPageTopBar history={this.props.history}/>
           <TopBarContainerSpacer />
           <ListEditMenu />
-          {/* <ListEditMenu /> */}
-          {/* <ItemSearch /> */}
           {searching
           ? <ItemSearchResults />
           : <div>
               <CurrentItems items={list.filter(item => !item.completed)} />
               <CompletedItems items={list.filter(item => item.completed)} />
-              <EssentialItems items={essentials} />
+              <EssentialItems items={essentials.sort(byNameAlphabetically)} />
               <ItemsAll />
             </div>}
           <SearchBarSpacer />
@@ -128,5 +115,14 @@ class ListPage extends Component {
     );
   }
 }
+
+const byNameAlphabetically = (object1, object2) => {
+  let name1 = object1.name.toUpperCase();
+  let name2 = object2.name.toUpperCase();
+  if (name1 < name2) return -1;
+  if (name1 > name2) return 1;
+  
+  return 0;
+};
 
 export default connect(mapStateToProps)(ListPage);

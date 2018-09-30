@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import { StoresListItem, StoreName, Button } from '../../styledComponents';
 
 class Store extends Component {
@@ -41,11 +41,18 @@ class Store extends Component {
         <StoreName onClick={this.setCurrentStore}>
           {storeObj.name}
         </StoreName>
-        <Button className="dark-blue flat" onClick={this.goToStoreSettings}>
+        <Button 
+          className="dark-blue flat"
+          style={{minWidth: '40px'}} 
+          onClick={this.goToStoreSettings}
+        >
           <FontAwesomeIcon icon={faCog}/>
         </Button>
-        <Button className="red flat" onClick={this.deleteStore}>
-        <FontAwesomeIcon icon={faTrash}/>
+        <Button className="red flat" 
+          style={{minWidth: '40px'}}
+          onClick={this.deleteStore}
+        >
+          <FontAwesomeIcon icon={faTrash}/>
         </Button>
       </StoresListItem>
     );

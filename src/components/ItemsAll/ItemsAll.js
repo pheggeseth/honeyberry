@@ -56,6 +56,7 @@ class ItemsAll extends Component {
   render() {
     return (
       <div>
+        <div style={{color: 'white', fontWeight: 'bold'}}>ALL ITEMS</div>
         {this.state.categories.map((category, index) => (
           <div key={category.id}>
             <CategoryLabel name={category.name} onClick={this.toggleCategoryVisibility(index)}/>
