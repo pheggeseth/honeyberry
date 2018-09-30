@@ -377,9 +377,9 @@ export const ItemIcon = styled.div`
   grid-row: 1 / span 2;
 
   & > img {
-    margin: ${STYLE_CONSTANTS.CONTENT_MARGIN / 2}px;
-    width: calc(100% - ${STYLE_CONSTANTS.CONTENT_MARGIN}px);
-    max-height: calc(100% - ${STYLE_CONSTANTS.CONTENT_MARGIN}px);
+    margin: ${STYLE_CONSTANTS.CONTENT_MARGIN}px;
+    width: calc(100% - ${STYLE_CONSTANTS.CONTENT_MARGIN * 2}px);
+    max-height: calc(100% - ${STYLE_CONSTANTS.CONTENT_MARGIN * 2}px);
   }
 `;
 
