@@ -68,7 +68,7 @@ class StoresPage extends Component {
         <div>
           <div style={{display: 'flex', alignItems: 'center', height: '30px', marginBottom: '10px'}}>
             <input type="text" placeholder="Add new store"
-              // style={{height: '100%'}}
+              style={{flexGrow: 1}}
               value={this.state.newStoreName}
               onChange={this.handleNewStoreNameChange} 
             /> 
@@ -79,17 +79,6 @@ class StoresPage extends Component {
               <FontAwesomeIcon icon={faPlus} />
             </Button>
           </div>
-
-
-
-          {/* <div>
-            <input type="text" 
-              placeholder="Add a new store."
-              value={this.state.newStoreName}
-              onChange={this.handleNewStoreNameChange}
-            />
-            <button onClick={this.addNewStore}>Add</button>
-          </div> */}
           <StoresListContainer id="StoresListContainer">
             {stores.sort(byNameAlphabetically).map(store => (
               <Store key={store.id} storeObj={store} history={this.props.history}/>
