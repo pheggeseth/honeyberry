@@ -177,10 +177,16 @@ class StoreSettingsPage extends Component {
           />
           <button onClick={this.closeStoreSettings}>Done</button>
         </div> */}
-        <div style={{display: 'flex', alignItems: 'center', height: '30px', marginBottom: '10px'}}>
+        <div style={{
+          display: 'flex', 
+          alignItems: 'center', 
+          height: '30px', 
+          marginBottom: '10px',
+        }}
+        >
           {/* <span style={{color: 'white', fontWeight: 'bold'}}>Add new area: </span> */}
           <input type="text" placeholder="Add new area"
-            // style={{height: '100%'}}
+            style={{flexGrow: 1}}
             value={this.state.newAreaName}
             onChange={this.handleNewAreaNameChange} 
           /> 
