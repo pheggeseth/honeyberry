@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 
-// import ListEditMenu from './ListEditMenu/ListEditMenu';
+import ListEditMenu from './ListEditMenu/ListEditMenu';
 // import ItemSearchBar from '../ItemSearch/ItemSearchBar/ItemSearchBar';
 
 import { TopBarContainer, StoreName, Button } from '../styledComponents';
@@ -23,7 +23,7 @@ class ListPageTopBar extends Component {
     return (
       <TopBarContainer className="TopBarContainer">
         <StoreName>
-          {this.props.currentStore.name}
+          {this.props.currentStore.name} <ListEditMenu />
         </StoreName>
         <Button className="dark-blue flat" style={{minWidth: '40px'}} 
           onClick={this.goToStoreSettings}>

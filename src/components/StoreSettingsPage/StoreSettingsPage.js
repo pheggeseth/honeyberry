@@ -154,7 +154,7 @@ class StoreSettingsPage extends Component {
                 onChange={this.handleStoreNameChange} 
               />
             : this.state.storeName}
-            <Button className="gray flat"
+            <Button className="gray rounded"
               style={{marginLeft: '10px', maxHeight: '50%', fontSize: '0.6em'}}
               onClick={this.toggleEditingStoreName}
             >

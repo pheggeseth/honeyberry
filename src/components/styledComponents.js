@@ -122,6 +122,10 @@ export const Button = styled.button`
     background-color: ${STYLE_CONSTANTS.COLORS.RED};
     color: white;
   }
+
+  &.gray {
+    background-color: ${STYLE_CONSTANTS.COLORS.GRAY};
+  }
 `;
 
 export const StoresListContainer = styled.div`

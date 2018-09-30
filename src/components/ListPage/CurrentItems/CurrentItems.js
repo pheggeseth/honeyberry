@@ -35,7 +35,7 @@ class CurrentItems extends Component {
     const {items} = this.props;
     return(
       <div>
-        <div style={{color: 'white', fontWeight: 'bold'}}>CURRENT ITEMS</div>
+        <div style={{color: 'white', fontWeight: 'bold'}}>SHOPPING LIST</div>
         <List>
           {items.map(item => (
             <ItemTile key={item.id} 

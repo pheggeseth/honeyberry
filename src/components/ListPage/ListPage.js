@@ -14,7 +14,7 @@ import ItemsAll from '../ItemsAll/ItemsAll';
 import ListPageTopBar from '../ListPage/ListPageTopBar';
 import ItemSearchBar from '../ItemSearch/ItemSearchBar/ItemSearchBar';
 import ItemSearchResults from '../ItemSearch/ItemSearchResults/ItemSearchResults';
-import ListEditMenu from './ListEditMenu/ListEditMenu';
+// import ListEditMenu from './ListEditMenu/ListEditMenu';
 import { TopBarContainerSpacer, SearchBarSpacer } from '../styledComponents';
 
 
@@ -77,6 +77,8 @@ class ListPage extends Component {
   render() {
     let content = null;
     const {list, searching, editingItem, essentials, user} = this.props;
+    const currentItems = list.filter(item => !item.completed);
+    const completedItems = list.filter(item => item.completed);
 
     if (editingItem) {
       content = (
@@ -89,12 +91,12 @@ class ListPage extends Component {
         <div>
           <ListPageTopBar history={this.props.history}/>
           <TopBarContainerSpacer />
-          <ListEditMenu />
+          {/* <ListEditMenu /> */}
           {searching
           ? <ItemSearchResults />
           : <div>
-              <CurrentItems items={list.filter(item => !item.completed)} />
-              <CompletedItems items={list.filter(item => item.completed)} />
+              <CurrentItems items={currentItems} />
+              {completedItems.length ? <CompletedItems items={completedItems} /> : null}
               <EssentialItems items={essentials.sort(byNameAlphabetically)} />
               <ItemsAll />
             </div>}
