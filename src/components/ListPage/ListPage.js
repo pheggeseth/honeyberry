@@ -27,6 +27,7 @@ const mapStateToProps = state => ({
   searching: state.itemSearch.searching,
   editingItem: state.currentStore.editingItem,
   selectingItems: state.itemSelect.selectingItems,
+  areas: state.currentStore.areas,
 });
 
 class ListPage extends Component {
@@ -41,6 +42,10 @@ class ListPage extends Component {
       });
       dispatch({
         type: CURRENT_STORE_ACTIONS.FETCH_STORE_ESSENTIALS,
+        payload: currentStore.id
+      });
+      dispatch({
+        type: CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS,
         payload: currentStore.id
       });
     }
@@ -76,7 +81,16 @@ class ListPage extends Component {
 
   render() {
     let content = null;
-    const {list, searching, editingItem, essentials, user} = this.props;
+    const {list, searching, editingItem, essentials, areas, user} = this.props;
+
+    const areaItems = areas.reduce((array, area) => array.concat(area.items) , []);
+    
+    list.sort((itemA, itemB) => {
+      const areaItemIndexOfA = areaItems.findIndex(areaItem => areaItem.item_id === itemA.item_id);
+      const areaItemIndexOfB = areaItems.findIndex(areaItem => areaItem.item_id === itemB.item_id);
+      return areaItemIndexOfA - areaItemIndexOfB;
+    });
+
     const currentItems = list.filter(item => !item.completed);
     const completedItems = list.filter(item => item.completed);
 
@@ -106,12 +120,8 @@ class ListPage extends Component {
       );
     }
 
-    
-    
     return (
-      <div>
-        {/* <Nav /> */}
-        
+      <div>        
         { user.userName ? content : null }
       </div>
     );

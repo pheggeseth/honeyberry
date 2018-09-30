@@ -169,7 +169,8 @@ class StoreAreas extends Component {
               </StoreAreaLabelContainer>
               {areaVisibility[area.id] && area.items[0] !== null
               ? <List>
-                  {area.items.sort(byNameAlphabetically).map(item => (
+                  {/* {area.items.sort(byNameAlphabetically).map(item => ( */}
+                  {area.items.map(item => (
                     <ItemTile key={item.id}
                       areaItem
                       item={item}
@@ -188,13 +189,13 @@ class StoreAreas extends Component {
   }
 }
 
-const byNameAlphabetically = (object1, object2) => {
-  let name1 = object1.name.toUpperCase();
-  let name2 = object2.name.toUpperCase();
-  if (name1 < name2) return -1;
-  if (name1 > name2) return 1;
+// const byNameAlphabetically = (object1, object2) => {
+//   let name1 = object1.name.toUpperCase();
+//   let name2 = object2.name.toUpperCase();
+//   if (name1 < name2) return -1;
+//   if (name1 > name2) return 1;
   
-  return 0;
-};
+//   return 0;
+// };
 
 export default connect(mapStateToProps)(StoreAreas);

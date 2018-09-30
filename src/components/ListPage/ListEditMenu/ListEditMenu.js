@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { CURRENT_STORE_ACTIONS } from '../../../redux/actions/currentStoreActions';
 import { ITEM_SELECT_ACTIONS } from '../../../redux/actions/itemSelectActions';
 
-import { Button } from '../../styledComponents';
+// import { Button } from '../../styledComponents';
 
 const ClickAway = styled.div`
   width: 100%;

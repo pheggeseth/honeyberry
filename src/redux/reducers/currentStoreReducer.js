@@ -124,7 +124,7 @@ const editingAreaId = (state = null, action) => {
   }
 };
 
-const areas = (state = null, action) => {
+const areas = (state = [], action) => {
   if (action.type === CURRENT_STORE_ACTIONS.SET_STORE_AREAS) {
     return action.payload;
   } else {

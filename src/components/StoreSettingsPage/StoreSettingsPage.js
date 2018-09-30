@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 // import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -165,7 +165,7 @@ class StoreSettingsPage extends Component {
             className="green flat" 
             onClick={this.closeStoreSettings}
           >
-            <FontAwesomeIcon icon={faSave} />
+            <FontAwesomeIcon icon={faCheck} />
           </Button>
         </TopBarContainer>
         <TopBarContainerSpacer />
