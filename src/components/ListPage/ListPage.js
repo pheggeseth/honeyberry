@@ -83,17 +83,56 @@ class ListPage extends Component {
     let content = null;
     const {list, searching, editingItem, essentials, areas, user} = this.props;
 
-    const areaItems = areas.reduce((array, area) => array.concat(area.items) , []);
+    let sortedList = [];
+    let currentItems;
+    let completedItems;
+    if (list.length && areas.length) {
+      console.log('list:', list);
+      const areaItems = areas.reduce((array, area) => array.concat(area.items) , []);
+      console.log('areaItems:', areaItems);
+      // list.sort((itemA, itemB) => {
+      //   // debugger;
+      //   const areaItemIndexOfA = areaItems.findIndex(areaItem => areaItem.id === itemA.item_id);
+      //   const areaItemIndexOfB = areaItems.findIndex(areaItem => areaItem.id === itemB.item_id);
+      //   if (areaItemIndexOfA < 0 && areaItemIndexOfB) {
+      //     return 1;
+      //   } else if (areaItemIndexOfA && areaItemIndexOfB < 0) {
+      //     return -1;
+      //   } else if (areaItemIndexOfA < 0 && areaItemIndexOfB < 0){
+      //     return 0;
+      //   } else {
+      //     return areaItemIndexOfA - areaItemIndexOfB;
+      //   }
+      // });
+      const listToSort = [...list];
+      
+      areaItems.forEach(areaItem => {
+        const listIndexFound = listToSort.findIndex(listItem => listItem.item_id === areaItem.id);
+        // console.log('areaItem:', areaItem);
+        // console.log('listIndexFound:', listIndexFound);
+        if (listIndexFound > -1) {
+          const listItem = listToSort.splice(listIndexFound, 1)[0];
+          // console.log('listItem:', listItem);
+          sortedList.push(listItem);
+          // console.log('sortedList:', sortedList);
+          // console.log('listToSort:', listToSort);
+        }
+      });
+
+      if (listToSort.length) {
+        // console.log('listToSort has length:', listToSort)
+        sortedList = sortedList.concat(listToSort);
+      }
+    }
+
+    if (sortedList.length) {
+      currentItems = sortedList.filter(item => !item.completed);
+      completedItems = sortedList.filter(item => item.completed);
+    } else {
+      currentItems = list.filter(item => !item.completed);
+      completedItems = list.filter(item => item.completed);
+    }
     
-    list.sort((itemA, itemB) => {
-      const areaItemIndexOfA = areaItems.findIndex(areaItem => areaItem.item_id === itemA.item_id);
-      const areaItemIndexOfB = areaItems.findIndex(areaItem => areaItem.item_id === itemB.item_id);
-      return areaItemIndexOfA - areaItemIndexOfB;
-    });
-
-    const currentItems = list.filter(item => !item.completed);
-    const completedItems = list.filter(item => item.completed);
-
     if (editingItem) {
       content = (
         <div>

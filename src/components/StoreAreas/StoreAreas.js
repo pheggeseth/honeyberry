@@ -16,6 +16,7 @@ const mapStateToProps = state => ({
   currentStore: state.currentStore.store,
   editingAreaId: state.currentStore.editingAreaId,
   areas: state.currentStore.areas,
+  items: state.items,
   selectingItems: state.itemSelect.selectingItems,
   selectedItems: state.itemSelect.selectedItems,
 });
@@ -167,15 +168,18 @@ class StoreAreas extends Component {
                   <FontAwesomeIcon icon={faTrash}/>
                 </Button>
               </StoreAreaLabelContainer>
-              {areaVisibility[area.id] && area.items[0] !== null
+              {areaVisibility[area.id] && area.items.length
               ? <List>
                   {/* {area.items.sort(byNameAlphabetically).map(item => ( */}
-                  {area.items.map(item => (
-                    <ItemTile key={item.id}
-                      areaItem
-                      item={item}
-                    />
-                  ))}
+                  {area.items.map(item => {
+                    // const item = this.props.items.find(item => item.id === itemId);
+                    return (
+                      <ItemTile key={item.id}
+                        areaItem
+                        item={item}
+                      />
+                    );
+                  })}
                 </List>
               : null}
             </div>

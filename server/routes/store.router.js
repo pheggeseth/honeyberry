@@ -78,63 +78,111 @@ router.get('/:storeId/areas', (req, res) => {
     const storeId = req.params.storeId;
     (async () => {
       try {
-        const areaOrderQueryText = `SELECT "area_order" from "store" WHERE "id" = $1;`;
-        const areaOrderResponse = await pool.query(areaOrderQueryText, [storeId]);
-        // console.log('area order:', areaOrderResponse.rows[0].area_order);
-        const areaOrder = areaOrderResponse.rows[0].area_order;
+        const storeAreaOrderResponse = await pool.query(`SELECT "area_order" from "store" WHERE "id" = $1`, [storeId]);
+        const storeAreaOrder = storeAreaOrderResponse.rows[0].area_order;
+        console.log('storeAreaOrder:', storeAreaOrder);
+        const storeAreasQueryText = `SELECT "id", "name", "store_id", "item_order" FROM "area" WHERE "id" = $1;`;
+        const storeAreasResponses = await Promise.all(storeAreaOrder.map(areaId => pool.query(storeAreasQueryText, [areaId])));
+        const storeAreas = storeAreasResponses.map(response => response.rows[0]);
+        console.log('storeAreas:', storeAreas);
 
-        const areasQueryText = `SELECT
-          "area"."id",
-          "area"."name",
-          "area"."store_id",
-          "area"."item_order"
-        FROM "area" WHERE "store_id" = $1;`;
-        const areasResponse = await pool.query(areasQueryText, [storeId]);
-        const areas = areasResponse.rows;
-
-        
-        const areasInOrderWithItems = await Promise.all(areaOrder.map(async areaId => {
-          const areaAtOrderPosition = areas.find(area => area.id === areaId);
-          
-          const areaItemsQueryText = `SELECT
-            "area_item"."id",
-            "area_item"."area_id",
-            "area_item"."item_id",
-            "item"."name" as "name",
-            "item"."default_unit" as "default_unit",
-            "item"."category_id" as "category_id",
-            "item"."icon_path" as "icon_path"
-          FROM "area_item" 
-          JOIN "item" ON "area_item"."item_id" = "item"."id"
-          WHERE "area_item"."area_id" = $1;`;
-          const areaItemsResponse = await pool.query(areaItemsQueryText, [areaAtOrderPosition.id]);
-          const areaItems = areaItemsResponse.rows;
-
-          let areaItemsInOrder;
-          if (areaItems.length === 0) {
-            areaItemsInOrder = [];
-          } else {
-            areaItemsInOrder = areaAtOrderPosition.item_order.map(itemId => areaItems.find(area_item => area_item.id === itemId));
+        const storeAreasWithItems = await Promise.all(storeAreas.map(async storeArea => {
+          try {
+            console.log('store area:', storeArea);
+            const itemQuery = `SELECT * FROM "item" WHERE "id" = $1;`;
+            const itemsResponses = await Promise.all(storeArea.item_order.map(itemId => pool.query(itemQuery, [itemId])));
+            const items = itemsResponses.map(response => {
+              return {
+                ...response.rows[0],
+                area_id: storeArea.id
+              };
+            });
+            console.log('items:', items);
+            return {
+              ...storeArea,
+              items: items
+            };
+          } catch(error) {
+            throw error;
           }
-          areaAtOrderPosition.items = areaItemsInOrder;
-          areaAtOrderPosition.visible = false;
-
-          return areaAtOrderPosition;
         }));
 
-        res.send(areasInOrderWithItems);
 
+        res.send(storeAreasWithItems);
       } catch(error) {
         console.log(`/api/store/${storeId}/areas GET error:`, error);
         throw error;
       }
     })().catch(error => {
       res.sendStatus(500);
-    });
+    })
   } else {
     res.sendStatus(401);
   }
 });
+
+// router.get('/:storeId/areas', (req, res) => {
+//   if (req.isAuthenticated()) {
+//     const storeId = req.params.storeId;
+//     (async () => {
+//       try {
+//         const areaOrderQueryText = `SELECT "area_order" from "store" WHERE "id" = $1;`;
+//         const areaOrderResponse = await pool.query(areaOrderQueryText, [storeId]);
+//         // console.log('area order:', areaOrderResponse.rows[0].area_order);
+//         const areaOrder = areaOrderResponse.rows[0].area_order;
+
+//         const areasQueryText = `SELECT
+//           "area"."id",
+//           "area"."name",
+//           "area"."store_id",
+//           "area"."item_order"
+//         FROM "area" WHERE "store_id" = $1;`;
+//         const areasResponse = await pool.query(areasQueryText, [storeId]);
+//         const areas = areasResponse.rows;
+
+
+//         const areasInOrderWithItems = await Promise.all(areaOrder.map(async areaId => {
+//           const areaAtOrderPosition = areas.find(area => area.id === areaId);        
+          
+//           const areaItemsQueryText = `SELECT
+//             "area_item"."id",
+//             "area_item"."area_id",
+//             "area_item"."item_id",
+//             "item"."name" as "name",
+//             "item"."default_unit" as "default_unit",
+//             "item"."category_id" as "category_id",
+//             "item"."icon_path" as "icon_path"
+//           FROM "area_item" 
+//           JOIN "item" ON "area_item"."item_id" = "item"."id"
+//           WHERE "area_item"."area_id" = $1;`;
+//           const areaItemsResponse = await pool.query(areaItemsQueryText, [areaAtOrderPosition.id]);
+//           const areaItems = areaItemsResponse.rows;
+
+//           let areaItemsInOrder;
+//           if (areaItems.length === 0) {
+//             areaItemsInOrder = [];
+//           } else {
+//             areaItemsInOrder = areaAtOrderPosition.item_order.map(itemId => areaItems.find(area_item => area_item.id === itemId));
+//           }
+//           areaAtOrderPosition.items = areaItemsInOrder;
+//           areaAtOrderPosition.visible = false;
+
+//           return areaAtOrderPosition;
+//         }));
+
+//         res.send(areasInOrderWithItems);
+
+//       } catch(error) {
+//         console.log(`/api/store/${storeId}/areas GET error:`, error);
+//         throw error;
+//       }
+//     })().catch(error => {
+//       res.sendStatus(500);
+//     });
+//   } else {
+//     res.sendStatus(401);
+//   }
+// });
 
 /**
  * POST route template
@@ -249,19 +297,29 @@ router.post('/area/:areaId/items', (req, res) => {
       try {
         const areaId = Number(req.params.areaId);
         const items = req.body;
-        console.log('items:', items);
+        // console.log('items:', items);
         const itemIdPairs = items.map(item => [areaId, (item.item_id || item.id)]);
-        console.log('itemIdPairs:', itemIdPairs);
+        // console.log('itemIdPairs:', itemIdPairs);
         // await pool.query('BEGIN');
         await pool.query(`DELETE FROM "area_item" WHERE "area_id" = $1;`, [areaId]);
-        console.log('delete done');
+        // console.log('delete done');
         const insertItemsQueryText = `INSERT INTO "area_item" ("area_id", "item_id") VALUES ($1, $2);`;
         const insertQueries = itemIdPairs.map(values => pool.query(insertItemsQueryText, values));
         await Promise.all(insertQueries);
-        console.log('inserts done');
+        // console.log('inserts done');
         const newAreaItemRows = await pool.query(`SELECT "id" FROM "area_item" WHERE "area_id" = $1;`, [areaId]);
+        // const newAreaItems = newAreaItemRows.rows;
+        // console.log('newAreaItems:', newAreaItems);
+        // newAreaItems.sort((itemA, itemB) => {
+        //   const itemAIndex = items.findIndex(item => item.item_id === itemA.item_id);
+        //   const itemBIndex = items.findIndex(item => item.item_id === itemB.item_id);
+        //   return itemAIndex - itemBIndex;
+        // });
+        // console.log('newAreaItems after sort:', newAreaitems);
+
+
         const newAreaItemIds = newAreaItemRows.rows.map(item => item.id);
-        console.log('newAreaItems:', newAreaItemIds);
+        // console.log('newAreaItems:', newAreaItemIds);
         await pool.query('UPDATE "area" SET "item_order" = $1 WHERE "id" = $2;', [JSON.stringify(newAreaItemIds), areaId]);
         // await pool.query('COMMIT');
         res.sendStatus(200);
@@ -400,6 +458,26 @@ router.put('/:storeId/name', (req, res) => {
   }
 });
 
+router.put('/area/:areaId/items', (req, res) => {
+  if (req.isAuthenticated) {
+    const areaId = Number(req.params.areaId);
+    console.log('req.body:', req.body);
+    const itemOrder = req.body.map(item => item.id);
+    console.log('itemOrder:', itemOrder);
+    const queryText = `UPDATE "area" SET "item_order" = $1 WHERE "id" = $2;`;
+    pool.query(queryText, [JSON.stringify(itemOrder), areaId])
+    .then(() => {
+      console.log(`/api/store/area/${areaId}/items PUT success:`, itemOrder);
+      res.sendStatus(201);
+    }).catch(error => {
+      console.log(`/api/store/area/${areaId}/items PUT error:`, error);
+      res.sendStatus(500);
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 router.delete('/:storeId', (req, res) => {
   if (req.isAuthenticated()) {
     (async () => {
@@ -407,7 +485,7 @@ router.delete('/:storeId', (req, res) => {
         const storeId = req.params.storeId;
         await pool.query(`DELETE FROM "store_item" WHERE "store_id" = $1;`, [storeId]);
         await pool.query(`DELETE FROM "store_essential" WHERE "store_id" = $1;`, [storeId]);
-        await pool.query(`DELETE FROM "area_item" USING "area" WHERE "area_item"."area_id" = "area"."id" AND "area"."store_id" = $1;`, [storeId]);
+        // await pool.query(`DELETE FROM "area_item" USING "area" WHERE "area_item"."area_id" = "area"."id" AND "area"."store_id" = $1;`, [storeId]);
         await pool.query(`DELETE FROM "area" WHERE "store_id" = $1;`, [storeId]);
         await pool.query(`DELETE FROM "store" WHERE "id" = $1;`, [storeId]);
         res.sendStatus(200);
@@ -504,34 +582,61 @@ router.delete('/:storeId/area/:areaId', (req, res) => {
   if (req.isAuthenticated()) {
     (async () => {
       try {
-        await pool.query('BEGIN');
-        const {storeId, areaId} = req.params;
-        // delete items in this area first
-        await pool.query(`DELETE FROM "area_item" WHERE "area_id" = $1;`, [areaId]);
-        // get the area_order JSON array from the store
-        const storeAreaOrderResponse = await pool.query(`SELECT "area_order" FROM "store" WHERE "id" = $1;`, [storeId]);
-        const storeAreaOrderArray = storeAreaOrderResponse.rows[0].area_order;
-        // splice out areaId from area order array
-        const indexOfAreaInArray = storeAreaOrderArray.findIndex(area => area.id === areaId);
-        storeAreaOrderArray.splice(indexOfAreaInArray, 1);
-        // store the array back in the store
-        await pool.query(`UPDATE "store" SET "area_order" = $1 WHERE "id" = $2;`, [JSON.stringify(storeAreaOrderArray), storeId]);
-        // delete area from area table with id
-        await pool.query(`DELETE FROM "area" WHERE "id" = $1;`, [areaId]);
-        await pool.query('COMMIT');
+        const {areaId, storeId} = req.params;
+        await pool.query(`DELETE FROM "area" WHERE "id" = $1 AND "store_id" = $2;`, [areaId, storeId]);
+        const areaOrderResponse = await pool.query(`SELECT "area_order" FROM "store" WHERE "id" = $1;`, [storeId]);
+        const areaOrder = areaOrderResponse.rows[0].area_order;
+        const indexOfDeletedArea = areaOrder.findIndex(id => id === areaId);
+        areaOrder.splice(indexOfDeletedArea, 1);
+        console.log('area order without deleted area:', areaOrder);
+        await pool.query('UPDATE "store" SET "area_order" = $1 WHERE "id" = $2;', [JSON.stringify(areaOrder), storeId]);
+
+        console.log(`/api/store/${storeId}/area/${areaId} DELETE success`);
         res.sendStatus(200);
       } catch(error) {
-        await pool.query('ROLLBACK');
         console.log(`/api/store/${storeId}/area/${areaId} DELETE error:`, error);
         throw error;
       }
     })().catch(error => {
       res.sendStatus(500);
     });
-    
   } else {
     res.sendStatus(401);
   }
 });
+
+// router.delete('/:storeId/area/:areaId', (req, res) => {
+//   if (req.isAuthenticated()) {
+//     (async () => {
+//       try {
+//         await pool.query('BEGIN');
+//         const {storeId, areaId} = req.params;
+//         // delete items in this area first
+//         await pool.query(`DELETE FROM "area_item" WHERE "area_id" = $1;`, [areaId]);
+//         // get the area_order JSON array from the store
+//         const storeAreaOrderResponse = await pool.query(`SELECT "area_order" FROM "store" WHERE "id" = $1;`, [storeId]);
+//         const storeAreaOrderArray = storeAreaOrderResponse.rows[0].area_order;
+//         // splice out areaId from area order array
+//         const indexOfAreaInArray = storeAreaOrderArray.findIndex(area => area.id === areaId);
+//         storeAreaOrderArray.splice(indexOfAreaInArray, 1);
+//         // store the array back in the store
+//         await pool.query(`UPDATE "store" SET "area_order" = $1 WHERE "id" = $2;`, [JSON.stringify(storeAreaOrderArray), storeId]);
+//         // delete area from area table with id
+//         await pool.query(`DELETE FROM "area" WHERE "id" = $1;`, [areaId]);
+//         await pool.query('COMMIT');
+//         res.sendStatus(200);
+//       } catch(error) {
+//         await pool.query('ROLLBACK');
+//         console.log(`/api/store/${storeId}/area/${areaId} DELETE error:`, error);
+//         throw error;
+//       }
+//     })().catch(error => {
+//       res.sendStatus(500);
+//     });
+    
+//   } else {
+//     res.sendStatus(401);
+//   }
+// });
 
 module.exports = router;

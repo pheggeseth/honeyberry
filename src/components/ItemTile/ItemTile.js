@@ -163,6 +163,7 @@ class ItemTile extends Component {
 
   handleAreaItemClick = () => {
     const {selectingItems, editingAreaId, item} = this.props;
+    console.log('area item click:', item);
     if (selectingItems && editingAreaId === item.area_id) {
       if (this.itemIsCurrentlySelected(item)) {
         this.deselectItem(item);
