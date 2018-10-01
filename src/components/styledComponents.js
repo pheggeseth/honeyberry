@@ -64,7 +64,8 @@ export const Input = styled.input`
 `;
 
 export const EditItemGrid = styled.div`
-  width: 350px;
+  width: 90%;
+  max-width: 350px;
   height: 350px;
   text-align: center;
   background-color: ${STYLE_CONSTANTS.COLORS.GREEN};
