@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { STYLE_CONSTANTS } from '../styles/styleConstants';
+import { Link } from 'react-router-dom';
 
 export const ScreenContainer = styled.div`
   height: 100%;
@@ -272,14 +273,48 @@ export const BottomNav = styled.div`
     overflow: hidden;
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    align-items: stretch;
   }
-  & > ul li a {
-    color: white;
-    text-align: center;
-    text-decoration: none;
+  & > ul li {
+    width: 20%;
   }
 `;
+
+export const BottomNavLink = styled(Link)`
+  background-color: ${props => props.active ? STYLE_CONSTANTS.COLORS.GREEN : 'none'};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  height: 100%;
+
+  &:hover {
+    background-color: ${props => !props.active ? STYLE_CONSTANTS.COLORS.BLUE : 'none'};
+  }
+`;
+
+// export const BottomNavLink = styled.li`
+//   background-color: ${props => props.active ? STYLE_CONSTANTS.COLORS.GREEN : 'none'};
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   width: 20%;
+
+//   ${props => (!props.active 
+//     ? `&:hover {
+//       background-color: ${STYLE_CONSTANTS.COLORS.BLUE};
+      
+//     }`
+//     : '')
+//   }
+  
+//   & > a {
+//     color: white;
+//     text-align: center;
+//     text-decoration: none;
+//   }
+// `;
 
 export const List = styled.div`
   display: flex;

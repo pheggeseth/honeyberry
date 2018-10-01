@@ -6,7 +6,7 @@ import {
   Switch,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 // import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
@@ -21,7 +21,7 @@ import MorePage from './components/MorePage/MorePage';
 import './styles/main.css';
 
 // import styled from 'styled-components';
-import { ScreenContainer, Screen, Content, BottomNav } from './components/styledComponents';
+import { ScreenContainer, Screen, Content, BottomNav, BottomNavLink } from './components/styledComponents';
 
 const mapStateToProps = state => ({
   user: state.user
@@ -30,6 +30,7 @@ const mapStateToProps = state => ({
 class App extends React.Component {
   render() {
     const {user} = this.props;
+    // console.log(window.location.hash);
     return (
       <Router>
         <Switch>
@@ -68,20 +69,30 @@ class App extends React.Component {
               ? <BottomNav className="bottom-nav">
                 <ul>
                   <li>
-                    <Link to="/list">
+                    <BottomNavLink to="/list" active={window.location.hash.slice(2) === 'list' ? 1 : 0}>
                       List
-                    </Link>
+                    </BottomNavLink>
                   </li>
                   <li>
+                    <BottomNavLink to="/stores" active={window.location.hash.slice(2) === 'stores' ? 1 : 0}>
+                      Stores
+                    </BottomNavLink>
+                  </li>
+                  <li>
+                    <BottomNavLink to="/more" active={window.location.hash.slice(2) === 'more' ? 1 : 0}>
+                      More
+                    </BottomNavLink>
+                  </li>
+                  {/* <BottomNavLink active={window.location.hash.slice(2) === 'stores'}>
                     <Link to="/stores">
                       Stores
                     </Link>
-                  </li>
-                  <li>
+                  </BottomNavLink>
+                  <BottomNavLink active={window.location.hash.slice(2) === 'more'}>
                     <Link to="/more">
                       More
                     </Link>
-                  </li>
+                  </BottomNavLink> */}
                 </ul>
               </BottomNav> 
               : null}
