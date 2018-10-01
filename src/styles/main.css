@@ -1,4 +1,49 @@
+@import url('https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps:400,700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+html, body, #react-root {
+  font-family: 'Open Sans', sans-serif;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  overflow: hidden;
+}
+
 body {
+  background-color: whitesmoke;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+
+  /* position: fixed; */
+  /* -webkit-overflow-scrolling: touch; */
+}
+
+input {
+    height: 100%;
+    font-size: 1em;
+    padding: 0;
+    border: none;
+    padding-left: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.4) inset;
+    background-color: whitesmoke;
+    
+}
+input::placeholder {
+    color: black;
+}
+
+/* body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
@@ -73,8 +118,7 @@ li a {
 
 }
 
-/* Change the link color to #111 (black) on hover */
 li a:hover {
     text-decoration: underline;
     color: #eee;
-}
+} */

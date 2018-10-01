@@ -5,6 +5,7 @@ import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
 import { CATEGORY_ACTIONS } from '../../redux/actions/categoryActions';
 
 import CategoryLabel from '../CategoryLabel/CategoryLabel';
+import { List } from '../styledComponents';
 import ItemTile from '../ItemTile/ItemTile';
 
 const mapStateToProps = state => ({
@@ -55,11 +56,12 @@ class ItemsAll extends Component {
   render() {
     return (
       <div>
+        <div style={{color: 'white', fontWeight: 'bold'}}>ALL ITEMS</div>
         {this.state.categories.map((category, index) => (
           <div key={category.id}>
             <CategoryLabel name={category.name} onClick={this.toggleCategoryVisibility(index)}/>
             {category.visible 
-            ? <ul>
+            ? <List>
                 {this.props.items.filter(item => item.category === category.name)
                 .map(item => (
                   <ItemTile key={item.id}
@@ -67,7 +69,7 @@ class ItemsAll extends Component {
                     item={item} 
                   />
                 ))}
-              </ul> 
+              </List>
             : null
             }
           </div>

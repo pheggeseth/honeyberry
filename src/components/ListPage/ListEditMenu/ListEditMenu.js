@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { CURRENT_STORE_ACTIONS } from '../../../redux/actions/currentStoreActions';
 import { ITEM_SELECT_ACTIONS } from '../../../redux/actions/itemSelectActions';
 
+// import { Button } from '../../styledComponents';
+
 const ClickAway = styled.div`
   width: 100%;
   height: 100%;
@@ -126,32 +128,32 @@ class ListEditMenu extends Component {
 
   render() {
     const {editingList, selectingItems, selectedItems, currentStore, movingItems, deletingItems, itemMoveTargetStore, stores} = this.props;
-    const editListButton = <div><button onClick={this.startListEditMode}>Edit List</button></div>;
+    const editListButton = <button onClick={this.startListEditMode}>Edit List</button>;
     const editListMenu = (
-      <div>
-        <div style={{zIndex: 101, position: 'relative'}}>
+      <span>
+        <span style={{display: 'flex', alignItems: 'center', zIndex: 101, position: 'relative'}}>
           <button onClick={this.stopListEditMode}>Back</button>
           <button onClick={this.startListEditSelectMode}>Select</button>
           <button>Share</button>
-        </div>
+        </span>
         <ClickAway onClick={this.stopListEditMode} />
-      </div>
+      </span>
     );
     const selectItemsMenu = (
-      <div>
+      <span style={{display: 'flex', alignItems: 'center'}}>
         <button onClick={this.stopListEditSelectMode}>Back</button>
         <button onClick={this.startListItemMoveMode}>Move</button>
         <button onClick={this.startListItemDeleteMode}>Delete</button>
-      </div>
+      </span>
     );
     const moveItemsMenu = (
-      <div>
+      <span style={{display: 'flex', alignItems: 'center'}}>
         <button onClick={this.stopListItemMoveMode}>Back</button>
         {stores.filter(store => store.id !== currentStore.id)
         .map(store => {
           if (itemMoveTargetStore === store.id) {
             return (
-              <span key={store.id}>
+              <span key={store.id} style={{display: 'flex', alignItems: 'center'}}>
                 <button onClick={this.clearItemMoveTargetStore}>Cancel</button>
                 <button onClick={this.moveSelectedItemsToTargetStore}>Confirm</button>
               </span>
@@ -160,20 +162,32 @@ class ListEditMenu extends Component {
             return <button key={store.id} onClick={this.setItemMoveTargetStore(store.id)}>{store.name}</button>;
           }
         })}
-      </div>
+      </span>
     );
     const deleteItemsMenu = (
-      <div>
+      <span style={{display: 'flex', alignItems: 'center'}}>
         <button onClick={this.stopListItemDeleteMode}>Cancel</button>
         <button onClick={this.deleteSelectedListItems}>Confirm</button>
-      </div>
+      </span>
     );
     
-    if (editingList && deletingItems && selectedItems.length) return deleteItemsMenu;
-    else if (editingList && movingItems && selectedItems.length) return moveItemsMenu;
-    else if (editingList && selectingItems) return selectItemsMenu;
-    else if (editingList) return editListMenu;
-    else return editListButton;
+    let menu = null;
+    if (editingList && deletingItems && selectedItems.length) menu = deleteItemsMenu;
+    else if (editingList && movingItems && selectedItems.length) menu = moveItemsMenu;
+    else if (editingList && selectingItems) menu = selectItemsMenu;
+    else if (editingList) menu = editListMenu;
+    else menu = editListButton;
+
+    return (
+      <div style={{
+        height: '60%', 
+        display: 'flex', 
+        alignItems: 'center', 
+        marginLeft: '10px',
+        fontSize: '0.6em'}}>
+        {menu}
+      </div>
+    );
   }
 }
 

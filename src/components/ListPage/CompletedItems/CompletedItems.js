@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CURRENT_STORE_ACTIONS } from '../../../redux/actions/currentStoreActions';
 import { ITEM_SELECT_ACTIONS } from '../../../redux/actions/itemSelectActions';
+
+import { List, Button } from '../../styledComponents';
 import ItemTile from '../../ItemTile/ItemTile';
 
 const mapStateToProps = state => ({
@@ -55,11 +57,12 @@ class CompletedItems extends Component {
     const {items} = this.props;
     return(
       <div>
-        <strong>completed items</strong> 
-        {items.length
-        ? <button onClick={this.clearCompleted}>Clear</button>
-        : null}
-        <ul>
+        <div style={{color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center'}}>
+          COMPLETED
+          <Button className="gray rounded" style={{marginLeft: '10px', fontSize: '0.8em'}} onClick={this.clearCompleted}>Clear</Button>
+        </div> 
+        
+        <List>
           {items.map(item => (
             <ItemTile key={item.id} 
               completedListItem
@@ -67,7 +70,7 @@ class CompletedItems extends Component {
               onClick={this.uncompleteItem(item)} 
             />
           ))}
-        </ul>
+        </List>
       </div>
     );
   }

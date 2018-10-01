@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { STORE_ACTIONS } from '../../redux/actions/storeActions';
+
+import { StoresListContainer, Button } from '../styledComponents';
+
 
 import Store from './Store/Store';
 
@@ -62,31 +66,45 @@ class StoresPage extends Component {
     if (user.userName) {
       content = (
         <div>
-          <div>
-            <input type="text" 
-              placeholder="Add a new store."
+          <div style={{display: 'flex', alignItems: 'center', height: '30px', marginBottom: '10px'}}>
+            <input type="text" placeholder="Add new store"
+              style={{flexGrow: 1}}
               value={this.state.newStoreName}
-              onChange={this.handleNewStoreNameChange}
-            />
-            <button onClick={this.addNewStore}>Add</button>
+              onChange={this.handleNewStoreNameChange} 
+            /> 
+            <Button className="red"
+              style={{height: '100%', minWidth: '30px'}}
+              onClick={this.addNewStore}
+            >
+              <FontAwesomeIcon icon={faPlus} />
+            </Button>
           </div>
-          <div>
-            {stores.map(store => (
+          <StoresListContainer id="StoresListContainer">
+            {stores.sort(byNameAlphabetically).map(store => (
               <Store key={store.id} storeObj={store} history={this.props.history}/>
             ))}
-          </div>
+          </StoresListContainer>
         </div>
       );
     }
 
     return (
       <div>
-        <Nav />
+        {/* <Nav /> */}
         { content }
       </div>
     );
   }
 }
+
+const byNameAlphabetically = (object1, object2) => {
+  let name1 = object1.name.toUpperCase();
+  let name2 = object2.name.toUpperCase();
+  if (name1 < name2) return -1;
+  if (name1 > name2) return 1;
+  
+  return 0;
+};
 
 // this allows us to use <App /> in index.js
 export default connect(mapStateToProps)(StoresPage);

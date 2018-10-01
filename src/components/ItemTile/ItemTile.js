@@ -1,33 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+
 import { CURRENT_STORE_ACTIONS, addItemOrUpdateQuantity } from '../../redux/actions/currentStoreActions';
 import { ITEM_SELECT_ACTIONS } from '../../redux/actions/itemSelectActions';
 import { ITEM_ACTIONS } from '../../redux/actions/itemActions';
 
-const Container = styled.li`
-  height: 100px;
-  width: 100px;
-  background-color: white;
-  border: 1px solid black;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  :hover {
-    filter: brightness(0.95);
-    cursor: pointer;
-  }
+// import styled from 'styled-components';
+import { 
+  ItemTileContainer, 
+  ItemIcon, 
+  ItemName,
+  ItemBadgeContainer,
+  ItemBadge,
+} from '../styledComponents';
 
-  &.selected {
-    border: 3px solid lightpink;
-  }
 
-  &.inCurrentList {
-    border: 3px solid lightgreen;
-  }
-`;
 
 const mapStateToProps = state => ({
   currentStore: state.currentStore.store,
@@ -176,6 +163,7 @@ class ItemTile extends Component {
 
   handleAreaItemClick = () => {
     const {selectingItems, editingAreaId, item} = this.props;
+    console.log('area item click:', item);
     if (selectingItems && editingAreaId === item.area_id) {
       if (this.itemIsCurrentlySelected(item)) {
         this.deselectItem(item);
@@ -220,27 +208,97 @@ class ItemTile extends Component {
   }
 
   render() {
-    const {currentList, selectingItems, editingStoreSettings, item} = this.props;
+    const {currentList, selectingItems, editingStoreSettings, areaItem, item} = this.props;
     let className;
+
     if (selectingItems && this.itemIsCurrentlySelected(item)) {
       className = 'selected';
     } else if (!editingStoreSettings && !selectingItems && !item.completed && itemIsInCurrentList(currentList, item)) {
       className = 'inCurrentList';
     }
+
     return (
-      <Container 
+      <ItemTileContainer 
         className={className}
         onMouseDown={this.handlePressStart}
         onMouseUp={this.handlePressEnd}
         onTouchStart={this.handlePressStart}
         onTouchEnd={this.handlePressEnd}
       >
-        {this.props.item.name + (this.props.item.quantity > 1 ? ' '+this.props.item.quantity : '')}
-      </Container>
+        <ItemIcon>
+          <img src={item.icon_path} alt={item.name}/>
+        </ItemIcon>
+        <ItemName>{item.name}</ItemName>
+        {/* {className !== 'selected'  */}
+        {!selectingItems && !areaItem
+        ? quantityUnitBadgeForItemsInCurrentList(currentList, item)
+        : null}
+        {/* {className !== 'selected'
+        ? unitBadgeForItemsInCurrentList(currentList, item)
+        : null} */}
+      </ItemTileContainer>
     );
   }
 }
 
 const itemIsInCurrentList = (list, item) => list.some(listItem => !listItem.completed && listItem.item_id === (item.item_id || item.id));
+
+const quantityUnitBadgeForItemsInCurrentList = (list, item) => {
+  const itemFoundInList = list.find(listItem => listItem.item_id === (item.item_id || item.id));
+  if (!itemFoundInList) return null;
+  
+  const {quantity, unit} = itemFoundInList;
+  let content = [];
+  if (quantity > 1) content.push(quantity);
+  if (unit) {
+    if (quantity > 1 && unit[unit.length-1] !== 's') {
+      content.push(unit + 's');
+    } else {
+      content.push(unit);
+    }
+  }
+
+  if (content.length) {
+    return (
+      <ItemBadgeContainer>
+        <ItemBadge>{content.join(' ')}</ItemBadge>
+      </ItemBadgeContainer>
+    );
+  } else {
+    return null;
+  }
+
+
+
+
+
+  // if (itemFoundInList && itemFoundInList.quantity > 1) {
+  //   let content = itemFoundInList.quantity;
+  //   console.log('unit:', itemFoundInList);
+  //   if (itemFoundInList.unit) {
+  //     content += ' ' + itemFoundInList.unit;
+  //     if (itemFoundInList.quantity > 1)
+  //     // console.log('content is:', content + itemFoundInList.unit);
+  //   }
+  //   return (
+  //     <ItemBadgeContainer>
+  //       <ItemBadge>{content}</ItemBadge>
+  //     </ItemBadgeContainer>
+  //   );
+  // } else {
+  //   return null;
+  // }
+};
+
+// const unitBadgeForItemsInCurrentList = (list, item) => {
+//   const itemFoundInList = list.find(listItem => listItem.item_id === (item.item_id || item.id));
+//   if (itemFoundInList && itemFoundInList.unit) {
+//     let unit = itemFoundInList.unit;
+//     if (unit !== '' && itemFoundInList.quantity > 1) unit += 's';
+//     return <ItemUnit>{unit}</ItemUnit>;
+//   } else {
+//     return null;
+//   }
+// };
 
 export default connect(mapStateToProps)(ItemTile);

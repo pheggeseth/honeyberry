@@ -5,13 +5,18 @@ import { connect } from 'react-redux';
 import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
 import { ITEM_SELECT_ACTIONS } from '../../redux/actions/itemSelectActions';
 
-import CategoryLabel from '../CategoryLabel/CategoryLabel';
+import { List, StoreAreaLabelContainer, StoreAreaLabelName, Button } from '../styledComponents';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCog, faSave, faUndo, faTrash } from '@fortawesome/free-solid-svg-icons';
+
+// import CategoryLabel from '../CategoryLabel/CategoryLabel';
 import ItemTile from '../ItemTile/ItemTile';
 
 const mapStateToProps = state => ({
   currentStore: state.currentStore.store,
   editingAreaId: state.currentStore.editingAreaId,
   areas: state.currentStore.areas,
+  items: state.items,
   selectingItems: state.itemSelect.selectingItems,
   selectedItems: state.itemSelect.selectedItems,
 });
@@ -69,6 +74,7 @@ class StoreAreas extends Component {
   startEditingArea = area => () => {
     const {dispatch} = this.props;
     if (this.state.areaVisibility[area.id] === false) {
+      console.log('toggle visibility');
       this.toggleAreaVisiblity(area.id)();
     }
     dispatch({
@@ -127,25 +133,54 @@ class StoreAreas extends Component {
     if (areas) {
       return (
         <div>
+          <div style={{color: 'white', fontWeight: 'bold'}}>STORE AREAS</div>
           {areas.map(area => (
             <div key={area.id}>
-              <CategoryLabel name={area.name} onClick={this.toggleAreaVisiblity(area.id)} />
-              {editingAreaId === area.id
-              ? <span>
-                  <button onClick={this.stopEditingArea}>Cancel</button>
-                  <button onClick={this.saveAreaEdits(area)}>Save</button>
-                </span>
-              : <button onClick={this.startEditingArea(area)}>Edit</button>}
-              <button onClick={this.deleteArea(area)}>Delete</button>
-              {areaVisibility[area.id]
-              ? <ul>
-                  {area.items.map(item => (
-                    <ItemTile key={item.id}
-                      areaItem
-                      item={item}
-                    />
-                  ))}
-                </ul>
+              <StoreAreaLabelContainer>
+                <StoreAreaLabelName onClick={this.toggleAreaVisiblity(area.id)}>
+                  {area.name}
+                </StoreAreaLabelName>
+                {editingAreaId === area.id
+                ? <span style={{height: '100%', display: 'flex', alignItems: 'center'}}>
+                    <Button className="dark-blue flat"
+                      onClick={this.stopEditingArea}
+                    >
+                      <FontAwesomeIcon icon={faUndo}/>
+                    </Button>
+                    <Button className="green flat"
+                      style={{minWidth: '30px'}}
+                      onClick={this.saveAreaEdits(area)}
+                    >
+                      <FontAwesomeIcon icon={faSave}/>
+                    </Button>
+                  </span>
+                : <Button className="dark-blue flat"
+                    style={{minWidth: '30px'}}
+                    onClick={this.startEditingArea(area)}
+                  >
+                    <FontAwesomeIcon icon={faCog}/>
+                  </Button>
+                }
+                <Button className="red flat"
+                  style={{minWidth: '30px', borderTopRightRadius: 5, borderBottomRightRadius: 5}}
+                  onClick={this.deleteArea(area)}
+                >
+                  <FontAwesomeIcon icon={faTrash}/>
+                </Button>
+              </StoreAreaLabelContainer>
+              {areaVisibility[area.id] && area.items.length
+              ? <List>
+                  {/* {area.items.sort(byNameAlphabetically).map(item => ( */}
+                  {area.items.map(item => {
+                    // const item = this.props.items.find(item => item.id === itemId);
+                    return (
+                      <ItemTile key={item.id}
+                        areaItem
+                        item={item}
+                      />
+                    );
+                  })}
+                </List>
               : null}
             </div>
           ))}
@@ -157,5 +192,14 @@ class StoreAreas extends Component {
     
   }
 }
+
+// const byNameAlphabetically = (object1, object2) => {
+//   let name1 = object1.name.toUpperCase();
+//   let name2 = object2.name.toUpperCase();
+//   if (name1 < name2) return -1;
+//   if (name1 > name2) return 1;
+  
+//   return 0;
+// };
 
 export default connect(mapStateToProps)(StoreAreas);

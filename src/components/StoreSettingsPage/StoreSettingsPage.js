@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import Nav from '../../components/Nav/Nav';
+// import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { STORE_ACTIONS } from '../../redux/actions/storeActions';
 import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
 // import { AREA_ACTIONS } from '../../redux/actions/areaActions';
 import { ITEM_SELECT_ACTIONS } from '../../redux/actions/itemSelectActions';
+
+import { TopBarContainer, TopBarContainerSpacer, StoreName, Button } from '../styledComponents';
 
 import StoreAreas from '../StoreAreas/StoreAreas';
 import ItemsAll from '../ItemsAll/ItemsAll';
@@ -30,6 +34,7 @@ class StoreSettingsPage extends Component {
     this.state = {
       originalStoreName: '',
       storeName: '',
+      editingStoreName: false,
       newAreaName: ''
     };
   }
@@ -131,23 +136,66 @@ class StoreSettingsPage extends Component {
     this.props.history.push('/stores');
   };
 
+  toggleEditingStoreName = () => {
+    this.setState(prevState => ({
+      editingStoreName: !prevState.editingStoreName
+    }));
+  };
+
   render() {
     return (
       <div>
-        <Nav />
-        <div>
-          Store Name: <input type="text" placeholder="Store Name"
+        <TopBarContainer>
+          <StoreName>
+            {this.state.editingStoreName
+            ? <input type="text" 
+                style={{height: '75%'}}
+                value={this.state.storeName} 
+                onChange={this.handleStoreNameChange} 
+              />
+            : this.state.storeName}
+            <Button className="gray rounded"
+              style={{marginLeft: '10px', maxHeight: '50%', fontSize: '0.6em'}}
+              onClick={this.toggleEditingStoreName}
+            >
+              {this.state.editingStoreName ? 'Done' : 'Edit Name'}
+            </Button>
+          </StoreName>
+          <Button style={{minWidth: '40px'}}
+            className="green flat" 
+            onClick={this.closeStoreSettings}
+          >
+            <FontAwesomeIcon icon={faCheck} />
+          </Button>
+        </TopBarContainer>
+        <TopBarContainerSpacer />
+        {/* <div>
+          <span style={{color: 'white', fontWeight: 'bold'}}>Store Name: </span>
+          <input type="text" placeholder="Store Name"
             value={this.state.storeName} 
             onChange={this.handleStoreNameChange}
           />
           <button onClick={this.closeStoreSettings}>Done</button>
-        </div>
-        <div>
-          Add New Area: <input type="text" placeholder="Name"
+        </div> */}
+        <div style={{
+          display: 'flex', 
+          alignItems: 'center', 
+          height: '30px', 
+          marginBottom: '10px',
+        }}
+        >
+          {/* <span style={{color: 'white', fontWeight: 'bold'}}>Add new area: </span> */}
+          <input type="text" placeholder="Add new area"
+            style={{flexGrow: 1}}
             value={this.state.newAreaName}
             onChange={this.handleNewAreaNameChange} 
           /> 
-          <button onClick={this.addNewArea}>Add</button>
+          <Button className="red"
+            style={{height: '100%', minWidth: '30px'}}
+            onClick={this.addNewArea}
+          >
+            <FontAwesomeIcon icon={faPlus} />
+          </Button>
         </div>
         <StoreAreas />
         <ItemsAll />

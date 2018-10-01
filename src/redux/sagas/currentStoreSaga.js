@@ -242,7 +242,8 @@ function* deleteStoreArea(action) {
 function* updateAreaItems(action) {
   try {
     const {storeId, areaId, items} = action.payload;
-    yield call(axios.post, `/api/store/area/${areaId}/items`, items);
+    // yield call(axios.post, `/api/store/area/${areaId}/items`, items);
+    yield call(axios.put, `/api/store/area/${areaId}/items`, items);
     yield put({
       type: CURRENT_STORE_ACTIONS.FETCH_STORE_AREAS,
       payload: storeId

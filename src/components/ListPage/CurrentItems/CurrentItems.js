@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CURRENT_STORE_ACTIONS } from '../../../redux/actions/currentStoreActions';
 
+import { List } from '../../styledComponents';
 import ItemTile from '../../ItemTile/ItemTile';
 
 const mapStateToProps = state => ({
@@ -34,8 +35,8 @@ class CurrentItems extends Component {
     const {items} = this.props;
     return(
       <div>
-        <strong>current items</strong>
-        <ul>
+        <div style={{color: 'white', fontWeight: 'bold'}}>SHOPPING LIST</div>
+        <List>
           {items.map(item => (
             <ItemTile key={item.id} 
               currentListItem
@@ -44,7 +45,7 @@ class CurrentItems extends Component {
               onLongPress={this.editItem(item)} 
             />
           ))}
-        </ul>
+        </List>
       </div>
     );
   }
