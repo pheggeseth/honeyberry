@@ -39,8 +39,9 @@ class MorePage extends Component {
             <li>Redux-Saga</li>
             <li>Node.js / Express</li>
             <li>PostgreSQL</li>
+            <li>Passport</li>
             <li>styled-components</li>
-            <li>Food icons from SmashIcons & Freepik via flaticon.com</li>
+            <li>Item icons from SmashIcons & Freepik via flaticon.com</li>
             <li>Google Fonts</li>
             <li>Font Awesome (button icons)</li>
           </ul>
