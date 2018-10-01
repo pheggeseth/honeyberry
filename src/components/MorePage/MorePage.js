@@ -31,13 +31,32 @@ class MorePage extends Component {
 
     if (this.props.user.userName) {
       content = (
-        <div>
-          <h1
+        <div style={{color: 'white', textAlign: 'center'}}>
+          <h1 style={{fontWeight: 'bold', fontSize: '2.5em', fontFamily: 'Oleo Script Swash Caps, cursive', marginTop: '5px', marginBottom: 0}}>Technologies Used</h1>
+          <ul style={{fontSize: '1.25em', listStyle: 'none', padding: 0, margin: '5px'}}>
+            <li>React</li>
+            <li>React-Redux</li>
+            <li>Redux-Saga</li>
+            <li>Node.js / Express</li>
+            <li>PostgreSQL</li>
+            <li>styled-components</li>
+            <li>Food icons from SmashIcons & Freepik via flaticon.com</li>
+            <li>Google Fonts</li>
+            <li>Font Awesome (button icons)</li>
+          </ul>
+          <h1 style={{fontWeight: 'bold', fontSize: '2.5em', fontFamily: 'Oleo Script Swash Caps, cursive', marginBottom: 0}}>Thank You!</h1>
+          <ul style={{fontSize: '1.25em', listStyle: 'none', padding: 0, margin: '5px'}}>
+            <li>Prime Digital Academy</li>
+            <li>Polaris</li>
+            <li>My Family</li>
+            <li>You!</li>
+          </ul>
+          {/* <h1
             id="welcome"
           >
             Welcome, { this.props.user.userName }!
           </h1>
-          <p>Your ID is: {this.props.user.id}</p>
+          <p>Your ID is: {this.props.user.id}</p> */}
           <button
             onClick={this.logout}
           >

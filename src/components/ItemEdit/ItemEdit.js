@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CURRENT_STORE_ACTIONS } from '../../redux/actions/currentStoreActions';
 
+import { EditItemGrid, Button } from '../styledComponents';
+
 const mapStateToProps = state => ({
   item: state.currentStore.itemToEdit
 });
@@ -53,32 +55,33 @@ class ItemEdit extends Component {
   render() {
     const {item} = this.props;
     return(
-      <div>
-        {JSON.stringify(item)}
+      <EditItemGrid>
         <div>
+          <img style={{margin: '10px', width: 'calc(100% - 20px)', maxHeight: 'calc(100% - 20px)'}} src={item.icon_path} alt={item.name}/>
+        </div>
+        <div style={{fontSize: '2em'}}>
           {item.name}
         </div>
         <div>
-          Quantity: 
-          <input type="number" 
+          <span style={{fontSize: '1.25em', marginRight: '10px'}}>Quantity:</span> 
+          <input type="number" style={{width: '40px'}}
             value={this.state.quantity} 
             min="0"
             onChange={this.updateQuantity}
           />
         </div>
         <div>
-          Unit:
-          <input type="text"
+        <span style={{fontSize: '1.25em', marginRight: '10px'}}>Unit:</span>
+          <input type="text" style={{width: '100px'}}
             value={this.state.unit}
             onChange={this.updateUnit}
           />
         </div>
-        <div>
-          <button onClick={this.handleCancel} onTouchEnd={this.handleCancel}>Cancel</button>
-          <button onClick={this.handleSave} onTouchEnd={this.handleSave}>Save</button>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <Button style={{marginRight: '10px'}} onClick={this.handleCancel} onTouchEnd={this.handleCancel}>Cancel</Button>
+          <Button className="dark-blue" onClick={this.handleSave} onTouchEnd={this.handleSave}>Save</Button>
         </div>
-      </div>
-      
+      </EditItemGrid>
     );
   }
 }

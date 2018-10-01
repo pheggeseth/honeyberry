@@ -63,6 +63,21 @@ export const Input = styled.input`
   flex-grow: 1;
 `;
 
+export const EditItemGrid = styled.div`
+  width: 350px;
+  height: 350px;
+  text-align: center;
+  background-color: ${STYLE_CONSTANTS.COLORS.GREEN};
+  color: white;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.4);
+  padding: 10px;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 50px 30px 30px 30px;
+  grid-gap: 10px;
+`;
+
 export const Button = styled.button`
   border: none;
   box-shadow: 0 1px 2px rgba(0,0,0,0.4);
@@ -276,7 +291,7 @@ export const BottomNav = styled.div`
     align-items: stretch;
   }
   & > ul li {
-    width: 20%;
+    width: 30%;
   }
 `;
 
