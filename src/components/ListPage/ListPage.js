@@ -14,7 +14,6 @@ import ItemsAll from '../ItemsAll/ItemsAll';
 import ListPageTopBar from '../ListPage/ListPageTopBar';
 import ItemSearchBar from '../ItemSearch/ItemSearchBar/ItemSearchBar';
 import ItemSearchResults from '../ItemSearch/ItemSearchResults/ItemSearchResults';
-// import ListEditMenu from './ListEditMenu/ListEditMenu';
 import { TopBarContainerSpacer, SearchBarSpacer } from '../styledComponents';
 
 
@@ -77,8 +76,6 @@ class ListPage extends Component {
     }
   }
 
-  
-
   render() {
     let content = null;
     const {list, searching, editingItem, essentials, areas, user} = this.props;
@@ -87,40 +84,19 @@ class ListPage extends Component {
     let currentItems;
     let completedItems;
     if (list.length && areas.length) {
-      console.log('list:', list);
       const areaItems = areas.reduce((array, area) => array.concat(area.items) , []);
-      console.log('areaItems:', areaItems);
-      // list.sort((itemA, itemB) => {
-      //   // debugger;
-      //   const areaItemIndexOfA = areaItems.findIndex(areaItem => areaItem.id === itemA.item_id);
-      //   const areaItemIndexOfB = areaItems.findIndex(areaItem => areaItem.id === itemB.item_id);
-      //   if (areaItemIndexOfA < 0 && areaItemIndexOfB) {
-      //     return 1;
-      //   } else if (areaItemIndexOfA && areaItemIndexOfB < 0) {
-      //     return -1;
-      //   } else if (areaItemIndexOfA < 0 && areaItemIndexOfB < 0){
-      //     return 0;
-      //   } else {
-      //     return areaItemIndexOfA - areaItemIndexOfB;
-      //   }
-      // });
+      
       const listToSort = [...list];
       
       areaItems.forEach(areaItem => {
         const listIndexFound = listToSort.findIndex(listItem => listItem.item_id === areaItem.id);
-        // console.log('areaItem:', areaItem);
-        // console.log('listIndexFound:', listIndexFound);
         if (listIndexFound > -1) {
           const listItem = listToSort.splice(listIndexFound, 1)[0];
-          // console.log('listItem:', listItem);
           sortedList.push(listItem);
-          // console.log('sortedList:', sortedList);
-          // console.log('listToSort:', listToSort);
         }
       });
 
       if (listToSort.length) {
-        // console.log('listToSort has length:', listToSort)
         sortedList = sortedList.concat(listToSort);
       }
     }
@@ -144,7 +120,6 @@ class ListPage extends Component {
         <div>
           <ListPageTopBar history={this.props.history}/>
           <TopBarContainerSpacer />
-          {/* <ListEditMenu /> */}
           {searching
           ? <ItemSearchResults />
           : <div>

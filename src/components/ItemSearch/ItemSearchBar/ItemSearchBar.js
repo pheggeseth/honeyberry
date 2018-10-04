@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ITEM_ACTIONS } from '../../../redux/actions/itemActions';
 
-// import styled from 'styled-components';
 import { SearchBarContainer } from '../../styledComponents';
 
 
@@ -13,10 +12,6 @@ const mapStateToProps = state => ({
 });
 
 class ItemSearchBar extends Component {
-  // handleChange = event => {
-  //   this.props.onChange(event.target.value);
-  // };
-
   startItemSearchMode = () => {
     this.props.dispatch({type: ITEM_ACTIONS.START_ITEM_SEARCH_MODE});
   };

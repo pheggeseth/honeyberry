@@ -18,14 +18,14 @@ class ItemSearchResults extends Component {
         <List>
           {this.props.items
             .sort((item1, item2) => item1.name > item2.name)
-            .filter(item => item.name.toLowerCase().includes(this.props.searchTerm))
+            .filter(item => item.name.toLowerCase().includes(this.props.searchTerm.toLowerCase()))
             .map(item => (
               <ItemTile key={item.id}
                 searchResult
                 item={item}
               />
           ))}
-          </List>
+        </List>
       </div>
     );
   }

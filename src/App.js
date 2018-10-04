@@ -2,7 +2,7 @@ import React from 'react';
 import {
   HashRouter as Router,
   Route,
-  // Redirect,
+  Redirect,
   Switch,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -37,7 +37,6 @@ class App extends React.Component {
           <ScreenContainer className="container">
             <Screen className="screen">
               <Content className="content">
-                {/* <Redirect exact from="/" to="/home" /> */}
                 <Route
                   path="/home"
                   component={LoginPage}
@@ -62,6 +61,7 @@ class App extends React.Component {
                   path="/more"
                   component={MorePage}
                 />
+                <Redirect exact from="/" to="/home" />
                 {/* OTHERWISE (no path!) */}
                 {/* <Route render={() => <h1>404</h1>} /> */}
               </Content>
