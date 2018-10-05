@@ -1,81 +1,92 @@
-# Express/Passport with React
-This version uses React to control the login requests and redirection in coordination with client-side routing.
+# Honeyberry
+Honeyberry is a mobile-first, progressive web app designed to save people time while shopping for groceries.
 
-We **STONGLY** recommend following these instructions carefully. It's a lot, and will take some time to set up, but your life will be much easier this way in the long run.
+## Built With
+React, Redux, React Router, Redux-Saga, Node.js, Express, PostgreSQL, HTML, CSS, and food icons from flaticon.com. All of the styling was custom-made using styled-components to create a custom library of encapsulated, reusable, styled elements.
 
-## Prerequisites
+## The problem
+When shopping for groceries, shoppers often have long lists of items to get, and usually in no particular order. It's easy to forget to grab something that's at the front of the store, but at the bottom of your list. 
 
-Before you get started, make sure you have the following software installed on your computer:
+Some grocery list apps make it possible to sort lists by item type or other parameters, but, for yours, I've wanted an app that will organize my list based on how I, personally, like to move through a particular store.
 
-- [Node.js](https://nodejs.org/en/)
-- [PostrgeSQL](https://www.postgresql.org/)
-- [Nodemon](https://nodemon.io/)
+## The solution
+So for my solo project at Prime Digital Academy, I decided to create Honeyberry, a mobile-first, progressive web app designed to give shoppers control over how their lists are sorted by allowing them to maintain custom sorting "areas" representing specific sections of a store, the items in those sections, and the order in which a shopper likes to move through those sections.
 
-## Create database and table
-
-Create a new database called `prime_app` and create a `person` table:
-
-```SQL
-CREATE TABLE person (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR (80) UNIQUE NOT NULL,
-    password VARCHAR (1000) NOT NULL
-);
+## Installation/Setup
+If you would like to set up this application on your local machine, first clone this repository:
+```bash
+mkdir honeyberry
+cd honeyberry
+git clone https://github.com/pheggeseth/honeyberry
+npm install
 ```
+You will then need to set up the database in PostgreSQL. If you don't have PostgreSQL installed on your machine, you will need to that first. If you are using a Mac, I recommend installing PostgreSQL with [Homebrew](https://brew.sh/) via the terminal.
 
-If you would like to name your database something else, you will need to change `prime_app` to the name of your new database name in `server/modules/pool.js`
+To set up the database, you will need to create a database called "honeyberry" (I recommend using a program like [Postico](https://eggerapps.at/postico/)) run the SQL commands in the [database.sql](database.sql) file in the root directory of this project. This will create all of the necessary tables and fill the item and category tables with data.
 
-## Download (Don't Clone) This Repository
+After the database is set up, you can start the project by running the following commands from the terminal (from the project directory):
+```bash
+npm run server
+npm run client
+```
+and pointing a browser to `localhost:3000`.
 
-* Don't Fork or Clone. Instead, click the `Clone or Download` button and select `Download Zip`.
-* Unzip the project and start with the code in that folder.
-* Create a new GitHub project and push this code to the new repository.
+## Application Walkthrough
 
-## Development Setup Instructions
+### Login
+I am first presented with a login screen, where I may either login as an existing user, or register as a new one.
+<div style="text-align: center;">
+    <img src="screenshots/1-login.png" width="417" height="837" />
+</div>
 
-* Run `npm install`
-* Create a `.env` file at the root of the project and paste this line into the file:
-    ```
-    SERVER_SESSION_SECRET=superDuperSecret
-    ```
-    While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
-* Start postgres if not running already by using `brew services start postgresql`
-* Run `npm run server`
-* Run `npm run client`
-* Navigate to `localhost:3000`
+### Stores View
+After logging in, I see a list of all of my current shopping lists, or "stores." I may add a new store, delete an existing one, edit the settings of an existing store, or click on the store name (the light blue bar) to view their current shopping list for that store.
+<div style="text-align: center;">
+    <img src="screenshots/2-stores.png" width="430" height="860" />
+</div>
 
-## Debugging
+### Store List View
+After choosing a particular store, I can see and interact with the shopping list for that store. Items are shown as colorful tiles. Items that are currently in my shopping list are shown at the top with a green background. I can click on items to "complete" them, which moves that item to the "Completed" area and gives the item a blue background. Clicking on a completed item moves it back into the current list. I can also "clear" all of my completed items, which deletes them from the list. Items sometimes have red badges to indicate of I want to purchase more than one of an item, or if the item has a certain special "unit" associated with it.
 
-To debug, you will need to run the client-side separately from the server. Start the client by running the command `npm run dev:client`. Start the debugging server by selecting the Debug button.
+<div style="text-align: center;">
+    <img src="screenshots/3-list.png" width="430" height="860" />
+</div>
 
-![VSCode Toolbar](documentation/images/vscode-toolbar.png)
+If I want to edit the quantity of an item in my list, or change the unit, I can "long-click" (holding the click for longer than one second) to bring up the edit item window.
 
-Then make sure `Launch Program` is selected from the dropdown, then click the green play arrow.
+<div style="text-align: center;">
+    <img src="screenshots/6-item-edit.png" width="430" height="860" />
+</div>
 
-![VSCode Debug Bar](documentation/images/vscode-debug-bar.png)
+Scrolling down a bit, we see the "Essentials" list, and a series of item categories. Clicking on the green label of a category shows all of the items within that category. Items that are currently in the shopping list show green, while those that are not show blue. This is a subtle, but important visual cue that shows me whether a certain item has been added to my list or not, without me having to scroll all the way back to the top of the view.
 
+<div style="text-align: center;">
+    <img src="screenshots/4-list-scrolled.png" width="430" height="860" />
+</div>
 
-## Production Build
+The "Essentials" category is a unique feature of this app. These are items that have been "pinned" to the top as frequently bought items for this store. By having this as a custom item category I can scan it while shopping to see if I'm low on any of these items and can quickly add them to the list if need be. I can also enter into an "editing" mode where I can select or deselect the items that I want to be in this Essentials category. Selected items show with an orange border, and I can either "Undo" or "Save" my changes to the Essentials category.
 
-Before pushing to Heroku, run `npm run build` in terminal. This will create a build folder that contains the code Heroku will be pointed at. You can test this build by typing `npm start`. Keep in mind that `npm start` will let you preview the production build but will **not** auto update.
+<div style="text-align: center;">
+    <img src="screenshots/5-essentials-edit.png" width="430" height="860" />
+</div>
 
-* Start postgres if not running already by using `brew services start postgresql`
-* Run `npm start`
-* Navigate to `localhost:5000`
+By clicking on the "Edit List" button next to the store name, I can enter into the same type of selecting mode as with the Essentials above (Fun fact: This is the EXACT same selecting feature, the code for which is defined once for the entire application.), select certain items, and either move them to a different list, or delete them entirely.
 
-## Lay of the Land
+<div style="text-align: center;">
+    <img src="screenshots/8-move-items.png" width="430" height="860" />
+</div>
 
-* `src/` contains the React application
-* `public/` contains static assets for the client-side
-* `build/` after you build the project, contains the transpiled code from `src/` and `public/` that will be viewed on the production site
-* `server/` contains the Express App
+### Store Settings View
+Clicking on the gear button by the store name either in the list view, or in the main stores view, brings me to the settings view for that store. Here is where I can add, delete, or edit those custom sorting "areas" I mentioned earlier. I click the blue gear icon for the area I want to edit, which brings me into the same item selection mode as above. After that, I click the "Save" icon which has now appeared next to the area name, and the items that are currently selected are now saves as the items in this area.
 
-## Deployment
+<div style="text-align: center;">
+    <img src="screenshots/7-store-settings.png" width="430" height="860" />
+</div>
 
-1. Create a new Heroku project
-1. Link the Heroku project to the project GitHub Repo
-1. Create an Herkoku Postgres database
-1. Connect to the Heroku Postgres database from Postico
-1. Create the necessary tables
-1. Add an environment variable for `SERVER_SESSION_SECRET` with a nice random string for security
-1. In the deploy section, select manual deploy
+So as I add items to my shopping list, those items will automatically be sorted based on their placement, if any, within these store areas. So items in the Produce Section will always be sorted earlier in the list than items in the Dairy Aisle.
+
+## Future Work
+My ultimate goal with this application is to develop it into a full, progressive web app, utilizing server-side code splitting, lazy loading, and offline functionality with occasional database syncing. Other improvements will be drag-and-drop sorting functionality (especially for store areas and store area items), various bug fixes, touch optimization, and performance improvements. Other avenues I'm interested in persuing is to re-write a version of the application in React Native with a Firebase backend.
+
+## Authors
+Paul Heggeseth
