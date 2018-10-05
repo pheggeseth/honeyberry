@@ -1,5 +1,5 @@
 # Honeyberry
-Honeyberry is a mobile-first, progressive web app designed to save people time while shopping for groceries.
+Honeyberry is a mobile-first, progressive web app designed to save people time while shopping for groceries. I built it as part of my two-week solo project at Prime Digital Academy, taking the project from visioning and research, to detailed scoping, to implementation and presentation in public.
 
 ## Built With
 React, Redux, React Router, Redux-Saga, Node.js, Express, PostgreSQL, HTML, CSS, and food icons from flaticon.com. All of the styling was custom-made using styled-components to create a custom library of encapsulated, reusable, styled elements.
@@ -50,6 +50,12 @@ After choosing a particular store, I can see and interact with the shopping list
 
 <div style="text-align: center;">
     <img src="screenshots/3-list.png" width="430" height="860" />
+</div>
+
+I can also search for an item by name, which bring up a list of potential matches, regardless of item category. Clicking on one of these search results adds that item to the list and brings me back to the list view.
+
+<div style="text-align: center;">
+    <img src="screenshots/9-item-search.png" width="430" height="860" />
 </div>
 
 If I want to edit the quantity of an item in my list, or change the unit, I can "long-click" (holding the click for longer than one second) to bring up the edit item window.
