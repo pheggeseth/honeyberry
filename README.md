@@ -35,9 +35,10 @@ and pointing a browser to `localhost:3000`.
 
 ### Login
 I am first presented with a login screen, where I may either login as an existing user, or register as a new one.
-<div style="text-align: center;">
+<p align="center">
     <img src="screenshots/1-login.png" width="417" height="837" />
-</div>
+</p>
+
 
 ### Stores View
 After logging in, I see a list of all of my current shopping lists, or "stores." I may add a new store, delete an existing one, edit the settings of an existing store, or click on the store name (the light blue bar) to view their current shopping list for that store.
