@@ -42,53 +42,53 @@ I am first presented with a login screen, where I may either login as an existin
 
 ### Stores View
 After logging in, I see a list of all of my current shopping lists, or "stores." I may add a new store, delete an existing one, edit the settings of an existing store, or click on the store name (the light blue bar) to view their current shopping list for that store.
-<div style="text-align: center;">
+<p align="center">
     <img src="screenshots/2-stores.png" width="430" height="860" />
-</div>
+</p>
 
 ### Store List View
 After choosing a particular store, I can see and interact with the shopping list for that store. Items are shown as colorful tiles. Items that are currently in my shopping list are shown at the top with a green background. I can click on items to "complete" them, which moves that item to the "Completed" area and gives the item a blue background. Clicking on a completed item moves it back into the current list. I can also "clear" all of my completed items, which deletes them from the list. Items sometimes have red badges to indicate of I want to purchase more than one of an item, or if the item has a certain special "unit" associated with it.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="screenshots/3-list.png" width="430" height="860" />
-</div>
+</p>
 
 I can also search for an item by name, which bring up a list of potential matches, regardless of item category. Clicking on one of these search results adds that item to the list and brings me back to the list view.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="screenshots/9-item-search.png" width="430" height="860" />
-</div>
+</p>
 
 If I want to edit the quantity of an item in my list, or change the unit, I can "long-click" (holding the click for longer than one second) to bring up the edit item window.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="screenshots/6-item-edit.png" width="430" height="860" />
-</div>
+</p>
 
 Scrolling down a bit, we see the "Essentials" list, and a series of item categories. Clicking on the green label of a category shows all of the items within that category. Items that are currently in the shopping list show green, while those that are not show blue. This is a subtle, but important visual cue that shows me whether a certain item has been added to my list or not, without me having to scroll all the way back to the top of the view.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="screenshots/4-list-scrolled.png" width="430" height="860" />
-</div>
+</p>
 
 The "Essentials" category is a unique feature of this app. These are items that have been "pinned" to the top as frequently bought items for this store. By having this as a custom item category I can scan it while shopping to see if I'm low on any of these items and can quickly add them to the list if need be. I can also enter into an "editing" mode where I can select or deselect the items that I want to be in this Essentials category. Selected items show with an orange border, and I can either "Undo" or "Save" my changes to the Essentials category.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="screenshots/5-essentials-edit.png" width="430" height="860" />
-</div>
+</p>
 
 By clicking on the "Edit List" button next to the store name, I can enter into the same type of selecting mode as with the Essentials above (Fun fact: This is the EXACT same selecting feature, the code for which is defined once for the entire application.), select certain items, and either move them to a different list, or delete them entirely.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="screenshots/8-move-items.png" width="430" height="860" />
-</div>
+</p>
 
 ### Store Settings View
 Clicking on the gear button by the store name either in the list view, or in the main stores view, brings me to the settings view for that store. Here is where I can add, delete, or edit those custom sorting "areas" I mentioned earlier. I click the blue gear icon for the area I want to edit, which brings me into the same item selection mode as above. After that, I click the "Save" icon which has now appeared next to the area name, and the items that are currently selected are now saves as the items in this area.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="screenshots/7-store-settings.png" width="430" height="860" />
-</div>
+</p>
 
 So as I add items to my shopping list, those items will automatically be sorted based on their placement, if any, within these store areas. So items in the Produce Section will always be sorted earlier in the list than items in the Dairy Aisle.
 
