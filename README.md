@@ -4,12 +4,12 @@ Honeyberry is a mobile-first, progressive web app designed to save people time w
 ## Built With
 React, Redux, React Router, Redux-Saga, Node.js, Express, PostgreSQL, HTML, CSS, and food icons from flaticon.com. All of the styling was custom-made using styled-components to create a custom library of encapsulated, reusable, styled elements.
 
-## The problem
+## The Problem
 When shopping for groceries, shoppers often have long lists of items to get, and usually in no particular order. It's easy to forget to grab something that's at the front of the store, but at the bottom of your list. 
 
 Some grocery list apps make it possible to sort lists by item type or other parameters, but, for yours, I've wanted an app that will organize my list based on how I, personally, like to move through a particular store.
 
-## The solution
+## The Solution
 So for my solo project at Prime Digital Academy, I decided to create Honeyberry, a mobile-first, progressive web app designed to give shoppers control over how their lists are sorted by allowing them to maintain custom sorting "areas" representing specific sections of a store, the items in those sections, and the order in which a shopper likes to move through those sections.
 
 ## Installation/Setup
