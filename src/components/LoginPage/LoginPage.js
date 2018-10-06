@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { triggerLogin, formError, clearError } from '../../redux/actions/loginActions';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -117,7 +116,6 @@ class LoginPage extends Component {
                 onClick={this.handleCreateClick}>
                 Create An Account
               </Button>
-              {/* <Link to="/register">Register</Link> */}
             </LoginWindowGridItem>
             </LoginWindowContentGrid>
           </form>

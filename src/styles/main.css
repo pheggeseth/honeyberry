@@ -39,9 +39,12 @@ input {
     background-color: whitesmoke;
     
 }
+/* 
+darkened the placeholder text for projector demo purposes
 input::placeholder {
     color: black;
-}
+} 
+*/
 
 /* body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif

@@ -2,6 +2,16 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+import { 
+  LoginContainer, 
+  LoginWindow, 
+  LoginWindowContentGrid, 
+  LoginWindowGridItem,
+  AppLogo,
+  Input,
+  Button,
+} from '../styledComponents';
+
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +28,7 @@ class RegisterPage extends Component {
 
     if (this.state.username === '' || this.state.password === '') {
       this.setState({
-        message: 'Choose a username and password!',
+        message: 'Please supply both a username and password.',
       });
     } else {
       const body = {
@@ -33,13 +43,13 @@ class RegisterPage extends Component {
             this.props.history.push('/home');
           } else {
             this.setState({
-              message: 'Ooops! That didn\'t work. The username might already be taken. Try again!',
+              message: 'That username may already be taken. Please choose a different one.',
             });
           }
         })
         .catch(() => {
           this.setState({
-            message: 'Ooops! Something went wrong! Is the server running?',
+            message: 'Sorry! There is a problem with the server, and your account cannot be created at this time.',
           });
         });
     }
@@ -65,44 +75,58 @@ class RegisterPage extends Component {
     return (<span />);
   }
 
+  handleBackToLoginClick = () => {
+    this.props.history.push('/home');
+  };
+
   render() {
     return (
-      <div>
-        {this.renderAlert()}
-        <form onSubmit={this.registerUser}>
-          <h1>Register User</h1>
-          <div>
-            <label htmlFor="username">
-              Username:
-              <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                onChange={this.handleInputChangeFor('username')}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="password">
-              Password:
-              <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={this.handleInputChangeFor('password')}
-              />
-            </label>
-          </div>
-          <div>
-            <input
-              type="submit"
-              name="submit"
-              value="Register"
-            />
-            <Link to="/home">Cancel</Link>
-          </div>
-        </form>
-      </div>
+      <LoginContainer>
+        <LoginWindow>
+          {this.renderAlert()}
+          <form onSubmit={this.registerUser}>
+            <LoginWindowContentGrid>
+              <LoginWindowGridItem>
+                <AppLogo>
+                  Honeyberry
+                </AppLogo>
+              </LoginWindowGridItem>
+              <LoginWindowGridItem>
+                <Input 
+                  type="text"
+                  name="username"
+                  placeholder="Choose a username"
+                  value={this.state.username}
+                  onChange={this.handleInputChangeFor('username')}
+                />
+              </LoginWindowGridItem>
+              <LoginWindowGridItem>
+                <Input 
+                  type="password"
+                  name="password"
+                  placeholder="Choose a password"
+                  value={this.state.password}
+                  onChange={this.handleInputChangeFor('password')}
+                />
+              </LoginWindowGridItem>
+              <LoginWindowGridItem>
+                <Button className="blue rounded" style={{height: '100%', flexGrow: 1}}
+                  type="submit"
+                  name="submit"
+                >
+                  Create Account
+                </Button>
+              </LoginWindowGridItem>
+              <LoginWindowGridItem>
+                <Button className="dark-blue rounded flat" style={{height: '70%', flexGrow: 0.7}}
+                  onClick={this.handleBackToLoginClick}>
+                  Back to Login
+                </Button>
+            </LoginWindowGridItem>
+            </LoginWindowContentGrid>
+          </form>
+        </LoginWindow>
+      </LoginContainer>
     );
   }
 }

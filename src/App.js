@@ -6,21 +6,16 @@ import {
   Switch,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
 
-// import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
-// import UserPage from './components/UserPage/UserPage';
 import ListPage from './components/ListPage/ListPage';
 import StoresPage from './components/StoresPage/StoresPage';
 import StoreSettingsPage from './components/StoreSettingsPage/StoreSettingsPage';
 import MorePage from './components/MorePage/MorePage';
-// import Nav from './components/Nav/Nav';
 
 import './styles/main.css';
 
-// import styled from 'styled-components';
 import { ScreenContainer, Screen, Content, BottomNav, BottomNavLink } from './components/styledComponents';
 
 const mapStateToProps = state => ({
@@ -30,7 +25,6 @@ const mapStateToProps = state => ({
 class App extends React.Component {
   render() {
     const {user} = this.props;
-    // console.log(window.location.hash);
     return (
       <Router>
         <Switch>
@@ -65,6 +59,7 @@ class App extends React.Component {
                 {/* OTHERWISE (no path!) */}
                 {/* <Route render={() => <h1>404</h1>} /> */}
               </Content>
+              {/* don't show the bottom nav unless the user has fully loaded */}
               {!user.isLoading && user.userName 
               ? <BottomNav className="bottom-nav">
                 <ul>
@@ -83,16 +78,6 @@ class App extends React.Component {
                       More
                     </BottomNavLink>
                   </li>
-                  {/* <BottomNavLink active={window.location.hash.slice(2) === 'stores'}>
-                    <Link to="/stores">
-                      Stores
-                    </Link>
-                  </BottomNavLink>
-                  <BottomNavLink active={window.location.hash.slice(2) === 'more'}>
-                    <Link to="/more">
-                      More
-                    </Link>
-                  </BottomNavLink> */}
                 </ul>
               </BottomNav> 
               : null}
