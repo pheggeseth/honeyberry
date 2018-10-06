@@ -13,6 +13,7 @@ Some grocery list apps make it possible to sort lists by item type or other para
 So for my solo project at Prime Digital Academy, I decided to create Honeyberry, a mobile-first, progressive web app designed to give shoppers control over how their lists are sorted by allowing them to maintain custom sorting "areas" representing specific sections of a store, the items in those sections, and the order in which a shopper likes to move through those sections.
 
 ## Installation/Setup
+This project is hosted on Heroku at [https://honeyberry.herokuapp.com](https://honeyberry.herokuapp.com).
 If you would like to set up this application on your local machine, first clone this repository:
 ```bash
 mkdir honeyberry
