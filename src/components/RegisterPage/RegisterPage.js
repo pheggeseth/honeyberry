@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { 
@@ -10,6 +10,7 @@ import {
   AppLogo,
   Input,
   Button,
+  Message,
 } from '../styledComponents';
 
 class RegisterPage extends Component {
@@ -80,10 +81,10 @@ class RegisterPage extends Component {
   };
 
   render() {
+    const message = this.state.message;
     return (
       <LoginContainer>
         <LoginWindow>
-          {this.renderAlert()}
           <form onSubmit={this.registerUser}>
             <LoginWindowContentGrid>
               <LoginWindowGridItem>
@@ -122,7 +123,12 @@ class RegisterPage extends Component {
                   onClick={this.handleBackToLoginClick}>
                   Back to Login
                 </Button>
-            </LoginWindowGridItem>
+              </LoginWindowGridItem>
+              <LoginWindowGridItem>
+                <Message className={message ? 'showMessage' : ''}>
+                  {message}
+                </Message>
+              </LoginWindowGridItem>
             </LoginWindowContentGrid>
           </form>
         </LoginWindow>

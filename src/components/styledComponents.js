@@ -25,6 +25,7 @@ export const LoginWindow = styled.div`
   height: 500px;
   width: 100%;
   max-width: 350px;
+  margin-top: ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT}px;
   background-color: ${STYLE_CONSTANTS.COLORS.DARK_GREEN};
   display: flex;
   // flex-direction: column;
@@ -33,8 +34,9 @@ export const LoginWindow = styled.div`
 `;
 
 export const LoginWindowContentGrid = styled.div`
+  width: 220px;
   display: grid;
-  grid-template-rows: 75px 30px 30px 30px 30px;
+  grid-template-rows: 75px 30px 30px 30px 30px 30px;
   grid-gap: 20px;
 `;
 
@@ -61,6 +63,21 @@ export const Input = styled.input`
   box-shadow: 0 1px 2px rgba(0,0,0,0.4) inset;
   
   flex-grow: 1;
+`;
+
+export const Message = styled.div`
+  height: 100%;
+  flex-grow: 1;
+  opacity: 0;
+  text-align: center;
+  font-weight: bold;
+  color: ${STYLE_CONSTANTS.COLORS.ORANGE};
+
+  transition: all 0.5s cubic-bezier(.25,.8,.25,1);
+
+  &.showMessage {
+    opacity: 1;
+  }
 `;
 
 export const EditItemGrid = styled.div`

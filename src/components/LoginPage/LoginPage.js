@@ -11,6 +11,7 @@ import {
   AppLogo,
   Input,
   Button,
+  Message,
 } from '../styledComponents';
 
 const mapStateToProps = state => ({
@@ -55,29 +56,33 @@ class LoginPage extends Component {
     });
   }
 
-  renderAlert() {
-    if (this.props.login.message !== '') {
-      return (
-        <h2
-          className="alert"
-          role="alert"
-        >
-          { this.props.login.message }
-        </h2>
-      );
-    }
-    return (<span />);
-  }
+  // renderAlert() {
+  //   if (this.props.login.message !== '') {
+  //     return (
+  //       <div>
+  //         {this.props.login.message}
+  //       </div>
+  //       // <h2
+  //       //   className="alert"
+  //       //   role="alert"
+  //       // >
+  //       //   { this.props.login.message }
+  //       // </h2>
+  //     );
+  //   }
+  //   return (<span />);
+  // }
 
   handleCreateClick = () => {
     this.props.history.push('/register');
   };
 
   render() {
+    const message = this.props.login.message;
     return (
       <LoginContainer>
         <LoginWindow>
-          { this.renderAlert() }
+          
           <form onSubmit={this.login}>
             <LoginWindowContentGrid>
               <LoginWindowGridItem>
@@ -116,6 +121,11 @@ class LoginPage extends Component {
                 onClick={this.handleCreateClick}>
                 Create An Account
               </Button>
+            </LoginWindowGridItem>
+            <LoginWindowGridItem>
+              <Message className={message ? 'showMessage' : ''}>
+                {message}
+              </Message>
             </LoginWindowGridItem>
             </LoginWindowContentGrid>
           </form>
