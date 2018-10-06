@@ -28,7 +28,6 @@ export const LoginWindow = styled.div`
   margin-top: ${STYLE_CONSTANTS.BOTTOM_NAV_HEIGHT}px;
   background-color: ${STYLE_CONSTANTS.COLORS.DARK_GREEN};
   display: flex;
-  // flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
